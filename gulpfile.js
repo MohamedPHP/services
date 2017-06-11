@@ -17,10 +17,11 @@ elixir(function(mix) {
     mix.styles([
         'bootstrap.min.css',
         'font-awesome.min.css',
-    ], 'public/css/style.css');
+        'styles.css',
+    ], 'public/frontend/css/style.css');
 
     mix.scripts([
         'jquery.min.js',
         'bootstrap.min.js',
-    ], 'public/js/main.js');
+    ], 'public/frontend/js/main.js');
 });

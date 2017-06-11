@@ -5,20 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Services</title>
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
-    <!-- Styles -->
-    {{ Html::style('css/style.css') }}
-    <style>
-        body {
-            font-family: 'Lato';
-        }
 
-        .fa-btn {
-            margin-right: 6px;
-        }
-    </style>
+    <!-- Styles -->
+    {{ Html::style('css/frontend/style.css') }}
+
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
@@ -70,7 +63,7 @@
     @yield('content')
 
 
-    {{ Html::script('js/main.js') }}
+    {{ Html::script('js/frontend/main.js') }}
 
 </body>
 </html>
