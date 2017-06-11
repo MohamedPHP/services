@@ -7,7 +7,9 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "laravelcollective/html": "^5.2.0"
+        "laravelcollective/html": "^5.2.0",
+        "intervention/image": "^2.3"
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -25,9 +27,7 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "classmap": []
     },
     "scripts": {
         "post-root-package-install": [

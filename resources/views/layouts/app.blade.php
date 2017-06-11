@@ -5,12 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <meta id="_token" value="{{ csrf_token() }}">
+
     <title>Services</title>
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
 
     <!-- Styles -->
-    {{ Html::style('css/frontend/style.css') }}
+    {{ Html::style('frontend/css/style.css') }}
 
 </head>
 <body id="app-layout">
@@ -28,15 +30,22 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                    Services
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li class="active"><a href="{{ url('/home') }}">Home</a></li>
                 </ul>
+
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </div>
+                    <button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button>
+                </form>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
@@ -47,10 +56,30 @@
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Orders <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a v-link="{ path: '/IncomingOrders' }"><i class="fa fa-btn fa-truck"></i>Incoming Orders</a></li>
+                                <li><a v-link="{ path: '/PurchaseOrders' }"><i class="fa fa-btn fa-cart-plus"></i>Purchase Orders</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Services <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a v-link="{ path: '/AddService' }"><i class="fa fa-btn fa-plus"></i>Add Service</a></li>
+                                <li><a v-link="{ path: '/MyServices' }"><i class="fa fa-btn fa-user"></i>My Services</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><i class="fa fa-btn fa-edit"></i>Edit Data</a></li>
+                                <li><a href="#"><i class="fa fa-btn fa-money"></i>Balance</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -60,10 +89,12 @@
         </div>
     </nav>
 
+
     @yield('content')
 
 
-    {{ Html::script('js/frontend/main.js') }}
+    {{ Html::script('frontend/js/main.js') }}
+    {{ Html::script('frontend/js/app.js') }}
 
 </body>
 </html>

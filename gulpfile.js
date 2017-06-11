@@ -14,14 +14,24 @@ var elixir = require('laravel-elixir');
 require('laravel-elixir-vueify');
 
 elixir(function(mix) {
-    mix.styles([
-        'bootstrap.min.css',
-        'font-awesome.min.css',
-        'styles.css',
-    ], 'public/frontend/css/style.css');
+    // mix.styles([
+    //     'bootstrap.min.css',
+    //     'font-awesome.min.css',
+    //     'sweetalert.css',
+    //     'alertify.core.css',
+    //     'alertify.default.css',
+    //     'styles.css',
+    // ], 'public/frontend/css/style.css');
+    //
+    // mix.scripts([
+    //     'lips/jquery.min.js',
+    //     'lips/bootstrap.min.js',
+    //     'lips/sweetalert.min.js',
+    //     'lips/alertify.min.js',
+    // ], 'public/frontend/js/main.js');
 
-    mix.scripts([
-        'jquery.min.js',
-        'bootstrap.min.js',
-    ], 'public/frontend/js/main.js');
+    mix.browserify([
+        'app.js',
+    ], 'public/frontend/js/app.js');
+
 });
