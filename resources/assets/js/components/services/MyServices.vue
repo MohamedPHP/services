@@ -1,81 +1,116 @@
 <template>
-    <h2 class="text-center">My Services Page</h2>
-    <hr>
-    <br>
-    <div class="col-md-3">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Another link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-9">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="div-counter">
-                    <p class="counter-count">{{ services.length }}</p>
-                    <p class="employee-p">Services</p>
-                </div>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="div-counter">
-                    <p class="counter-count">652</p>
-                    <p class="order-p">Orders</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 col-md-4" v-for="service in services">
-            	<div class="thumbnail">
-            		<h4 class="text-center"><span class="label label-info">{{ service.category.name }}</span></h4>
-                    <div class="img-container">
-                        <img class="img-responsive" v-bind:src="service.image">
+    <div v-if="isLoading">
+        <h2 class="text-center">My Services Page</h2>
+        <hr>
+        <br>
+        <div class="col-md-3">
+            <nav class="nav-sidebar">
+                <p class="alert alert-success">Double Click To Reverse The Filters</p>
+                <input type="text" class="form-control" v-model="searchword" placeholder="Search by name or price...">
+                <br>
+                <ul class="nav">
+                    <li><a class="nav-link" @click="sort('')" href="javascript:;">All Services</a></li>
+                    <li><a class="nav-link" @click="sort('name')" href="javascript:;">Name</a></li>
+                    <li><a class="nav-link" @click="sort('price')" href="javascript:;">Price</a></li>
+                    <li><a class="nav-link" @click="sort('status')" href="javascript:;">Wating Services</a></li>
+                    <li><a class="nav-link" @click="sort('created_at')" href="javascript:;">Created At</a></li>
+                </ul>
+            </nav>
+            <nav class="nav-sidebar">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="div-counter text-center">
+                            <p class="counter-count">{{ services.length }}</p>
+                            <p class="employee-p">Services</p>
+                        </div>
                     </div>
-            		<div class="caption">
-            			<div class="row">
-            				<div class="col-md-8 col-xs-8">
-            					<h5><strong>{{ service.name }}</strong></h5>
-            				</div>
-            				<div class="col-md-4 col-xs-4 price text-right">
-            					<h5><label>$ {{ service.price }}</label></h5>
-            				</div>
-            			</div>
-            			<p>{{ (service.dis).slice(0,30) }}</p>
-            			<div class="row">
-            				<div class="col-md-6" v-if="service.status == 0">
-            					<a class="btn btn-info btn-product"><span class="glyphicon glyphicon-time"></span> Wating</a>
-            				</div>
-            				<div class="col-md-6" v-if="service.status == 1">
-            					<a class="btn btn-primary btn-product"><span class="glyphicon glyphicon-star"></span> Accepted</a>
-            				</div>
-            				<div class="col-md-6" v-if="service.status == 2">
-            					<a class="btn btn-danger btn-product"><span class="glyphicon glyphicon-folder-close"></span> Denied</a>
-            				</div>
-            				<div class="col-md-6">
-            					<a class="btn btn-success btn-product" href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a>
-            				</div>
-            			</div>
-            			<p></p>
-            		</div>
-            	</div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="div-counter text-center">
+                            <p class="counter-count">652</p>
+                            <p class="order-p">Orders</p>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-9">
+            <div class="row nicediv">
+                <div class="alert alert-info"><strong>Welcome {{ user.name + ' Here IS Your All Services You Added..' }}</strong></div>
+                <hr>
+                <h3>Services</h3>
+                <hr>
+                <div class="col-sm-6 col-md-4" v-for="service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'" track-by="$index">
+                	<single_service :service="service"></single_service>
+                </div>
             </div>
         </div>
+    </div>
+    <div v-else class="text-center">
+        <img v-bind:src="'/images/default.svg'" alt="">
     </div>
 </template>
+
+<script>
+
+import SingleService from './SingleService.vue';
+
+export default {
+    components: {
+        single_service: SingleService,
+    },
+    data: function () {
+        return {
+            services: [],
+            sortKey: '',
+            reverse: 1,
+            user: '',
+            isLoading: false,
+        }
+    },
+    ready:function () {
+        this.getMyServices();
+    },
+    methods: {
+        getMyServices: function () {
+            this.$http.get('/MyServices').then(function (response) {
+                console.log(response.body);
+                this.services = response.body.services;
+                this.user = response.body.user;
+                this.isLoading = true;
+            }, function (response) {
+
+            });
+        },
+        sort: function (sortval) {
+            this.reverse = (this.sortKey == sortval) ? this.reverse * -1 : 1;
+            this.sortKey = sortval;
+        }
+    }
+}
+</script>
+
+
+
 
 <style media="screen">
     .btn-product{
         width: 100%;
+    }
+    @media (max-width: 767px) {
+        .btn-product {
+            margin-bottom: 10px;
+        }
+    }
+    @media (min-width: 768px) {
+        .btn-product {
+            margin-bottom: 10px;
+        }
+    }
+    .nicediv {
+        box-shadow: 2px 2px 5px #ccc;
+        padding: 5px 20px;
+        margin-bottom: 30px;
     }
     .img-container {
         height: 200px;
@@ -111,34 +146,34 @@
         -o-border-radius: 50%;
         display: inline-block;
     }
-
-    .employee-p,.customer-p,.order-p,.design-p
-    {
-        font-size: 24px;
-        color: #000000;
-        line-height: 34px;
+    .nav-sidebar {
+        width: 100%;
+        padding: 8px 0;
+        box-shadow: 1px 1px 2px #ccc;
     }
-</style>
-
-<script>
-export default {
-    data: function () {
-        return {
-            services: [],
-        }
-    },
-    ready:function () {
-        this.getMyServices();
-    },
-    methods: {
-        getMyServices: function () {
-            this.$http.get('/MyServices').then(function (response) {
-                console.log(response);
-                this.services = response.body;
-            }, function (response) {
-                console.log(response);
-            });
-        }
+    .nav-sidebar a {
+        color: #333;
+        -webkit-transition: all 0.08s linear;
+        -moz-transition: all 0.08s linear;
+        -o-transition: all 0.08s linear;
+        transition: all 0.08s linear;
+        -webkit-border-radius: 4px 0 0 4px;
+        -moz-border-radius: 4px 0 0 4px;
+        border-radius: 4px 0 0 4px;
     }
-}
-</script>
+    .nav-sidebar .active a {
+        cursor: default;
+        background-color: #428bca;
+        color: #fff;
+        text-shadow: 1px 1px 1px #666;
+    }
+    .nav-sidebar .active a:hover {
+        background-color: #428bca;
+    }
+    .nav-sidebar .text-overflow a,
+    .nav-sidebar .text-overflow .media-body {
+        white-space: nowrap;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+    }</style>

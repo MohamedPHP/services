@@ -21,3 +21,5 @@ Route::get('/home', 'HomeController@index');
 
 Route::post('/AddService', 'ServicesController@store');
 Route::get('/MyServices', 'ServicesController@MyServices');
+Route::get('/service/{id}', 'ServicesController@getServiceById');
+Route::get('/getUserServices/{id}', 'ServicesController@getUserServices');

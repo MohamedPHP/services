@@ -26,12 +26,21 @@ route.map({
     '/MyServices': {
         component: require('./components/services/MyServices.vue'),
     },
+    '/ServiceDetails/:service_id/:service_name': {
+        name: 'ServiceDetails',
+        component: require('./components/services/ServiceDetails.vue'),
+    },
+    '/User/:user_id/:name': {
+        name: 'User',
+        component: require('./components/users/UserServices.vue'),
+    },
     '/IncomingOrders': {
         component: require('./components/orders/IncomingOrders.vue'),
     },
     '/PurchaseOrders': {
         component: require('./components/orders/PurchaseOrders.vue'),
     },
+
 });
 
 

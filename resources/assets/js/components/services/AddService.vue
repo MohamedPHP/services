@@ -1,6 +1,6 @@
 <template>
     <!-- `name`, `dis`, `image`, `price`, `cat_id` -->
-    <div class="panel panel-primary">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Add Service Form</h3>
         </div>
@@ -85,9 +85,9 @@
                 this.$http.post('/AddService', formdata).then(function (response) {
                     if (response.body == 'service added') {
                         swal("Good job!", "service added!", "success");
-                        this.name = '';
-                        this.dis = '';
-                        $('input[name=image]').val(null);
+                        // this.name = '';
+                        // this.dis = '';
+                        // $('input[name=image]').val(null);
                     }else if (response.body == 'error saving the service') {
                         alertify.error("error saving the service");
                     }else if (response.body == 'selectrightprice') {

@@ -25,5 +25,9 @@ class Service extends Model
         return $this->hasMany('App\Service', 'service_id');
     }
 
+    public function views()
+    {
+        return $this->hasMany('App\View', 'service_id');
+    }
 
 }

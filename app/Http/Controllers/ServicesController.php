@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Service;
+use App\User;
+use App\View;
 use Auth;
 use Response;
 
@@ -14,10 +16,59 @@ class ServicesController extends Controller
 {
 
 
+    public function getUserServices($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $services = Service::where('user_id', $user->id)->where('status', 1)->with('category', 'user', 'views')->get();
+            return [
+                'user' => $user,
+                'services' => $services,
+            ];
+        }
+        return 'error';
+    }
+
+    public function getServiceById($id)
+    {
+        $service = Service::where('id', $id)->with('category', 'user')->first();
+        if ($service->status != 1) {
+            if (Auth::guest()) {
+                return abort(404);
+            }else {
+                if (Auth::user()->id != $service->user_id) {
+                    return abort(404);
+                }
+            }
+        }
+        $mySameCat = Service::where('cat_id', $service->cat_id)->where('user_id', $service->user_id)->with('user')->limit(4)->get();
+        $otherSameCat = Service::where('cat_id', $service->cat_id)->where('user_id', '!=', $service->user_id)->with('user')->limit(4)->get();
+        if ($service && $mySameCat && $mySameCat) {
+            if (View::where('ip', $_SERVER['REMOTE_ADDR'])->where('service_id', $service->id)->count() == 0) {
+                // insert view
+                $view = new View();
+                $view->service_id = $service->id;
+                if (Auth::guest()) {
+                    $view->user_id = 0;
+                }else {
+                    $view->user_id = Auth::user()->id;
+                }
+                $view->ip = $_SERVER['REMOTE_ADDR'];
+                $view->save();
+            }
+            return [
+                'service'      => $service,
+                'mySameCat'    => $mySameCat,
+                'otherSameCat' => $otherSameCat,
+            ];
+        }
+        return 'error';
+    }
+
     public function MyServices()
     {
-        $services = Service::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->with('category', 'user')->get();
-        return Response::json($services);
+        $services = Service::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->with('category', 'user', 'views')->get();
+        return ['services' => $services, 'user' => Auth::user()];
     }
 
 
