@@ -93,7 +93,7 @@
     @yield('content')
 
 
-    <footer>
+    {{-- <footer>
         <div class="footer" id="footer">
             <div class="container">
                 <div class="row">
@@ -121,8 +121,7 @@
             <!--/.container-->
         </div>
         <!--/.footer-->
-    </footer>
-
+    </footer> --}}
 
 
     {{ Html::script('frontend/js/main.js') }}

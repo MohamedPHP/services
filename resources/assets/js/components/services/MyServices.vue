@@ -24,13 +24,25 @@
                             <p class="employee-p">Services</p>
                         </div>
                     </div>
-
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="div-counter text-center">
-                            <p class="counter-count">652</p>
-                            <p class="order-p">Orders</p>
+                            <p class="counter-count">{{ purchaseOrders }}</p>
+                            <p class="order-p">Purchase Orders</p>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="div-counter text-center">
+                            <p class="counter-count">{{ incomingOrders }}</p>
+                            <p class="employee-p">Incoming Orders</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="div-counter text-center">
+                            <p class="counter-count">{{ approvedCounter }}</p>
+                            <p class="employee-p">Approved Services</p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
             </nav>
         </div>
@@ -46,9 +58,7 @@
             </div>
         </div>
     </div>
-    <div v-else class="text-center">
-        <img v-bind:src="'/images/default.svg'" alt="">
-    </div>
+    <spinner v-ref:spinner size="xl" fixed text="Loading..."></spinner>
 </template>
 
 <script>
@@ -58,6 +68,7 @@ import SingleService from './SingleService.vue';
 export default {
     components: {
         single_service: SingleService,
+        spinner: require('vue-strap/dist/vue-strap.min').spinner,
     },
     data: function () {
         return {
@@ -65,19 +76,26 @@ export default {
             sortKey: '',
             reverse: 1,
             user: '',
+            purchaseOrders: '',
+            incomingOrders: '',
+            approvedCounter: '',
             isLoading: false,
         }
     },
     ready:function () {
+        this.$refs.spinner.show();
         this.getMyServices();
     },
     methods: {
         getMyServices: function () {
             this.$http.get('/MyServices').then(function (response) {
-                console.log(response.body);
                 this.services = response.body.services;
                 this.user = response.body.user;
                 this.isLoading = true;
+                this.purchaseOrders = response.body.purchaseOrders;
+                this.incomingOrders = response.body.incomingOrders;
+                this.approvedCounter = response.body.approvedCounter;
+                this.$refs.spinner.hide();
             }, function (response) {
 
             });

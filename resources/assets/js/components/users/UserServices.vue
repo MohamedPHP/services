@@ -38,9 +38,7 @@
             </div>
         </div>
     </div>
-    <div v-else class="text-center">
-        <img v-bind:src="'/images/default.svg'" alt="">
-    </div>
+    <spinner v-ref:spinner size="xl" fixed text="Loading..."></spinner>
 </template>
 
 <script>
@@ -48,6 +46,7 @@ import SingleService from './SingleService.vue';
 export default {
     components: {
         single_service: SingleService,
+        spinner: require('vue-strap/dist/vue-strap.min').spinner,
     },
     data: function () {
         return {
@@ -59,6 +58,7 @@ export default {
         }
     },
     ready: function () {
+        this.$refs.spinner.show();
         this.getUserServices();
     },
     methods: {
@@ -67,6 +67,7 @@ export default {
                 this.user = response.body.user;
                 this.services = response.body.services;
                 this.isLoading = true;
+                this.$refs.spinner.hide();
             }, function (response) {
 
             });

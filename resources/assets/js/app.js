@@ -12,6 +12,10 @@ var VueRouter = require('vue-router');
 
 Vue.use(VueRouter);
 
+var VueValidator = require('vue-validator');
+
+Vue.use(VueValidator);
+
 var App = Vue.extend({});
 
 var route = new VueRouter();
@@ -39,6 +43,10 @@ route.map({
     },
     '/PurchaseOrders': {
         component: require('./components/orders/PurchaseOrders.vue'),
+    },
+    '/Order/:order_id': {
+        name: 'Order',
+        component: require('./components/orders/SingleOrder.vue'),
     },
 
 });

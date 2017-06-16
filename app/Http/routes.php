@@ -19,7 +19,15 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+
+// services
 Route::post('/AddService', 'ServicesController@store');
 Route::get('/MyServices', 'ServicesController@MyServices');
 Route::get('/service/{id}', 'ServicesController@getServiceById');
 Route::get('/getUserServices/{id}', 'ServicesController@getUserServices');
+
+
+Route::get('/AddOrder/{id}', 'OrdersController@AddOrder');
+Route::get('/getMyPurchaseOrders', 'OrdersController@getMyPurchaseOrders');
+Route::get('/getMyIncomeOrders', 'OrdersController@getMyIncomeOrders');
+Route::get('/GetOrderById/{id}', 'OrdersController@GetOrderById');

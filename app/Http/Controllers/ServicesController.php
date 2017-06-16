@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Service;
 use App\User;
 use App\View;
+use App\Order;
 use Auth;
 use Response;
 
@@ -26,7 +27,7 @@ class ServicesController extends Controller
                 'services' => $services,
             ];
         }
-        return 'error';
+        return abort(403);
     }
 
     public function getServiceById($id)
@@ -34,15 +35,15 @@ class ServicesController extends Controller
         $service = Service::where('id', $id)->with('category', 'user')->first();
         if ($service->status != 1) {
             if (Auth::guest()) {
-                return abort(404);
+                return abort(403);
             }else {
                 if (Auth::user()->id != $service->user_id) {
-                    return abort(404);
+                    return abort(403);
                 }
             }
         }
-        $mySameCat = Service::where('cat_id', $service->cat_id)->where('user_id', $service->user_id)->with('user')->limit(4)->get();
-        $otherSameCat = Service::where('cat_id', $service->cat_id)->where('user_id', '!=', $service->user_id)->with('user')->limit(4)->get();
+        $mySameCat = Service::where('cat_id', $service->cat_id)->where('status', 1)->where('user_id', $service->user_id)->with('category', 'user', 'views')->limit(6)->get();
+        $otherSameCat = Service::where('cat_id', $service->cat_id)->where('status', 1)->where('user_id', '!=', $service->user_id)->with('category', 'user', 'views')->limit(6)->get();
         if ($service && $mySameCat && $mySameCat) {
             if (View::where('ip', $_SERVER['REMOTE_ADDR'])->where('service_id', $service->id)->count() == 0) {
                 // insert view
@@ -68,7 +69,16 @@ class ServicesController extends Controller
     public function MyServices()
     {
         $services = Service::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->with('category', 'user', 'views')->get();
-        return ['services' => $services, 'user' => Auth::user()];
+        $purchaseOrders = Order::where('user_order', Auth::user()->id)->count();
+        $incomingOrders = Order::where('user_id', Auth::user()->id)->count();
+        $approvedCounter = Service::where('user_id', Auth::user()->id)->where('status', 1)->count();
+        return [
+            'services' => $services,
+            'user' => Auth::user(),
+            'purchaseOrders' => $purchaseOrders,
+            'incomingOrders' => $incomingOrders,
+            'approvedCounter' => $approvedCounter,
+        ];
     }
 
 
@@ -76,7 +86,7 @@ class ServicesController extends Controller
     {
         $this->validate($request, [
             'name'      => 'required|min:5',
-            'dis'       => 'required|max:500',
+            'dis'       => 'required|max:1500',
             'image'     => 'required|image|mimes:jpg,png,jpeg|max:10000',
             'price'     => 'required|numeric',
             'cat_id'    => 'required|numeric',

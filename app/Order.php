@@ -16,13 +16,13 @@ class Order extends Model
         return $this->belongsTo('App\Service', 'service_id');
     }
 
-    public function userOrders()
+    public function userThatRequestTheService()
     { // اوردرات المستخدم الي بيعملها
         return $this->belongsTo('App\User', 'user_order');
     }
 
     public function getServiceOwner()
-    { // صاحب الخدمة 
+    { // صاحب الخدمة
         return $this->belongsTo('App\User', 'user_id');
     }
 

@@ -2,7 +2,7 @@
     <br>
     <br>
     <div v-if="isLoading">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
             <div class="item-container">
                 <div class="row">
                     <div class="col-md-5">
@@ -15,33 +15,33 @@
                     <div class="col-md-7">
                         <div class="product-title">
                             <div class="row">
-                              <div class="col-md-6">
-                                  {{ service.name }}
-                              </div>
-                              <div class="col-md-6">
-                                  Created By: <a v-link="{name: 'User', params:{user_id: service.user.id, name:service.user.name}}">{{ service.user.name }}</a>
-                              </div>
+                                <div class="col-md-12">
+                                    {{ service.name }}
+                                </div>
                             </div>
                         </div>
                         <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
                         <hr>
-                        <div class="product-price">$ {{ service.price }}</div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="product-price">$ {{ service.price }}</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="btn-group cart">
+                                    <buy_btn :service="service"></buy_btn>
+                                </div>
+                                <div class="btn-group wishlist">
+                                    <button type="button" class="btn btn-danger">
+                                        Add to wishlist
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <hr>
-                        <div class="btn-group cart">
-                            <button type="button" class="btn btn-success">
-                                Add to cart
-                            </button>
-                        </div>
-                        <div class="btn-group wishlist">
-                            <button type="button" class="btn btn-danger">
-                                Add to wishlist
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="product-info">
                 <ul id="myTab" class="nav nav-tabs nav_tabs">
                     <li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
@@ -58,7 +58,7 @@
                         <br>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4 col-md-3" v-for="service in mySameCat" track-by="$index">
+                            <div class="col-sm-4 col-md-4" v-for="service in mySameCat" track-by="$index">
                                 <my_same_cat :service="service"></my_same_cat>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                         <br>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4 col-md-3" v-for="service in otherSameCat" track-by="$index">
+                            <div class="col-sm-4 col-md-4" v-for="service in otherSameCat" track-by="$index">
                                 <other_same_cat :service="service"></other_same_cat>
                             </div>
                         </div>
@@ -76,19 +76,25 @@
             </div>
             <hr>
         </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            <side_bar :service="service"></side_bar>
+        </div>
     </div>
-    <div v-else class="text-center">
-        <img v-bind:src="'/images/default.svg'" alt="">
-    </div>
+    <spinner v-ref:spinner size="xl" fixed text="Loading..."></spinner>
 </template>
 
 <script>
 import mySameCat from './../users/SingleService.vue';
 import otherSameCat from './../users/SingleService.vue';
+import Sidebar from './Sidebar.vue';
+import Buybtn from './Buybtn.vue';
 export default {
     components: {
         my_same_cat:mySameCat,
         other_same_cat:otherSameCat,
+        side_bar:Sidebar,
+        buy_btn:Buybtn,
+        spinner: require('vue-strap/dist/vue-strap.min').spinner,
     },
     data: function () {
         return {
@@ -99,21 +105,23 @@ export default {
         }
     },
     ready: function () {
+        this.$refs.spinner.show();
         this.getServiceByID();
     },
     methods: {
         getServiceByID: function () {
             this.$http.get('/service/' + this.$route.params.service_id).then(function (response) {
                 if (response.body != 'error') {
-                    this.isLoading = true;
                     this.service = response.body.service;
                     this.mySameCat = response.body.mySameCat;
                     this.otherSameCat = response.body.otherSameCat;
+                    this.isLoading = true;
+                    this.$refs.spinner.hide();
                 }else {
                     window.location = "/404";
                 }
             }, function (response) {
-                alert('There IS An Error Please Contact Us');
+                alert('There Is An Error Please Contact Us');
                 window.location = '/';
             });
         }

@@ -1,6 +1,6 @@
 <template>
     <!-- `name`, `dis`, `image`, `price`, `cat_id` -->
-    <div class="panel panel-default">
+    <div class="panel panel-default" v-if="isLoading">
         <div class="panel-heading">
             <h3 class="panel-title">Add Service Form</h3>
         </div>
@@ -61,6 +61,7 @@
             </form>
         </div>
     </div>
+    <spinner v-ref:spinner size="xl" fixed text="Loading..."></spinner>
 </template>
 
 <script>
@@ -71,7 +72,16 @@
                 dis: '',
                 price: '',
                 cat_id: '',
+                isLoading: false,
             }
+        },
+        components: {
+            spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        },
+        ready: function () {
+            this.$refs.spinner.show();
+            this.isLoading = true;
+            this.$refs.spinner.hide();
         },
         methods: {
             AddService: function (e) {
@@ -85,9 +95,9 @@
                 this.$http.post('/AddService', formdata).then(function (response) {
                     if (response.body == 'service added') {
                         swal("Good job!", "service added!", "success");
-                        // this.name = '';
-                        // this.dis = '';
-                        // $('input[name=image]').val(null);
+                        this.name = '';
+                        this.dis = '';
+                        $('input[name=image]').val(null);
                     }else if (response.body == 'error saving the service') {
                         alertify.error("error saving the service");
                     }else if (response.body == 'selectrightprice') {
