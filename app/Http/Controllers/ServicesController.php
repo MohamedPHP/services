@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Service;
 use App\User;
 use App\View;
-use App\Order;
+
 use Auth;
 use Response;
 

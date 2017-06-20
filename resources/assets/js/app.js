@@ -12,9 +12,9 @@ var VueRouter = require('vue-router');
 
 Vue.use(VueRouter);
 
-var VueValidator = require('vue-validator');
-
-Vue.use(VueValidator);
+// var VueValidator = require('vue-validator');
+//
+// Vue.use(VueValidator);
 
 var App = Vue.extend({});
 
