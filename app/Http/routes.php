@@ -26,8 +26,18 @@ Route::get('/MyServices', 'ServicesController@MyServices');
 Route::get('/service/{id}', 'ServicesController@getServiceById');
 Route::get('/getUserServices/{id}', 'ServicesController@getUserServices');
 
-
+// orders
 Route::get('/AddOrder/{id}', 'OrdersController@AddOrder');
 Route::get('/getMyPurchaseOrders', 'OrdersController@getMyPurchaseOrders');
 Route::get('/getMyIncomeOrders', 'OrdersController@getMyIncomeOrders');
 Route::get('/GetOrderById/{id}', 'OrdersController@GetOrderById');
+
+// comments
+Route::post('/AddComment', 'CommentsController@AddComment');
+
+
+
+
+
+
+//

@@ -61,7 +61,7 @@
             <all_comments></all_comments>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2">
-            <add_comments :service="service"></add_comments>
+            <add_comments :order="order"></add_comments>
         </div>
     </div>
     <spinner v-ref:spinner size="xl" fixed text="Loading..."></spinner>
@@ -81,6 +81,7 @@ export default {
     data: function () {
         return {
             service: '',
+            order: '',
             isLoading: false,
             status: '',
             number_of_times_purchased: '',
@@ -93,6 +94,7 @@ export default {
     methods: {
         GetOrderById: function () {
             this.$http.get('/GetOrderById/' + this.$route.params.order_id).then(function (response) {
+                this.order = response.body.order;
                 this.service = response.body.order.service;
                 this.status = response.body.order.status;
                 this.number_of_times_purchased = response.body.number_of_times_purchased;

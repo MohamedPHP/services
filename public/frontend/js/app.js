@@ -17068,10 +17068,6 @@ var VueRouter = require('vue-router');
 
 Vue.use(VueRouter);
 
-// var VueValidator = require('vue-validator');
-//
-// Vue.use(VueValidator);
-
 var App = Vue.extend({});
 
 var route = new VueRouter();
@@ -17116,13 +17112,31 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    props: ['service'],
+    props: ['order'],
     data: function data() {
-        return {};
+        return {
+            comment: ""
+        };
+    },
+    methods: {
+        AddComment: function AddComment(e) {
+            e.preventDefault();
+            var formdata = new FormData();
+            formdata.append('comment', this.comment);
+            formdata.append('order_id', this.order.id);
+            this.$http.post('/AddComment', formdata).then(function (response) {
+                swal("Good job!", "Comment added!", "success");
+                this.comment = '';
+            }, function (response) {
+                for (var key in response.body) {
+                    alertify.error(response.body[key]);
+                }
+            });
+        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<textarea class=\"form-control\" name=\"name\" rows=\"8\" cols=\"80\"></textarea>\n<br>\n<button type=\"button\" class=\"btn btn-primary\">Add Comment</button>\n<pre>{{ service | json }}</pre>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<form>\n    <textarea class=\"form-control\" name=\"name\" rows=\"8\" cols=\"80\" v-model=\"comment\"></textarea>\n    <br>\n    <button type=\"submit\" @click=\"AddComment\" class=\"btn btn-primary\">Add Comment</button>\n</form>\n<br><br><hr>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17143,7 +17157,6 @@ exports.default = {
     data: function data() {
         return {};
     }
-
 };
 if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\nAll Comment\n"
@@ -17322,6 +17335,7 @@ exports.default = {
     data: function data() {
         return {
             service: '',
+            order: '',
             isLoading: false,
             status: '',
             number_of_times_purchased: ''
@@ -17334,6 +17348,7 @@ exports.default = {
     methods: {
         GetOrderById: function GetOrderById() {
             this.$http.get('/GetOrderById/' + this.$route.params.order_id).then(function (response) {
+                this.order = response.body.order;
                 this.service = response.body.order.service;
                 this.status = response.body.order.status;
                 this.number_of_times_purchased = response.body.number_of_times_purchased;
@@ -17350,7 +17365,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<br>\n<br>\n<div v-if=\"isLoading\">\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2\">\n        <div class=\"item-container\">\n            <div class=\"row\">\n                <div class=\"col-md-5\">\n                    <div class=\"row\">\n                        <div class=\"col-md-12\">\n                            <div><i class=\"fa fa-clock-o\"></i> {{ service.created_at }}</div>\n                            <hr>\n                            <div><i class=\"fa fa-money\"></i> Number of times purchased ( {{ number_of_times_purchased }} )</div>\n                            <hr>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-12 col-sm-12\">\n                            <img class=\"img-responsive img-thumbnail img-rounded\" v-bind:src=\"service.image\" alt=\"\">\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-7\">\n                    <div class=\"product-title\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                {{ service.name }}\n                                <br>\n                                <div>\n                                    <status :status=\"status\"></status>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n                    <div class=\"product-rating\"><i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star-o\"></i> </div>\n                    <hr>\n                    <div class=\"row\">\n                        <div class=\"col-md-12\">\n                            <div class=\"product-price\">$ {{ service.price }}</div>\n                        </div>\n                    </div>\n                    <hr>\n                </div>\n            </div>\n        </div>\n        <div class=\"product-info\">\n            <ul id=\"myTab\" class=\"nav nav-tabs nav_tabs\">\n                <li class=\"active\"><a href=\"#service-one\" data-toggle=\"tab\">DESCRIPTION</a></li>\n            </ul>\n            <div id=\"myTabContent\" class=\"tab-content\">\n                <div class=\"tab-pane fade in active\" id=\"service-one\" style=\"line-height: 1.7; color: #999;\">\n                    <br>\n                    {{ service.dis }}\n                </div>\n            </div>\n        </div>\n        <hr>\n    </div>\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2\">\n        <all_comments></all_comments>\n    </div>\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2\">\n        <add_comments :service=\"service\"></add_comments>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<br>\n<br>\n<div v-if=\"isLoading\">\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2\">\n        <div class=\"item-container\">\n            <div class=\"row\">\n                <div class=\"col-md-5\">\n                    <div class=\"row\">\n                        <div class=\"col-md-12\">\n                            <div><i class=\"fa fa-clock-o\"></i> {{ service.created_at }}</div>\n                            <hr>\n                            <div><i class=\"fa fa-money\"></i> Number of times purchased ( {{ number_of_times_purchased }} )</div>\n                            <hr>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-12 col-sm-12\">\n                            <img class=\"img-responsive img-thumbnail img-rounded\" v-bind:src=\"service.image\" alt=\"\">\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-7\">\n                    <div class=\"product-title\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                {{ service.name }}\n                                <br>\n                                <div>\n                                    <status :status=\"status\"></status>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n                    <div class=\"product-rating\"><i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star-o\"></i> </div>\n                    <hr>\n                    <div class=\"row\">\n                        <div class=\"col-md-12\">\n                            <div class=\"product-price\">$ {{ service.price }}</div>\n                        </div>\n                    </div>\n                    <hr>\n                </div>\n            </div>\n        </div>\n        <div class=\"product-info\">\n            <ul id=\"myTab\" class=\"nav nav-tabs nav_tabs\">\n                <li class=\"active\"><a href=\"#service-one\" data-toggle=\"tab\">DESCRIPTION</a></li>\n            </ul>\n            <div id=\"myTabContent\" class=\"tab-content\">\n                <div class=\"tab-pane fade in active\" id=\"service-one\" style=\"line-height: 1.7; color: #999;\">\n                    <br>\n                    {{ service.dis }}\n                </div>\n            </div>\n        </div>\n        <hr>\n    </div>\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2\">\n        <all_comments></all_comments>\n    </div>\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2\">\n        <add_comments :order=\"order\"></add_comments>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
