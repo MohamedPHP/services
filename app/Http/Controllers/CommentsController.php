@@ -26,7 +26,7 @@ class CommentsController extends Controller
                 $comment->user_id = Auth::user()->id;
                 $comment->save();
                 if ($comment) {
-                    return $comment;
+                    return Comment::where('id', $comment->id)->with('user')->first();
                 }
                 return abort(403);
             }
@@ -34,4 +34,16 @@ class CommentsController extends Controller
         }
         return abort(403);
     }
+
+
+    public function getAllComments($id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+            return Comment::where('order_id', $id)->with('user')->orderBy('id', 'DESC')->get();
+        }
+        return abort(403);
+    }
+
+
 }

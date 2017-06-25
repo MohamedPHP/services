@@ -17,8 +17,7 @@ class ServicesController extends Controller
 {
 
 
-    public function getUserServices($id)
-    {
+    public function getUserServices($id) {
         $user = User::find($id);
         if ($user) {
             $services = Service::where('user_id', $user->id)->where('status', 1)->with('category', 'user', 'views')->get();
@@ -30,8 +29,7 @@ class ServicesController extends Controller
         return abort(403);
     }
 
-    public function getServiceById($id)
-    {
+    public function getServiceById($id) {
         $service = Service::where('id', $id)->with('category', 'user')->first();
         if ($service->status != 1) {
             if (Auth::guest()) {
@@ -42,9 +40,15 @@ class ServicesController extends Controller
                 }
             }
         }
-        $mySameCat = Service::where('cat_id', $service->cat_id)->where('status', 1)->where('user_id', $service->user_id)->with('category', 'user', 'views')->limit(6)->get();
-        $otherSameCat = Service::where('cat_id', $service->cat_id)->where('status', 1)->where('user_id', '!=', $service->user_id)->with('category', 'user', 'views')->limit(6)->get();
-        if ($service && $mySameCat && $mySameCat) {
+        if (!Auth::guest()) {
+            $mySameCat = Service::where('cat_id', $service->cat_id)->where('status', 1)->where('user_id', Auth::user()->id)->with('category', 'user', 'views')->limit(6)->get();
+            $otherSameCat = Service::where('cat_id', $service->cat_id)->where('status', 1)->where('user_id', '!=', Auth::user()->id)->with('category', 'user', 'views')->limit(6)->get();
+        }else {
+            $mySameCat = [];
+            $otherSameCat = [];
+        }
+
+        if ($service) {
             if (View::where('ip', $_SERVER['REMOTE_ADDR'])->where('service_id', $service->id)->count() == 0) {
                 // insert view
                 $view = new View();
@@ -66,8 +70,7 @@ class ServicesController extends Controller
         return 'error';
     }
 
-    public function MyServices()
-    {
+    public function MyServices() {
         $services = Service::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->with('category', 'user', 'views')->get();
         $purchaseOrders = Order::where('user_order', Auth::user()->id)->count();
         $incomingOrders = Order::where('user_id', Auth::user()->id)->count();
@@ -81,9 +84,7 @@ class ServicesController extends Controller
         ];
     }
 
-
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->validate($request, [
             'name'      => 'required|min:5',
             'dis'       => 'required|max:1500',
@@ -109,8 +110,7 @@ class ServicesController extends Controller
         return 'selectrightprice';
     }
 
-
-    public function upload($file){
+    public function upload($file) {
         $extension = $file->getClientOriginalExtension();
         $sha1 = sha1($file->getClientOriginalName());
         $filename = date('Y-m-d-h-i-s')."_".$sha1.".".$extension;

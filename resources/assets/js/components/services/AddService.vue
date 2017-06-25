@@ -101,10 +101,10 @@
                     }else if (response.body == 'error saving the service') {
                         alertify.error("error saving the service");
                     }else if (response.body == 'selectrightprice') {
-                        alertify.error("please select the price");
-                        setInterval(function () {
-                            window.location.reload()
-                        }, 1500);
+                        alertify.error("please select the right price");
+                        this.$router.go({
+                            path: '/',
+                        });
                     }
                 }, function (response) {
                     for (var key in response.body) {

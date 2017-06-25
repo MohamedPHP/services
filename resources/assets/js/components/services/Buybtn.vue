@@ -12,7 +12,7 @@ export default {
                     swal("Good job!", "Order Request Has Been Sent!", "success");
                 },
                 function (response) {
-                    alertify.error("Your Request Has Been Rejected From The Server for one of these resones <br />1- You Requested It Before <br />2- This is your service <br />3- server error", 5000);
+                    alertify.error("Your Request Has Been Rejected From The Server for one of these resones <br />1- You Requested It Before <br />2- This is your service <br />3- server error<br />4- you are not logged in", 5000);
                 }
             );
         }

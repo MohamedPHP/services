@@ -88,7 +88,9 @@ export default {
                 },
                 function (response) {
                     alert('There Is An Error Please Contact Us');
-                    window.location = '/';
+                    this.$router.go({
+                        path: '/',
+                    });
                 }
             );
         },

@@ -16,7 +16,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
-                                <img class="img-responsive img-thumbnail img-rounded" v-bind:src="service.image" alt="" />
+                                <img style="height: 167px;width: 100%;" class="img-responsive img-thumbnail img-rounded" v-bind:src="service.image" alt="" />
                             </div>
                         </div>
                     </div>
@@ -39,8 +39,12 @@
                             <div class="col-md-12">
                                 <div class="product-price">$ {{ service.price }}</div>
                             </div>
+                            <hr>
+                            <div class="col-md-12" v-if="user_id.id == AuthUser.id && btns == true">
+                                <button @click="changeStatus(2)" type="button" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Accept Order</button>
+                                <button @click="changeStatus(3)" type="button" class="btn btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i> Reject Order</button>
+                            </div>
                         </div>
-                        <hr>
                     </div>
                 </div>
             </div>
@@ -58,10 +62,7 @@
             <hr>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2">
-            <all_comments></all_comments>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2">
-            <add_comments :order="order"></add_comments>
+            <all_comments :order="order"></all_comments>
         </div>
     </div>
     <spinner v-ref:spinner size="xl" fixed text="Loading..."></spinner>
@@ -69,14 +70,12 @@
 
 <script>
 import Status from './Status.vue';
-import AddComments from './../comments/AddComments.vue';
 import AllComments from './../comments/AllComments.vue';
 export default {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
         status: Status,
         all_comments: AllComments,
-        add_comments: AddComments,
     },
     data: function () {
         return {
@@ -85,6 +84,10 @@ export default {
             isLoading: false,
             status: '',
             number_of_times_purchased: '',
+            user_id: '',
+            order_user: '',
+            AuthUser: '',
+            btns: true,
         }
     },
     ready: function () {
@@ -98,13 +101,37 @@ export default {
                 this.service = response.body.order.service;
                 this.status = response.body.order.status;
                 this.number_of_times_purchased = response.body.number_of_times_purchased;
+                this.user_id = response.body.user_id;
+                this.order_user = response.body.order_user;
+                this.AuthUser = response.body.AuthUser;
                 this.isLoading = true;
+                if (this.order.status == 2 || this.order.status == 3) {
+                    this.btns = false;
+                }
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
-                window.location = '/';
+                this.$router.go({
+                    path: '/',
+                });
             });
-        }
+        },
+        changeStatus: function (status) {
+            this.$refs.spinner.show();
+            this.$http.get('/ChangeStatus/' + this.$route.params.order_id + '/' + status).then(
+                function (response) {
+                    this.btns = false;
+                    this.status = response.body.status;
+                    this.$refs.spinner.hide();
+                },
+                function (response) {
+                    alert('There Is An Error Please Contact Us');
+                    this.$router.go({
+                        path: '/',
+                    });
+                }
+            );
+        },
     },
     route: {
         canReuse: false,

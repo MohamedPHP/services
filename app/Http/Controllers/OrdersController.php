@@ -46,8 +46,6 @@ class OrdersController extends Controller
         return abort(403);
     }
 
-
-
     public function getMyPurchaseOrders() {
         $orders = Order::where('user_order', Auth::user()->id)->with('getServiceOwner', 'service')->orderBy('id', 'DESC')->get();
         return [
@@ -67,14 +65,19 @@ class OrdersController extends Controller
     public function GetOrderById($id) {
         $order = Order::find($id);
         if ($order) {
-            $user_id = User::find($order->user_id);
-            $user_order = User::find($order->user_order);
+            $user_id = User::find($order->user_id); // service owner how receved the order
+            $user_order = User::find($order->user_order); // Service requester how created the order
             if ($user_id->id != $order->user_order) {
+                if (Auth::user()->id == $user_id->id && $order->status == 0) {
+                    $order->status = 1;
+                    $order->save();
+                }
                 $order = Order::where('id', $id)->with('service')->first();
                 $number_of_times_purchased = Order::where('service_id', $order->service->id)->whereIn('status', [1, 2, 4])->count();
                 return [
                     'user_id' => $user_id,
                     'order_user' => $user_order,
+                    'AuthUser' => Auth::user(),
                     'order' => $order,
                     'number_of_times_purchased' => $number_of_times_purchased,
                 ];
@@ -83,5 +86,26 @@ class OrdersController extends Controller
         }
         return abort(403);
     }
+
+    public function ChangeStatus($id, $status) {
+        $order = Order::find($id);
+        $statusarray = [2, 3];
+        if (!in_array($status, $statusarray)) {
+            return abort(403);
+        }
+        if ($order) {
+            if (Auth::user()->id == $order->user_id) {
+                $order->status = $status;
+                $order->save();
+                if ($order) {
+                    return ['status' =>$order->status];
+                }
+                return abort(403);
+            }
+            return abort(403);
+        }
+        return abort(403);
+    }
+
 
 }

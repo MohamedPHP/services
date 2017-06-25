@@ -45,7 +45,6 @@
                         </td>
                         <td>
                             <a v-link="{name: 'Order', params:{order_id: order.id}}" class="btn btn-info"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -80,7 +79,7 @@ export default {
     },
     methods: {
         getMyPurchaseOrders: function () {
-            this.$http.get('getMyIncomeOrders').then(
+            this.$http.get('/getMyIncomeOrders').then(
                 function (response) {
                     this.orders = response.body.orders;
                     this.user = response.body.user;
@@ -89,7 +88,9 @@ export default {
                 },
                 function (response) {
                     alert('There Is An Error Please Contact Us');
-                    window.location = '/';
+                    this.$router.go({
+                        path: '/',
+                    });
                 }
             );
         },

@@ -45,6 +45,10 @@ route.map({
         name: 'Order',
         component: require('./components/orders/SingleOrder.vue'),
     },
+    '/SendMessage/:user_id': {
+        name: '/SendMessage',
+        component: require('./components/messages/SendMessage.vue'),
+    },
 
 });
 

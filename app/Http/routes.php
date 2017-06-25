@@ -31,11 +31,14 @@ Route::get('/AddOrder/{id}', 'OrdersController@AddOrder');
 Route::get('/getMyPurchaseOrders', 'OrdersController@getMyPurchaseOrders');
 Route::get('/getMyIncomeOrders', 'OrdersController@getMyIncomeOrders');
 Route::get('/GetOrderById/{id}', 'OrdersController@GetOrderById');
+Route::get('/ChangeStatus/{id}/{status}', 'OrdersController@ChangeStatus');
 
 // comments
 Route::post('/AddComment', 'CommentsController@AddComment');
+Route::get('/getAllComments/{id}', 'CommentsController@getAllComments');
 
-
+// messages
+Route::post('/SendMessage', 'MessagesController@SendMessage');
 
 
 

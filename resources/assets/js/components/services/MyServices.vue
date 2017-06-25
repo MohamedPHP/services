@@ -97,7 +97,10 @@ export default {
                 this.approvedCounter = response.body.approvedCounter;
                 this.$refs.spinner.hide();
             }, function (response) {
-
+                alert('There Is An Error Please Contact Us');
+                this.$router.go({
+                    path: '/',
+                });
             });
         },
         sort: function (sortval) {

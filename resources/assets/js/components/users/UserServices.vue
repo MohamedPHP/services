@@ -69,7 +69,10 @@ export default {
                 this.isLoading = true;
                 this.$refs.spinner.hide();
             }, function (response) {
-
+                alert('There Is An Error Please Contact Us');
+                this.$router.go({
+                    path: '/',
+                });
             });
         },
         sort: function (sortval) {

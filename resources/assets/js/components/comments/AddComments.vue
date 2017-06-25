@@ -1,10 +1,13 @@
 <template>
-    <form>
-        <textarea class="form-control" name="name" rows="8" cols="80" v-model="comment"></textarea>
-        <br>
-        <button type="submit" @click="AddComment" class="btn btn-primary">Add Comment</button>
-    </form>
-    <br><br><hr>
+    <div class="row">
+        <div class="col-md-12">
+            <form>
+                <textarea class="form-control" name="name" rows="4" v-model="comment"></textarea>
+                <br>
+                <button type="submit" @click="AddComment" class="btn btn-primary">Add Comment</button>
+            </form>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -22,8 +25,9 @@ export default {
             formdata.append('comment', this.comment);
             formdata.append('order_id', this.order.id);
             this.$http.post('/AddComment', formdata).then(function (response) {
-                swal("Good job!", "Comment added!", "success");
+                alertify.success("Comment Added");
                 this.comment = '';
+                this.$dispatch('AddComment', response.body);
             }, function (response) {
                 for (var key in response.body) {
                     alertify.error(response.body[key]);

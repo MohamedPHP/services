@@ -58,8 +58,11 @@
                         <br>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4 col-md-4" v-for="service in mySameCat" track-by="$index">
+                            <div class="col-sm-4 col-md-4" v-if="mySameCat.length > 0" v-for="service in mySameCat" track-by="$index">
                                 <my_same_cat :service="service"></my_same_cat>
+                            </div>
+                            <div class="alert alert-danger" v-if="mySameCat.length == 0">
+                                There Is No Services In This Categoury.
                             </div>
                         </div>
                     </div>
@@ -67,8 +70,11 @@
                         <br>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4 col-md-4" v-for="service in otherSameCat" track-by="$index">
+                            <div class="col-sm-4 col-md-4" v-if="otherSameCat.length > 0" v-for="service in otherSameCat" track-by="$index">
                                 <other_same_cat :service="service"></other_same_cat>
+                            </div>
+                            <div class="alert alert-danger" v-if="otherSameCat.length == 0">
+                                There Is No Services In This Categoury.
                             </div>
                         </div>
                     </div>
@@ -118,11 +124,13 @@ export default {
                     this.isLoading = true;
                     this.$refs.spinner.hide();
                 }else {
-                    window.location = "/404";
+                    // window.location = "/";
                 }
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
-                window.location = '/';
+                this.$router.go({
+                    path: '/',
+                });
             });
         }
     },
