@@ -26,17 +26,17 @@ class ServicesController extends Controller
                 'services' => $services,
             ];
         }
-        return abort(403);
+        abort(403);
     }
 
     public function getServiceById($id) {
         $service = Service::where('id', $id)->with('category', 'user')->first();
         if ($service->status != 1) {
             if (Auth::guest()) {
-                return abort(403);
+                abort(403);
             }else {
                 if (Auth::user()->id != $service->user_id) {
-                    return abort(403);
+                    abort(403);
                 }
             }
         }

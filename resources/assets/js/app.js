@@ -49,6 +49,30 @@ route.map({
         name: '/SendMessage',
         component: require('./components/messages/SendMessage.vue'),
     },
+    '/Inbox': {
+        name: '/Inbox',
+        component: require('./components/messages/IncomingMessages.vue'),
+    },
+    '/SentMessages': {
+        name: '/SentMessages',
+        component: require('./components/messages/SentMessages.vue'),
+    },
+    '/UnreadMessages': {
+        name: '/UnreadMessages',
+        component: require('./components/messages/UnreadMessages.vue'),
+    },
+    '/ReadMessages': {
+        name: '/ReadMessages',
+        component: require('./components/messages/ReadMessages.vue'),
+    },
+    '/GetMessageById/:msg_id/:message_title': {
+        name: '/GetMessageById',
+        component: require('./components/messages/MessageDetails.vue'),
+    },
+    '/Wishlist': {
+        name: '/Wishlist',
+        component: require('./components/wishlist/Wishlist.vue'),
+    },
 
 });
 

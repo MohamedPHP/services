@@ -22,7 +22,7 @@ elixir(function(mix) {
     //     'alertify.default.css',
     //     'styles.css',
     // ], 'public/frontend/css/style.css');
-    //
+
     // mix.scripts([
     //     'lips/jquery.min.js',
     //     'lips/bootstrap.min.js',

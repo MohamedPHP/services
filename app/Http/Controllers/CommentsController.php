@@ -28,11 +28,11 @@ class CommentsController extends Controller
                 if ($comment) {
                     return Comment::where('id', $comment->id)->with('user')->first();
                 }
-                return abort(403);
+                abort(403);
             }
-            return abort(403);
+            abort(403);
         }
-        return abort(403);
+        abort(403);
     }
 
 
@@ -42,7 +42,7 @@ class CommentsController extends Controller
         if ($order) {
             return Comment::where('order_id', $id)->with('user')->orderBy('id', 'DESC')->get();
         }
-        return abort(403);
+        abort(403);
     }
 
 

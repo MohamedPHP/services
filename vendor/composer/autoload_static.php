@@ -299,6 +299,7 @@ class ComposerStaticInite7e4a28356d263b952dc0c113163ef1f
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateViewsTable' => __DIR__ . '/../..' . '/database/migrations/2017_06_12_101327_create_views_table.php',
         'CreateVotesTable' => __DIR__ . '/../..' . '/database/migrations/2017_06_10_014658_create_votes_table.php',
+        'CreateWishlistsTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_03_003548_create_wishlists_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',

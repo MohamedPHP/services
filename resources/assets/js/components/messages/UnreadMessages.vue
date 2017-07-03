@@ -2,17 +2,17 @@
     <div v-if="isLoading">
         <div class="row">
             <div class="col-sm-12 col-md-12">
-                <h2 class="text-center text-primary">Inbox</h2>
+                <h2 class="text-center text-primary">Messages You Sent</h2>
             </div>
         </div>
         <hr>
         <div class="row">
             <div class="col-md-3">
-                <menu :messages="messages" :type="'inbox'"></menu>
+                <menu :messages="messages" :type="'unread'"></menu>
             </div>
             <div class="col-md-9">
                 <div class="nicedivvv" style="padding: 5px 15px;">
-                    <div class="alert alert-success">Here Is All Messages You <strong>Received</strong> From Other Users</div>
+                    <div class="alert alert-success">Here Is All Messages You <strong>did not see</strong></div>
                 </div>
                 <div class="nicedivvv" style="padding: 10px 15px;">
                     <single_message :messages="messages"></single_message>
@@ -40,11 +40,11 @@ export default {
     },
     ready: function () {
         this.$refs.spinner.show();
-        this.getUserMessages();
+        this.SentMessages();
     },
     methods: {
-        getUserMessages: function () {
-            this.$http.get('/getUserMessages').then(function (response) {
+        SentMessages: function () {
+            this.$http.get('/UnreadMessages').then(function (response) {
                 this.messages = response.body.messages;
                 this.isLoading = true;
                 this.$refs.spinner.hide();

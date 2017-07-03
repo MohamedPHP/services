@@ -74,6 +74,26 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <i class="fa fa-envelope" aria-hidden="true"></i> <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a v-link="{name: '/Inbox'}"><i class="fa fa-inbox"></i> Inbox</a>
+                                </li>
+                                <li>
+                                    <a v-link="{name: '/SentMessages'}"><i class="fa fa-send"></i> Sent Messages</a>
+                                </li>
+                                <li>
+                                    <a v-link="{name: '/UnreadMessages'}"><i class="fa fa-eye-slash"></i> Unread Messages</a>
+                                </li>
+                                <li>
+                                    <a v-link="{name: '/ReadMessages'}"><i class="fa fa-eye"></i> Read Messages</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a v-link="{name: '/Wishlist'}"><i class="fa fa-heart"></i></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 

@@ -37,13 +37,13 @@ class OrdersController extends Controller
                     if ($order) {
                         return 'true';
                     }
-                    return abort(403);
+                    abort(403);
                 }
-                return abort(403);
+                abort(403);
             }
-            return abort(403);
+            abort(403);
         }
-        return abort(403);
+        abort(403);
     }
 
     public function getMyPurchaseOrders() {
@@ -82,9 +82,9 @@ class OrdersController extends Controller
                     'number_of_times_purchased' => $number_of_times_purchased,
                 ];
             }
-            return abort(403);
+            abort(403);
         }
-        return abort(403);
+        abort(403);
     }
 
     public function ChangeStatus($id, $status) {
@@ -100,11 +100,11 @@ class OrdersController extends Controller
                 if ($order) {
                     return ['status' =>$order->status];
                 }
-                return abort(403);
+                abort(403);
             }
-            return abort(403);
+            abort(403);
         }
-        return abort(403);
+        abort(403);
     }
 
 

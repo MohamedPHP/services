@@ -39,8 +39,16 @@ Route::get('/getAllComments/{id}', 'CommentsController@getAllComments');
 
 // messages
 Route::post('/SendMessage', 'MessagesController@SendMessage');
+Route::get('/getUserMessages', 'MessagesController@getUserMessages');
+Route::get('/SentMessages', 'MessagesController@SentMessages');
+Route::get('/UnreadMessages', 'MessagesController@UnreadMessages');
+Route::get('/ReadMessages', 'MessagesController@ReadMessages');
+Route::get('/GetMessageById/{id}/{title}', 'MessagesController@GetMessageById');
 
-
+// wishlist
+Route::get('/AddToWishList/{service_id}', 'WishlistController@AddToWishList');
+Route::get('/GetUserWishList', 'WishlistController@GetUserWishList');
+Route::get('/DeleteWishList/{id}', 'WishlistController@DeleteWishList');
 
 
 //

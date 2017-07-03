@@ -12,10 +12,9 @@ use Auth;
 
 class MessagesController extends Controller
 {
-    public function SendMessage(Request $request)
-    {
+    public function SendMessage(Request $request) {
         $this->validate($request, [
-            'title' =>  'required|max:30',
+            'title' =>  'required|max:10',
             'content'   =>  'required|min:20|max:500',
             'user_id'   =>  'required|integer',
         ]);
@@ -33,10 +32,46 @@ class MessagesController extends Controller
                 if ($message) {
                     return 'done';
                 }
-                return abort(403);
+                abort(403);
             }
             return 'useridissame';
         }
-        return abort(403);
+        abort(403);
+    }
+
+    public function getUserMessages() {
+        $messages = Message::where('user_id', Auth::user()->id)->with('getSender')->orderBy('id', 'DESC')->get();
+        return ['messages' => $messages];
+    }
+
+    public function SentMessages() {
+        $messages = Message::where('user_message_you', Auth::user()->id)->with('getReceiver')->orderBy('id', 'DESC')->get();
+        return ['messages' => $messages];
+    }
+
+    public function UnreadMessages() {
+        $messages = Message::where('user_id', Auth::user()->id)->where('seen', 0)->with('getReceiver')->orderBy('id', 'DESC')->get();
+        return ['messages' => $messages];
+    }
+
+    public function ReadMessages() {
+        $messages = Message::where('user_id', Auth::user()->id)->where('seen', 1)->with('getReceiver')->orderBy('id', 'DESC')->get();
+        return ['messages' => $messages];
+    }
+
+    public function GetMessageById($id) {
+        $message = Message::where('id', $id)->with('getSender', 'getReceiver')->first();
+        if ($message) {
+            if (Auth::user()->id == $message->user_id || Auth::user()->id == $message->user_message_you) {
+                if ($message->seen == 0 && Auth::user()->id == $message->user_id) {
+                    // لو السين يساوي صفر والي عامل لوج ان هو الي مستلم يبقي لو دخل شاف الخدمه يبقي كده صح و زي الفل
+                    $message->seen = 1;
+                    $message->save();
+                }
+                return ['message' => $message];
+            }
+            abort(403);
+        }
+        abort(403);
     }
 }

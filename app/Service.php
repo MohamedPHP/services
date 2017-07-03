@@ -30,4 +30,10 @@ class Service extends Model
         return $this->hasMany('App\View', 'service_id');
     }
 
+    public function wishlist()
+    {
+        return $this->hasMany('App\Wishlist', 'service_id');
+    }
+
+
 }

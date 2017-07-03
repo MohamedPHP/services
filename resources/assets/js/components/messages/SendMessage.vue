@@ -1,19 +1,13 @@
 <template>
     <div v-if="isLoading">
         <div class="row">
-        	<div class="col-sm-3 col-md-2">
-
-        	</div>
-        	<div class="col-sm-9 col-md-10">
-        		Fillters
+        	<div class="col-sm-12 col-md-12">
+        		<h2 class="text-center text-primary">Send Message</h2>
         	</div>
         </div>
         <hr>
         <div class="row">
-        	<div class="col-sm-3 col-md-2">
-        		<menu></menu>
-        	</div>
-        	<div class="col-sm-9 col-md-10">
+        	<div class="col-sm-8 col-md-offset-2">
                 <div class="row">
                     <div class="col-md-12">
                         <form>
@@ -32,11 +26,9 @@
 </template>
 
 <script>
-import Menu from './Menu.vue';
 export default {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
-        menu: Menu,
     },
     data: function () {
         return {
@@ -47,10 +39,10 @@ export default {
     },
     ready: function () {
         this.$refs.spinner.show();
-        this.GetMessages();
+        this.ReadyDocument();
     },
     methods: {
-        GetMessages: function () {
+        ReadyDocument: function () {
             this.isLoading = true;
             this.$refs.spinner.hide();
         },

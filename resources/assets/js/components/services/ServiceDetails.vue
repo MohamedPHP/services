@@ -27,13 +27,11 @@
                                 <div class="product-price">$ {{ service.price }}</div>
                             </div>
                             <div class="col-md-6">
-                                <div class="btn-group cart">
-                                    <buy_btn :service="service"></buy_btn>
-                                </div>
                                 <div class="btn-group wishlist">
-                                    <button type="button" class="btn btn-danger">
-                                        Add to wishlist
-                                    </button>
+                                    <div class="btn-group cart">
+                                        <buy_btn :service="service"></buy_btn>
+                                    </div>
+                                    <wishlist_btn :service="service"></wishlist_btn>
                                 </div>
                             </div>
                         </div>
@@ -58,8 +56,10 @@
                         <br>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4 col-md-4" v-if="mySameCat.length > 0" v-for="service in mySameCat" track-by="$index">
-                                <my_same_cat :service="service"></my_same_cat>
+                            <div v-if="mySameCat.length > 0">
+                                <div class="col-sm-4 col-md-4" v-for="service in mySameCat" track-by="$index">
+                                    <my_same_cat :service="service"></my_same_cat>
+                                </div>
                             </div>
                             <div class="alert alert-danger" v-if="mySameCat.length == 0">
                                 There Is No Services In This Categoury.
@@ -70,8 +70,10 @@
                         <br>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4 col-md-4" v-if="otherSameCat.length > 0" v-for="service in otherSameCat" track-by="$index">
-                                <other_same_cat :service="service"></other_same_cat>
+                            <div v-if="otherSameCat.length > 0">
+                                <div class="col-sm-4 col-md-4" v-for="service in otherSameCat" track-by="$index">
+                                    <other_same_cat :service="service"></other_same_cat>
+                                </div>
                             </div>
                             <div class="alert alert-danger" v-if="otherSameCat.length == 0">
                                 There Is No Services In This Categoury.
@@ -94,12 +96,14 @@ import mySameCat from './../users/SingleService.vue';
 import otherSameCat from './../users/SingleService.vue';
 import Sidebar from './Sidebar.vue';
 import Buybtn from './Buybtn.vue';
+import WishListbtn from './WishListbtn.vue';
 export default {
     components: {
         my_same_cat:mySameCat,
         other_same_cat:otherSameCat,
         side_bar:Sidebar,
         buy_btn:Buybtn,
+        wishlist_btn:WishListbtn,
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
     },
     data: function () {
