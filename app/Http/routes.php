@@ -51,4 +51,9 @@ Route::get('/GetUserWishList', 'WishlistController@GetUserWishList');
 Route::get('/DeleteWishList/{id}', 'WishlistController@DeleteWishList');
 
 
+// vote
+Route::get('/AddNewVote', 'VoteController@AddNewVote');
+
+
+
 //

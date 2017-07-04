@@ -17133,7 +17133,7 @@ route.map({
 
 route.start(App, '#app-layout');
 
-},{"./components/messages/IncomingMessages.vue":12,"./components/messages/MessageDetails.vue":14,"./components/messages/ReadMessages.vue":15,"./components/messages/SendMessage.vue":16,"./components/messages/SentMessages.vue":17,"./components/messages/UnreadMessages.vue":19,"./components/orders/IncomingOrders.vue":20,"./components/orders/PurchaseOrders.vue":21,"./components/orders/SingleOrder.vue":22,"./components/services/AddService.vue":24,"./components/services/MyServices.vue":26,"./components/services/ServiceDetails.vue":27,"./components/users/UserServices.vue":32,"./components/wishlist/Wishlist.vue":33,"vue":7,"vue-resource":4,"vue-router":5}],10:[function(require,module,exports){
+},{"./components/messages/IncomingMessages.vue":12,"./components/messages/MessageDetails.vue":14,"./components/messages/ReadMessages.vue":15,"./components/messages/SendMessage.vue":16,"./components/messages/SentMessages.vue":17,"./components/messages/UnreadMessages.vue":19,"./components/orders/IncomingOrders.vue":20,"./components/orders/PurchaseOrders.vue":21,"./components/orders/SingleOrder.vue":22,"./components/services/AddService.vue":24,"./components/services/MyServices.vue":26,"./components/services/ServiceDetails.vue":28,"./components/users/UserServices.vue":33,"./components/wishlist/Wishlist.vue":34,"vue":7,"vue-resource":4,"vue-router":5}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18127,7 +18127,69 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-23607bb2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./SingleService.vue":29,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],27:[function(require,module,exports){
+},{"./SingleService.vue":30,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],27:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: ['service', 'user_vote'],
+    data: function data() {
+        return {};
+    },
+    ready: function ready() {
+        var service_id = this.service.id;
+        $('#rate').barrating({
+            theme: 'fontawesome-stars',
+            onSelect: function onSelect(value, text, event) {
+                event.preventDefault();
+                $.ajax({
+                    method: 'get',
+                    url: '/AddNewVote',
+                    data: {
+                        value: value,
+                        service_id: service_id
+                    },
+                    success: function success(response) {
+                        if (response == 'voting added') {
+                            alertify.success("thanks for voting");
+                        }
+                        if (response == 'voting updated') {
+                            alertify.success("thanks for voting update");
+                        }
+                        if (response == 'error') {
+                            alertify.error("there is some errors");
+                        }
+                        if (response == 'not loged in') {
+                            alertify.error("you need to log in");
+                        }
+                    }
+                });
+            }
+        });
+    },
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<select id=\"rate\" v-if=\"user_vote != null\">\n    <option value=\"1\" v-bind:selected=\"user_vote.vote == 1\">1</option>\n    <option value=\"2\" v-bind:selected=\"user_vote.vote == 2\">2</option>\n    <option value=\"3\" v-bind:selected=\"user_vote.vote == 3\">3</option>\n    <option value=\"4\" v-bind:selected=\"user_vote.vote == 4\">4</option>\n    <option value=\"5\" v-bind:selected=\"user_vote.vote == 5\">5</option>\n</select>\n<select id=\"rate\" v-if=\"user_vote == null\">\n    <option value=\"1\">1</option>\n    <option value=\"2\">2</option>\n    <option value=\"3\">3</option>\n    <option value=\"4\">4</option>\n    <option value=\"5\">5</option>\n</select>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-3878669a", module.exports)
+  } else {
+    hotAPI.update("_v-3878669a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],28:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n/*********************************************\n            Theme Elements\n*********************************************/\nbutton {\n    margin-right: 10px;\n}\n.gold{\ncolor: #FFBF00;\n}\n/*********************************************\n                PRODUCTS\n*********************************************/\n.product{\nborder: 1px solid #dddddd;\nheight: 321px;\n}\n.product>img{\nmax-width: 230px;\n}\n.product-rating{\nfont-size: 20px;\nmargin-bottom: 25px;\n}\n.product-title{\nfont-size: 20px;\n}\n.product-desc{\nfont-size: 14px;\n}\n.product-price{\nfont-size: 22px;\n}\n.product-stock{\ncolor: #74DF00;\nfont-size: 20px;\nmargin-top: 10px;\n}\n.product-info{\n    margin-top: 50px;\n}\n/*********************************************\n                VIEW\n*********************************************/\n.content-wrapper {\nmax-width: 1140px;\nbackground: #fff;\nmargin: 0 auto;\nmargin-top: 25px;\nmargin-bottom: 10px;\nborder: 0px;\nborder-radius: 0px;\n}\n.container-fluid{\nmax-width: 1140px;\nmargin: 0 auto;\n}\n.view-wrapper {\nfloat: right;\nmax-width: 70%;\nmargin-top: 25px;\n}\n.container {\npadding-left: 0px;\npadding-right: 0px;\nmax-width: 100%;\n}\n/*********************************************\n            ITEM\n*********************************************/\n.service1-items {\npadding: 0px 0 0px 0;\nfloat: left;\nposition: relative;\noverflow: hidden;\nmax-width: 100%;\nheight: 321px;\nwidth: 130px;\n}\n.service1-item {\nheight: 107px;\nwidth: 120px;\ndisplay: block;\nfloat: left;\nposition: relative;\npadding-right: 20px;\nborder-right: 1px solid #DDD;\nborder-top: 1px solid #DDD;\nborder-bottom: 1px solid #DDD;\n}\n.service1-item > img {\nmax-height: 110px;\nmax-width: 110px;\nopacity: 0.6;\ntransition: all .2s ease-in;\n-o-transition: all .2s ease-in;\n-moz-transition: all .2s ease-in;\n-webkit-transition: all .2s ease-in;\n}\n.service1-item > img:hover {\ncursor: pointer;\nopacity: 1;\n}\n.service-image-left {\npadding-right: 50px;\n}\n.service-image-right {\npadding-left: 50px;\n}\n.service-image-left > center > img,.service-image-right > center > img{\nmax-height: 155px;\n}\n")
 'use strict';
@@ -18152,6 +18214,10 @@ var _WishListbtn = require('./WishListbtn.vue');
 
 var _WishListbtn2 = _interopRequireDefault(_WishListbtn);
 
+var _Rating = require('./Rating.vue');
+
+var _Rating2 = _interopRequireDefault(_Rating);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -18161,6 +18227,7 @@ exports.default = {
         side_bar: _Sidebar2.default,
         buy_btn: _Buybtn2.default,
         wishlist_btn: _WishListbtn2.default,
+        rating: _Rating2.default,
         spinner: require('vue-strap/dist/vue-strap.min').spinner
     },
     data: function data() {
@@ -18168,6 +18235,8 @@ exports.default = {
             service: '',
             mySameCat: '',
             otherSameCat: '',
+            userVote: '',
+            sum: '',
             isLoading: false
         };
     },
@@ -18182,6 +18251,8 @@ exports.default = {
                     this.service = response.body.service;
                     this.mySameCat = response.body.mySameCat;
                     this.otherSameCat = response.body.otherSameCat;
+                    this.userVote = response.body.userVote;
+                    this.sum = response.body.sum;
                     this.isLoading = true;
                     this.$refs.spinner.hide();
                 } else {
@@ -18200,7 +18271,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<br>\n<br>\n<div v-if=\"isLoading\">\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-9\">\n        <div class=\"item-container\">\n            <div class=\"row\">\n                <div class=\"col-md-5\">\n                    <div class=\"row\">\n                        <div class=\"col-md-12 col-sm-12\">\n                            <img class=\"img-responsive img-thumbnail img-rounded\" v-bind:src=\"service.image\" alt=\"\">\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-7\">\n                    <div class=\"product-title\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                {{ service.name }}\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"product-rating\"><i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star gold\"></i> <i class=\"fa fa-star-o\"></i> </div>\n                    <hr>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"product-price\">$ {{ service.price }}</div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"btn-group wishlist\">\n                                <div class=\"btn-group cart\">\n                                    <buy_btn :service=\"service\"></buy_btn>\n                                </div>\n                                <wishlist_btn :service=\"service\"></wishlist_btn>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n\n                </div>\n            </div>\n        </div>\n        <div class=\"product-info\">\n            <ul id=\"myTab\" class=\"nav nav-tabs nav_tabs\">\n                <li class=\"active\"><a href=\"#service-one\" data-toggle=\"tab\">DESCRIPTION</a></li>\n                <li><a href=\"#service-two\" data-toggle=\"tab\">My Services In This Category</a></li>\n                <li><a href=\"#service-three\" data-toggle=\"tab\">Other Services In This Category</a></li>\n            </ul>\n            <div id=\"myTabContent\" class=\"tab-content\">\n                <div class=\"tab-pane fade in active\" id=\"service-one\">\n                    <br>\n                    <br>\n                    {{ service.dis }}\n                </div>\n                <div class=\"tab-pane fade\" id=\"service-two\">\n                    <br>\n                    <br>\n                    <div class=\"row\">\n                        <div v-if=\"mySameCat.length > 0\">\n                            <div class=\"col-sm-4 col-md-4\" v-for=\"service in mySameCat\" track-by=\"$index\">\n                                <my_same_cat :service=\"service\"></my_same_cat>\n                            </div>\n                        </div>\n                        <div class=\"alert alert-danger\" v-if=\"mySameCat.length == 0\">\n                            There Is No Services In This Categoury.\n                        </div>\n                    </div>\n                </div>\n                <div class=\"tab-pane fade\" id=\"service-three\">\n                    <br>\n                    <br>\n                    <div class=\"row\">\n                        <div v-if=\"otherSameCat.length > 0\">\n                            <div class=\"col-sm-4 col-md-4\" v-for=\"service in otherSameCat\" track-by=\"$index\">\n                                <other_same_cat :service=\"service\"></other_same_cat>\n                            </div>\n                        </div>\n                        <div class=\"alert alert-danger\" v-if=\"otherSameCat.length == 0\">\n                            There Is No Services In This Categoury.\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <hr>\n    </div>\n    <div class=\"col-xs-12 col-sm-12 col-md-3 col-lg-3\">\n        <side_bar :service=\"service\"></side_bar>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<br>\n<br>\n<div v-if=\"isLoading\">\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-9\">\n        <div class=\"item-container\">\n            <div class=\"row\">\n                <div class=\"col-md-5\">\n                    <div class=\"row\">\n                        <div class=\"col-md-12 col-sm-12\">\n                            <img class=\"img-responsive img-thumbnail img-rounded\" v-bind:src=\"service.image\" style=\"height: 200px;width: 100%;\">\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-7\">\n                    <div class=\"product-title\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                {{ service.name }}\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"product-rating\">\n                        <div class=\"row\">\n                            <div class=\"col-md-4 col-sm-12 col-xs-12\">\n                                <rating :service=\"service\" :user_vote=\"userVote\"></rating>\n                            </div>\n                            <div class=\"col-md-8 col-sm-12 col-xs-12\" style=\"font-size: 18px;\">\n                                <span class=\"label label-default pull-right\"><i class=\"fa fa-users\" aria-hidden=\"true\"></i> voters {{ service.votes_count }}</span>\n                                <span class=\"label label-primary pull-right\"><i class=\"fa fa-star\" aria-hidden=\"true\"></i> votes {{ sum }}</span>\n                                <span class=\"label label-info pull-right\">percentage {{ (sum * 100) / (service.votes_count * 5) }} %</span>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"product-price\">$ {{ service.price }}</div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"btn-group wishlist\">\n                                <div class=\"btn-group cart\">\n                                    <buy_btn :service=\"service\"></buy_btn>\n                                </div>\n                                <wishlist_btn :service=\"service\"></wishlist_btn>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n\n                </div>\n            </div>\n        </div>\n        <div class=\"product-info\">\n            <ul id=\"myTab\" class=\"nav nav-tabs nav_tabs\">\n                <li class=\"active\"><a href=\"#service-one\" data-toggle=\"tab\">DESCRIPTION</a></li>\n                <li><a href=\"#service-two\" data-toggle=\"tab\">My Services In This Category</a></li>\n                <li><a href=\"#service-three\" data-toggle=\"tab\">Other Services In This Category</a></li>\n            </ul>\n            <div id=\"myTabContent\" class=\"tab-content\">\n                <div class=\"tab-pane fade in active\" id=\"service-one\">\n                    <br>\n                    <br>\n                    {{ service.dis }}\n                </div>\n                <div class=\"tab-pane fade\" id=\"service-two\">\n                    <br>\n                    <br>\n                    <div class=\"row\">\n                        <div v-if=\"mySameCat.length > 0\">\n                            <div class=\"col-sm-4 col-md-4\" v-for=\"service in mySameCat\" track-by=\"$index\">\n                                <my_same_cat :service=\"service\"></my_same_cat>\n                            </div>\n                        </div>\n                        <div class=\"alert alert-danger\" v-if=\"mySameCat.length == 0\">\n                            There Is No Services In This Categoury.\n                        </div>\n                    </div>\n                </div>\n                <div class=\"tab-pane fade\" id=\"service-three\">\n                    <br>\n                    <br>\n                    <div class=\"row\">\n                        <div v-if=\"otherSameCat.length > 0\">\n                            <div class=\"col-sm-4 col-md-4\" v-for=\"service in otherSameCat\" track-by=\"$index\">\n                                <other_same_cat :service=\"service\"></other_same_cat>\n                            </div>\n                        </div>\n                        <div class=\"alert alert-danger\" v-if=\"otherSameCat.length == 0\">\n                            There Is No Services In This Categoury.\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <hr>\n    </div>\n    <div class=\"col-xs-12 col-sm-12 col-md-3 col-lg-3\">\n        <side_bar :service=\"service\"></side_bar>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18215,7 +18286,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-321825ca", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../users/SingleService.vue":31,"./Buybtn.vue":25,"./Sidebar.vue":28,"./WishListbtn.vue":30,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],28:[function(require,module,exports){
+},{"./../users/SingleService.vue":32,"./Buybtn.vue":25,"./Rating.vue":27,"./Sidebar.vue":29,"./WishListbtn.vue":31,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],29:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.sidebar{\n    background-color: #fefefe;\n    padding: 20px 10px;\n    box-shadow: 2px 2px 8px #ccc;\n}\n")
 'use strict';
@@ -18245,7 +18316,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-aee298a2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],29:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18266,7 +18337,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6e2548e0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],30:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18307,7 +18378,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-85a3a8ac", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],31:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18347,7 +18418,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-05398572", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../services/Buybtn.vue":25,"vue":7,"vue-hot-reload-api":3}],32:[function(require,module,exports){
+},{"./../services/Buybtn.vue":25,"vue":7,"vue-hot-reload-api":3}],33:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -18416,7 +18487,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-b07b6498", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./SingleService.vue":31,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],33:[function(require,module,exports){
+},{"./SingleService.vue":32,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

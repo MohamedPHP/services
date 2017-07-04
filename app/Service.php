@@ -22,7 +22,7 @@ class Service extends Model
 
     public function votes()
     {
-        return $this->hasMany('App\Service', 'service_id');
+        return $this->hasMany('App\Vote', 'service_id');
     }
 
     public function views()

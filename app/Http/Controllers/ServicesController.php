@@ -10,6 +10,7 @@ use App\Service;
 use App\User;
 use App\View;
 use App\Order;
+use App\Vote;
 use Auth;
 use Response;
 
@@ -30,7 +31,8 @@ class ServicesController extends Controller
     }
 
     public function getServiceById($id) {
-        $service = Service::where('id', $id)->with('category', 'user')->first();
+        $service = Service::where('id', $id)->with('category', 'user')->withCount('votes')->first();
+        $sum = Vote::where('service_id', $service->id)->sum('vote'); // count stars that the service took
         if ($service->status != 1) {
             if (Auth::guest()) {
                 abort(403);
@@ -39,6 +41,11 @@ class ServicesController extends Controller
                     abort(403);
                 }
             }
+        }
+        if (Auth::check()) {
+            $userVote = Vote::where('service_id', $service->id)->where('user_id', Auth::user()->id)->first();
+        }else {
+            $userVote = null;
         }
         if (!Auth::guest()) {
             $mySameCat = Service::where('cat_id', $service->cat_id)->where('status', 1)->where('user_id', Auth::user()->id)->with('category', 'user', 'views')->limit(6)->get();
@@ -65,6 +72,8 @@ class ServicesController extends Controller
                 'service'      => $service,
                 'mySameCat'    => $mySameCat,
                 'otherSameCat' => $otherSameCat,
+                'userVote'     => $userVote,
+                'sum'          => $sum,
             ];
         }
         return 'error';

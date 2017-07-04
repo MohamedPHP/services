@@ -8,7 +8,7 @@
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
-                                <img class="img-responsive img-thumbnail img-rounded" v-bind:src="service.image" alt=""></img>
+                                <img class="img-responsive img-thumbnail img-rounded" v-bind:src="service.image" style="height: 200px;width: 100%;" />
                             </div>
                         </div>
                     </div>
@@ -20,7 +20,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+                        <div class="product-rating">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <rating :service="service" :user_vote="userVote"></rating>
+                                </div>
+                                <div class="col-md-8 col-sm-12 col-xs-12" style="font-size: 18px;">
+                                    <span class="label label-default pull-right"><i class="fa fa-users" aria-hidden="true"></i> voters {{ service.votes_count }}</span>
+                                    <span class="label label-primary pull-right"><i class="fa fa-star" aria-hidden="true"></i> votes {{ sum }}</span>
+                                    <span class="label label-info pull-right">percentage {{ (sum * 100) / (service.votes_count * 5) }} %</span>
+                                </div>
+                            </div>
+                        </div>
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
@@ -97,6 +108,7 @@ import otherSameCat from './../users/SingleService.vue';
 import Sidebar from './Sidebar.vue';
 import Buybtn from './Buybtn.vue';
 import WishListbtn from './WishListbtn.vue';
+import Rating from './Rating.vue';
 export default {
     components: {
         my_same_cat:mySameCat,
@@ -104,6 +116,7 @@ export default {
         side_bar:Sidebar,
         buy_btn:Buybtn,
         wishlist_btn:WishListbtn,
+        rating:Rating,
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
     },
     data: function () {
@@ -111,6 +124,8 @@ export default {
             service: '',
             mySameCat: '',
             otherSameCat: '',
+            userVote: '',
+            sum: '',
             isLoading: false,
         }
     },
@@ -122,10 +137,12 @@ export default {
         getServiceByID: function () {
             this.$http.get('/service/' + this.$route.params.service_id).then(function (response) {
                 if (response.body != 'error') {
-                    this.service = response.body.service;
-                    this.mySameCat = response.body.mySameCat;
+                    this.service      = response.body.service;
+                    this.mySameCat    = response.body.mySameCat;
                     this.otherSameCat = response.body.otherSameCat;
-                    this.isLoading = true;
+                    this.userVote     = response.body.userVote;
+                    this.sum          = response.body.sum;
+                    this.isLoading    = true;
                     this.$refs.spinner.hide();
                 }else {
                     // window.location = "/";
