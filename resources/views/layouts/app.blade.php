@@ -37,7 +37,8 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a v-link="{ path: '/' }">Home</a></li>
+                    <li><a v-link="{ path: '/Categories' }">Categories</a></li>
                 </ul>
 
                 <form class="navbar-form navbar-left" role="search">
@@ -91,6 +92,15 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <i class="fa fa-money" aria-hidden="true"></i> <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a v-link="{ path: '/AddCredit' }"><i class="fa fa-btn fa-exchange"></i>Charge Balance</a></li>
+                                <li><a v-link="{ path: '/AllCharges' }"><i class="fa fa-btn fa-check"></i>My Charges</a></li>
+                            </ul>
+                        </li>
                         <li><a v-link="{name: '/Wishlist'}"><i class="fa fa-heart"></i></a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -100,6 +110,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#"><i class="fa fa-btn fa-edit"></i>Edit Data</a></li>
                                 <li><a href="#"><i class="fa fa-btn fa-money"></i>Balance</a></li>
+                                <li><a v-link="{ path: '/AddCredit' }"><i class="fa fa-btn fa-exchange"></i>Charge Balance</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -108,8 +119,6 @@
             </div>
         </div>
     </nav>
-
-
     @yield('content')
 
 

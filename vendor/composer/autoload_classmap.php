@@ -13,6 +13,8 @@ return array(
     'CreateNotificationsTable' => $baseDir . '/database/migrations/2017_06_10_014324_create_notifications_table.php',
     'CreateOrdersTable' => $baseDir . '/database/migrations/2017_06_10_014233_create_orders_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreatePaymentsTable' => $baseDir . '/database/migrations/2017_07_11_022707_create_payments_table.php',
+    'CreatePaypalsTable' => $baseDir . '/database/migrations/2017_07_10_021739_create_paypals_table.php',
     'CreateServicesTable' => $baseDir . '/database/migrations/2017_06_10_014412_create_services_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateViewsTable' => $baseDir . '/database/migrations/2017_06_12_101327_create_views_table.php',

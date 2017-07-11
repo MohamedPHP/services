@@ -16,6 +16,7 @@ class CreateCategoriesTable extends Migration
             DB::statement('SET FOREIGN_KEY_CHECKS=0');
             $table->increments('id');
             $table->string('name');
+            $table->string('image');
             $table->string('description');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

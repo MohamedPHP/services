@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "^5.2.0",
-        "intervention/image": "^2.3"
+        "intervention/image": "^2.3",
+        "paypal/rest-api-sdk-php": "*"
 
     },
     "require-dev": {

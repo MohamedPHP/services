@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Service;
 use App\Order;
 use App\User;
+use App\Paypal;
+use App\Payment;
 use Auth;
 
 class OrdersController extends Controller
@@ -25,19 +27,33 @@ class OrdersController extends Controller
         $service = Service::find($id);
         if ($service) {
             if (Auth::user()->id != $service->user_id) {
-                $orderedBefore = Order::where('user_order', Auth::user()->id)->where('service_id', $service->id)->count();
+                $orderedBefore = Order::where('user_order', Auth::user()->id)->whereIn('status', [0, 1, 2, 3])->where('service_id', $service->id)->count();
                 if ($orderedBefore == 0) {
-                    $order = new Order();
-                    $order->service_id = $service->id;
-                    $order->user_order = Auth::user()->id;
-                    $order->user_id = $service->user_id;
-                    $order->status = 0;
-                    $order->type = 0;
-                    $order->save();
-                    if ($order) {
-                        return 'true';
+                    $usermony = Paypal::where('user_id', Auth::user()->id)->sum('price');
+                    if ($usermony >= $service->price) {
+                        $order = new Order();
+                        $order->service_id = $service->id;
+                        $order->user_order = Auth::user()->id;
+                        $order->user_id = $service->user_id;
+                        $order->status = 0;
+                        $order->type = 0;
+                        $order->save();
+                        if ($order) {
+                            // `user_id`, `order_id`, `price`, `isfinished`
+                            $payment = new Payment();
+                            $payment->user_id    = Auth::user()->id;
+                            $payment->order_id   = $order->id;
+                            $payment->price      = $service->price;
+                            $payment->isfinished = 0;
+                            $payment->save();
+                            if ($payment) {
+                                return 'true';
+                            }
+                            abort(403);
+                        }
+                        abort(403);
                     }
-                    abort(403);
+                    return 'Charge your blance and try again please';
                 }
                 abort(403);
             }

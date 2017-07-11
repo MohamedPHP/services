@@ -74,4 +74,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Wishlist', 'user_id');
     }
 
+    public function paypal_processes()
+    {
+        return $this->hasMany('App\Paypal', 'user_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany('App\Payment', 'user_id');
+    }
+
 }

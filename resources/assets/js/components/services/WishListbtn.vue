@@ -18,6 +18,9 @@ export default {
                     if (response.body == 'this is your service') {
                         alertify.error(response.body);
                     }
+                    if (response.body == 'you need to login') {
+                        alertify.error(response.body);
+                    }
                 },
                 function (response) {
                     alert('There Is An Error Please Contact Us');

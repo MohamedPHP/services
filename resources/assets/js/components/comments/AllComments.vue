@@ -6,7 +6,7 @@
 <h4 v-if="comments.length > 0">Sort</h4>
     <div class="row" v-if="comments.length > 0">
         <div class="col-md-5">
-            <input type="text" class="form-control" v-model="user_search" placeholder="search by the commment name ...">
+            <input type="text" class="form-control" v-model="user_search" placeholder="search by the commment maker name ...">
         </div>
         <div class="col-md-7">
             <div class="row">

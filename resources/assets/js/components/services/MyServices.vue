@@ -52,8 +52,20 @@
                 <hr>
                 <h3>Services</h3>
                 <hr>
-                <div class="col-sm-6 col-md-4" v-for="service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'" track-by="$index">
-                	<single_service :service="service"></single_service>
+                <div v-if="services.length > 0">
+                    <div class="col-sm-6 col-md-4" v-for="service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'" track-by="$index">
+                        <single_service :service="service"></single_service>
+                    </div>
+                    <button v-if="nomore" @click="ShowMore" type="button" class="btn btn-primary btn-block">Show More</button>
+                    <div class="col-md-12" v-if="!nomore">
+                        <button type="button" class="btn btn-danger btn-block">no more services to show</button>
+                    </div>
+                </div>
+                <div v-else>
+                    <br>
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">There Is No Services In This category</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,6 +92,7 @@ export default {
             incomingOrders: '',
             approvedCounter: '',
             isLoading: false,
+            nomore: true,
         }
     },
     ready:function () {
@@ -87,9 +100,22 @@ export default {
         this.getMyServices();
     },
     methods: {
-        getMyServices: function () {
-            this.$http.get('/MyServices').then(function (response) {
-                this.services = response.body.services;
+        getMyServices: function (length) {
+            if (typeof length == 'undefined') {
+                var endlength = '';
+            }else {
+                var endlength = '/'+length;
+            }
+            this.$http.get('/MyServices' + endlength).then(function (response) {
+                if (typeof length == 'undefined') {
+                    this.services = response.body.services;
+                }else {
+                    if (response.body.services.length > 0) {
+                        this.services = this.services.concat(response.body.services);
+                    }else {
+                        this.nomore = false;
+                    }
+                }
                 this.user = response.body.user;
                 this.isLoading = true;
                 this.purchaseOrders = response.body.purchaseOrders;
@@ -102,6 +128,10 @@ export default {
                     path: '/',
                 });
             });
+        },
+        ShowMore: function () {
+            var length = this.services.length;
+            this.getMyServices(length);
         },
         sort: function (sortval) {
             this.reverse = (this.sortKey == sortval) ? this.reverse * -1 : 1;

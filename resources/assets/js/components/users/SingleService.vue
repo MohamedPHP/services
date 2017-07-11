@@ -17,6 +17,14 @@
                 </div>
             </div>
 
+            <div class="row text-center">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="font-size: 18px; margin-bottom: 6px;">
+                    <span class="label label-default"><i class="fa fa-users" aria-hidden="true"></i> voters {{ service.votes_count }}</span>
+                    <span class="label label-primary"><i class="fa fa-star" aria-hidden="true"></i> stars {{ service.sum }}</span>
+                    <span class="label label-info">{{ service.sum != 0 ? (service.sum * 100) / (service.votes_count * 5) : 0 }} %</span>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <buy_btn :service="service"></buy_btn>
@@ -35,18 +43,6 @@ export default {
     props: ['service'],
     components: {
         buy_btn: Buybtn,
-    },
-    methods: {
-        AddOrder: function () {
-            this.$http.get('/AddOrder/' + this.service.id).then(
-                function (response) {
-                    swal("Good job!", "Order Request Has Been Sent!", "success");
-                },
-                function (response) {
-                    alertify.error("Your Request Has Been Rejected From The Server for one of these resones <br />1- You Requested It Before <br />2- This is your service <br />3- server error", 5000);
-                }
-            );
-        }
     }
 }
 </script>

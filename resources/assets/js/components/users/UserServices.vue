@@ -1,7 +1,5 @@
 <template>
     <div v-if="isLoading">
-        <h2 class="text-center">My Services Page</h2>
-        <hr>
         <br>
         <div class="col-md-3">
             <nav class="nav-sidebar">
@@ -32,8 +30,20 @@
                 <hr>
                 <h3>Services</h3>
                 <hr>
-                <div class="col-sm-6 col-md-4" v-for="service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'" track-by="$index">
-                    <single_service :service="service"></single_service>
+                <div v-if="services.length > 0">
+                    <div class="col-sm-6 col-md-4" v-for="service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'" track-by="$index">
+                        <single_service :service="service"></single_service>
+                    </div>
+                    <button v-if="nomore" @click="ShowMore" type="button" class="btn btn-primary btn-block">Show More</button>
+                    <div class="col-md-12" v-if="!nomore">
+                        <button type="button" class="btn btn-danger btn-block">no more services to show</button>
+                    </div>
+                </div>
+                <div v-else>
+                    <br>
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">There Is No Services In This category</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,6 +63,7 @@ export default {
             user: '',
             services: '',
             isLoading: false,
+            nomore: true,
             sortKey: '',
             reverse: 1,
         }
@@ -62,10 +73,23 @@ export default {
         this.getUserServices();
     },
     methods: {
-        getUserServices: function () {
-            this.$http.get('/getUserServices/' + this.$route.params.user_id).then(function (response) {
+        getUserServices: function (length) {
+            if (typeof length == 'undefined') {
+                var endlength = '';
+            }else {
+                var endlength = '/'+length;
+            }
+            this.$http.get('/getUserServices/' + this.$route.params.user_id + endlength).then(function (response) {
                 this.user = response.body.user;
-                this.services = response.body.services;
+                if (typeof length == 'undefined') {
+                    this.services = response.body.services;
+                }else {
+                    if (response.body.services.length > 0) {
+                        this.services = this.services.concat(response.body.services);
+                    }else {
+                        this.nomore = false;
+                    }
+                }
                 this.isLoading = true;
                 this.$refs.spinner.hide();
             }, function (response) {
@@ -74,6 +98,10 @@ export default {
                     path: '/',
                 });
             });
+        },
+        ShowMore: function () {
+            var length = this.services.length;
+            this.getUserServices(length);
         },
         sort: function (sortval) {
             this.reverse = (this.sortKey == sortval) ? this.reverse * -1 : 1;

@@ -14,27 +14,30 @@ use Auth;
 class WishlistController extends Controller
 {
     public function AddToWishList($service_id) {
-        $service = Service::find($service_id);
-        if ($service) {
-            $serviceAddedBefore = Wishlist::where('service_id', $service->id)->where('user_id', Auth::user()->id)->count();
-            // return $service->user_id . ' ' . Auth::user()->id;
-            if ($service->user_id != Auth::user()->id) {
-                if ($serviceAddedBefore == 0) {
-                    $wishlist = new Wishlist();
-                    $wishlist->user_id = Auth::user()->id;
-                    $wishlist->service_id = $service->id;
-                    $wishlist->own_user = $service->user_id;
-                    $wishlist->save();
-                    if ($wishlist) {
-                        return 'AddedToWishList';
+        if (Auth::check()) {
+            $service = Service::find($service_id);
+            if ($service) {
+                $serviceAddedBefore = Wishlist::where('service_id', $service->id)->where('user_id', Auth::user()->id)->count();
+                // return $service->user_id . ' ' . Auth::user()->id;
+                if ($service->user_id != Auth::user()->id) {
+                    if ($serviceAddedBefore == 0) {
+                        $wishlist = new Wishlist();
+                        $wishlist->user_id = Auth::user()->id;
+                        $wishlist->service_id = $service->id;
+                        $wishlist->own_user = $service->user_id;
+                        $wishlist->save();
+                        if ($wishlist) {
+                            return 'AddedToWishList';
+                        }
+                        abort(403);
                     }
-                    abort(403);
+                    return 'you already added this service to wishlist';
                 }
-                return 'you already added this service to wishlist';
+                return 'this is your service';
             }
-            return 'this is your service';
+            abort(403);
         }
-        abort(403);
+        return 'you need to login';
     }
 
     public function GetUserWishList() {

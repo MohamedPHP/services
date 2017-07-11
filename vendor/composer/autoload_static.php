@@ -259,6 +259,10 @@ class ComposerStaticInite7e4a28356d263b952dc0c113163ef1f
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
             ),
+            'PayPal' => 
+            array (
+                0 => __DIR__ . '/..' . '/paypal/rest-api-sdk-php/lib',
+            ),
         ),
         'M' => 
         array (
@@ -295,6 +299,8 @@ class ComposerStaticInite7e4a28356d263b952dc0c113163ef1f
         'CreateNotificationsTable' => __DIR__ . '/../..' . '/database/migrations/2017_06_10_014324_create_notifications_table.php',
         'CreateOrdersTable' => __DIR__ . '/../..' . '/database/migrations/2017_06_10_014233_create_orders_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreatePaymentsTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_11_022707_create_payments_table.php',
+        'CreatePaypalsTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_10_021739_create_paypals_table.php',
         'CreateServicesTable' => __DIR__ . '/../..' . '/database/migrations/2017_06_10_014412_create_services_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateViewsTable' => __DIR__ . '/../..' . '/database/migrations/2017_06_12_101327_create_views_table.php',

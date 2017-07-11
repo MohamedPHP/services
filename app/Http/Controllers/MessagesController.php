@@ -10,8 +10,10 @@ use App\Message;
 use App\User;
 use Auth;
 
+
 class MessagesController extends Controller
 {
+
     public function SendMessage(Request $request) {
         $this->validate($request, [
             'title' =>  'required|max:10',

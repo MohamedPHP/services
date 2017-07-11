@@ -104,7 +104,7 @@ export default {
 
 <style media="screen">
     .tablehead {
-        background-color: #444;
-        color: #fff;
+        background-color: #555;
+        color: #fefefe;
     }
 </style>

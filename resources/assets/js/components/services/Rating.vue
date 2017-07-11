@@ -38,10 +38,10 @@ export default {
                     },
                     success: function (response) {
                         if (response == 'voting added') {
-                            alertify.success("thanks for voting");
+                            console.log("thanks for voting");
                         }
                         if (response == 'voting updated') {
-                            alertify.success("thanks for voting update");
+                            console.log("thanks for voting update");
                         }
                         if (response == 'error') {
                             alertify.error("there is some errors");
@@ -55,7 +55,7 @@ export default {
         });
     },
     methods: {
-        
+
     }
 }
 </script>

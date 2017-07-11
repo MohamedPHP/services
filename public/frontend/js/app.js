@@ -17073,9 +17073,16 @@ var App = Vue.extend({});
 var route = new VueRouter();
 
 route.map({
-    // '/': {
-    //     component: "",
-    // },
+    '/': {
+        component: require('./components/pages/MainPage.vue')
+    },
+    '/Categories': {
+        component: require('./components/categories/Categories.vue')
+    },
+    '/Cat/:cat_id/:cat_name': {
+        name: '/Cat',
+        component: require('./components/categories/Category.vue')
+    },
     '/AddService': {
         component: require('./components/services/AddService.vue')
     },
@@ -17127,13 +17134,204 @@ route.map({
     '/Wishlist': {
         name: '/Wishlist',
         component: require('./components/wishlist/Wishlist.vue')
+    },
+    '/AddCredit': {
+        component: require('./components/credit/AddCredit.vue')
+    },
+    '/AllCharges': {
+        component: require('./components/credit/AllCharges.vue')
     }
 
 });
 
 route.start(App, '#app-layout');
 
-},{"./components/messages/IncomingMessages.vue":12,"./components/messages/MessageDetails.vue":14,"./components/messages/ReadMessages.vue":15,"./components/messages/SendMessage.vue":16,"./components/messages/SentMessages.vue":17,"./components/messages/UnreadMessages.vue":19,"./components/orders/IncomingOrders.vue":20,"./components/orders/PurchaseOrders.vue":21,"./components/orders/SingleOrder.vue":22,"./components/services/AddService.vue":24,"./components/services/MyServices.vue":26,"./components/services/ServiceDetails.vue":28,"./components/users/UserServices.vue":33,"./components/wishlist/Wishlist.vue":34,"vue":7,"vue-resource":4,"vue-router":5}],10:[function(require,module,exports){
+},{"./components/categories/Categories.vue":10,"./components/categories/Category.vue":11,"./components/credit/AddCredit.vue":15,"./components/credit/AllCharges.vue":16,"./components/messages/IncomingMessages.vue":17,"./components/messages/MessageDetails.vue":19,"./components/messages/ReadMessages.vue":20,"./components/messages/SendMessage.vue":21,"./components/messages/SentMessages.vue":22,"./components/messages/UnreadMessages.vue":24,"./components/orders/IncomingOrders.vue":25,"./components/orders/PurchaseOrders.vue":26,"./components/orders/SingleOrder.vue":27,"./components/pages/MainPage.vue":29,"./components/services/AddService.vue":31,"./components/services/MyServices.vue":33,"./components/services/ServiceDetails.vue":35,"./components/users/UserServices.vue":40,"./components/wishlist/Wishlist.vue":41,"vue":7,"vue-resource":4,"vue-router":5}],10:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n\n.glyphicon { margin-right:5px; }\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _SingleService = require('./../users/SingleService.vue');
+
+var _SingleService2 = _interopRequireDefault(_SingleService);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    components: {
+        spinner: require('vue-strap/dist/vue-strap.min').spinner
+    },
+    data: function data() {
+        return {
+            isLoading: false,
+            categories: []
+        };
+    },
+    ready: function ready() {
+        this.$refs.spinner.show();
+        this.getAllCategories();
+    },
+    methods: {
+        getAllCategories: function getAllCategories(length) {
+            this.$http.get('/getAllCategories').then(function (response) {
+                this.categories = response.body.categories;
+                this.isLoading = true;
+                this.$refs.spinner.hide();
+            }, function (response) {
+                alert('There Is An Error Please Contact Us');
+                window.location = '/404';
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n    <div class=\"col-md-10 col-md-offset-1\">\n        <div class=\"row nicediv\" style=\"padding: 20px !important;\">\n            <h3>Categories</h3>\n            <hr>\n            <div class=\"col-xs-4 col-lg-4\" v-for=\"category in categories\">\n                <div class=\"thumbnail\">\n                    <img class=\"group list-group-image\" :src=\"category.image\" style=\"width: 280px;height: 150px;\">\n                    <div class=\"caption\">\n                        <h4 class=\"group inner list-group-item-heading\">\n                            {{ category.name }}\n                        </h4>\n                        <p class=\"group inner list-group-item-text\">\n                            {{ (category.description).substring(0, 50) + '...' }}\n                        </p>\n                        <br>\n                        <div class=\"row\">\n                            <div class=\"col-xs-12 col-md-12\">\n                                <a class=\"btn btn-info btn-block\" v-link=\"{name: '/Cat', params: {cat_id: category.id, cat_name: category.name}}\">View Category</a>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n\n.glyphicon { margin-right:5px; }\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-0a34329b", module.exports)
+  } else {
+    hotAPI.update("_v-0a34329b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./../users/SingleService.vue":39,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],11:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _SingleService = require('./../users/SingleService.vue');
+
+var _SingleService2 = _interopRequireDefault(_SingleService);
+
+var _SideBar = require('./SideBar.vue');
+
+var _SideBar2 = _interopRequireDefault(_SideBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    components: {
+        single_service: _SingleService2.default,
+        spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        main_sidebar: _SideBar2.default
+    },
+    data: function data() {
+        return {
+            services: '',
+            category: '',
+            isLoading: false,
+            nomore: true,
+            cats: [],
+            sidebarsection1: [],
+            sidebarsection2: [],
+            sidebarsection3: [],
+            sortKey: '',
+            reverse: 1
+        };
+    },
+    ready: function ready() {
+        this.$refs.spinner.show();
+        this.CategoryServices();
+    },
+    methods: {
+        CategoryServices: function CategoryServices(length) {
+            if (typeof length == 'undefined') {
+                var endlength = '';
+            } else {
+                var endlength = '/' + length;
+            }
+            this.$http.get('/CategoryServices/' + this.$route.params.cat_id + endlength).then(function (response) {
+                if (typeof length == 'undefined') {
+                    this.services = response.body.services;
+                } else {
+                    if (response.body.services.length > 0) {
+                        this.services = this.services.concat(response.body.services);
+                    } else {
+                        this.nomore = false;
+                    }
+                }
+                this.category = response.body.category;
+                if (typeof length == 'undefined') {
+                    this.cats = response.body.cats;
+                    this.sidebarsection1 = response.body.sidebarsection1;
+                    this.sidebarsection2 = response.body.sidebarsection2;
+                    this.sidebarsection3 = response.body.sidebarsection3;
+                }
+                this.isLoading = true;
+                this.$refs.spinner.hide();
+            }, function (response) {
+                alert('There Is An Error Please Contact Us');
+                window.location = '/404';
+            });
+        },
+        ShowMore: function ShowMore() {
+            var length = this.services.length;
+            this.CategoryServices(length);
+        },
+        sort: function sort(sortval) {
+            this.reverse = this.sortKey == sortval ? this.reverse * -1 : 1;
+            this.sortKey = sortval;
+        }
+    },
+    route: {
+        canReuse: false
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n\n    <div class=\"col-md-3\">\n        <main_sidebar :cats=\"cats\" :sidebarsection1=\"sidebarsection1\" :sidebarsection2=\"sidebarsection2\" :sidebarsection3=\"sidebarsection3\"></main_sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"row nicediv\" style=\"padding-bottom: 15px !important;\">\n            <p class=\"alert alert-success\">Double Click To Reverse The Filters</p>\n            <div class=\"col-md-6\">\n                <input type=\"text\" class=\"form-control\" v-model=\"searchword\" placeholder=\"Search by name or price...\">\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"btn-group\">\n                    <a class=\"btn btn-info\" @click=\"sort('')\" href=\"javascript:;\">All Services</a>\n                    <a class=\"btn btn-default\" @click=\"sort('name')\" href=\"javascript:;\">Name</a>\n                    <a class=\"btn btn-default\" @click=\"sort('sum')\" href=\"javascript:;\">Rating</a>\n                    <a class=\"btn btn-default\" @click=\"sort('price')\" href=\"javascript:;\">Price</a>\n                    <a class=\"btn btn-default\" @click=\"sort('created_at')\" href=\"javascript:;\">Created At</a>\n                </div>\n            </div>\n        </div>\n        <div class=\"row nicediv\" style=\"padding-bottom: 15px !important;\">\n            <h2 style=\"padding: 0px 15px; color: #555;\"><i class=\"fa fa-folder-open\" aria-hidden=\"true\"></i> {{ category.name }}</h2>\n            <p style=\"padding: 0px 15px; color: #555;white-space: pre-line;\">{{ category.description }}</p>\n        </div>\n        <div class=\"row nicediv\" v-if=\"services.length > 0\">\n            <div class=\"col-sm-6 col-md-4\" v-for=\"service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'\" track-by=\"$index\">\n                <single_service :service=\"service\"></single_service>\n            </div>\n            <button v-if=\"nomore\" @click=\"ShowMore\" type=\"button\" class=\"btn btn-primary btn-block\">Show More</button>\n        </div>\n        <div class=\"row nicediv\" v-else=\"\">\n            <br>\n            <div class=\"col-md-12\">\n                <div class=\"alert alert-danger\">There Is No Services In This category</div>\n            </div>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-593c363d", module.exports)
+  } else {
+    hotAPI.update("_v-593c363d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./../users/SingleService.vue":39,"./SideBar.vue":12,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],12:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: ['cats', 'sidebarsection1', 'sidebarsection2', 'sidebarsection3'],
+    data: function data() {
+        return {};
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"nav-sidebar\" v-if=\"sidebarsection2.length > 0\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Recommended Services</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in sidebarsection2\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }}</a>\n        </li>\n    </ul>\n</nav>\n\n<nav class=\"nav-sidebar\" v-if=\"sidebarsection3.length > 0\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Best selling</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in sidebarsection3\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }} <span class=\"label label-default pull-right\"><i class=\"fa fa-money\"></i> {{ service.order_count }}</span></a>\n        </li>\n    </ul>\n</nav>\n\n<nav class=\"nav-sidebar\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Categouries</h4></a>\n        </li>\n        <br>\n        <li v-for=\"cat in cats\">\n            <a class=\"nav-link\" href=\"javascript:;\" v-link=\"{name: '/Cat', params: {cat_id: cat.id, cat_name: cat.name}}\">{{ cat.name }}</a>\n        </li>\n    </ul>\n</nav>\n<br>\n<nav class=\"nav-sidebar\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Most Viewed Services</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in sidebarsection1\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }} <span class=\"label label-info pull-right\"><i class=\"fa fa-eye\"></i> {{ service.view_times }}</span></a>\n        </li>\n    </ul>\n</nav>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-54fe014d", module.exports)
+  } else {
+    hotAPI.update("_v-54fe014d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":7,"vue-hot-reload-api":3}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17176,7 +17374,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6c83e99e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],11:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17228,7 +17426,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <add_comments :order=\"order\"></add_comments>\n\n<hr>\n<h4 v-if=\"comments.length > 0\">Sort</h4>\n    <div class=\"row\" v-if=\"comments.length > 0\">\n        <div class=\"col-md-5\">\n            <input type=\"text\" class=\"form-control\" v-model=\"user_search\" placeholder=\"search by the commment name ...\">\n        </div>\n        <div class=\"col-md-7\">\n            <div class=\"row\">\n                <div class=\"col-md-6\">\n                    <button type=\"button\" @click=\"sort('id')\" class=\"btn btn-success btn-block\">All Comments</button>\n                </div>\n                <div class=\"col-md-6\">\n                    <button type=\"button\" @click=\"sort('created_at')\" class=\"btn btn-primary btn-block\">Creation Date</button>\n                </div>\n            </div>\n        </div>\n        <div class=\"clearfix\"></div>\n    </div>\n<br>\n    <div class=\"row\" v-if=\"comments.length > 0\">\n        <div class=\"col-md-12\">\n            <h3>Comments ({{ comments.length }})</h3>\n            <hr>\n            <article class=\"row\" v-for=\"comment in comments | orderBy sortKey reverse | filterBy user_search in 'user.name'\" track-by=\"$index\">\n                <div class=\"col-md-2 col-sm-2 hidden-xs\">\n                    <figure class=\"thumbnail\">\n                        <img class=\"img-responsive\" src=\"http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg\">\n                    </figure>\n                </div>\n                <div class=\"col-md-10 col-sm-10\">\n                    <div class=\"panel panel-default arrow left\">\n                        <div class=\"panel-body\">\n                            <header class=\"text-left\">\n                                <div class=\"comment-user\"><i class=\"fa fa-user\"></i> <a v-link=\"{name: 'User', params:{user_id: comment.user.id, name:comment.user.name}}\">{{ comment.user.name }}</a></div>\n                                <time class=\"comment-date\" datetime=\"16-12-2014 01:05\"><i class=\"fa fa-clock-o\"></i> {{ comment.created_at }}</time>\n                            </header>\n                            <div class=\"comment-post\">\n                                <p>\n                                    {{ comment.comment }}\n                                </p>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </article>\n        </div>\n    </div>\n    <div class=\"row\" v-else=\"\">\n        <div class=\"col-md-12\">\n            <div class=\"alert alert-danger\">\n                There is no comments to this order\n            </div>\n        </div>\n    </div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <add_comments :order=\"order\"></add_comments>\n\n<hr>\n<h4 v-if=\"comments.length > 0\">Sort</h4>\n    <div class=\"row\" v-if=\"comments.length > 0\">\n        <div class=\"col-md-5\">\n            <input type=\"text\" class=\"form-control\" v-model=\"user_search\" placeholder=\"search by the commment maker name ...\">\n        </div>\n        <div class=\"col-md-7\">\n            <div class=\"row\">\n                <div class=\"col-md-6\">\n                    <button type=\"button\" @click=\"sort('id')\" class=\"btn btn-success btn-block\">All Comments</button>\n                </div>\n                <div class=\"col-md-6\">\n                    <button type=\"button\" @click=\"sort('created_at')\" class=\"btn btn-primary btn-block\">Creation Date</button>\n                </div>\n            </div>\n        </div>\n        <div class=\"clearfix\"></div>\n    </div>\n<br>\n    <div class=\"row\" v-if=\"comments.length > 0\">\n        <div class=\"col-md-12\">\n            <h3>Comments ({{ comments.length }})</h3>\n            <hr>\n            <article class=\"row\" v-for=\"comment in comments | orderBy sortKey reverse | filterBy user_search in 'user.name'\" track-by=\"$index\">\n                <div class=\"col-md-2 col-sm-2 hidden-xs\">\n                    <figure class=\"thumbnail\">\n                        <img class=\"img-responsive\" src=\"http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg\">\n                    </figure>\n                </div>\n                <div class=\"col-md-10 col-sm-10\">\n                    <div class=\"panel panel-default arrow left\">\n                        <div class=\"panel-body\">\n                            <header class=\"text-left\">\n                                <div class=\"comment-user\"><i class=\"fa fa-user\"></i> <a v-link=\"{name: 'User', params:{user_id: comment.user.id, name:comment.user.name}}\">{{ comment.user.name }}</a></div>\n                                <time class=\"comment-date\" datetime=\"16-12-2014 01:05\"><i class=\"fa fa-clock-o\"></i> {{ comment.created_at }}</time>\n                            </header>\n                            <div class=\"comment-post\">\n                                <p>\n                                    {{ comment.comment }}\n                                </p>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </article>\n        </div>\n    </div>\n    <div class=\"row\" v-else=\"\">\n        <div class=\"col-md-12\">\n            <div class=\"alert alert-danger\">\n                There is no comments to this order\n            </div>\n        </div>\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17239,7 +17437,134 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-20eb2ac4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../comments/AddComments.vue":10,"vue":7,"vue-hot-reload-api":3}],12:[function(require,module,exports){
+},{"./../comments/AddComments.vue":13,"vue":7,"vue-hot-reload-api":3}],15:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    components: {
+        spinner: require('vue-strap/dist/vue-strap.min').spinner
+    },
+    data: function data() {
+        return {
+            isLoading: false,
+            user: {},
+            price: 10,
+            disabled: false
+        };
+    },
+    ready: function ready() {
+        this.$refs.spinner.show();
+        this.getAuthUser();
+    },
+    methods: {
+        getAuthUser: function getAuthUser() {
+            this.$http.get('/getAuthUser').then(function (response) {
+                this.user = response.body.user;
+                this.isLoading = true;
+                this.$refs.spinner.hide();
+            }, function (response) {
+                alert('there is some error please contact us');
+                window.location = '/';
+            });
+        },
+        AddCreditNow: function AddCreditNow() {
+            this.disabled = true;
+            this.$refs.spinner.show();
+            var formData = new FormData();
+            formData.append('price', this.price);
+            this.$http.post('/AddCreditNow', formData).then(function (response) {
+                if (response.body.status == 'done') {
+                    this.$refs.spinner.hide();
+                    this.disabled = false;
+                    swal("Good job!", "Balance Charging Proccess Successed!", "success");
+                }
+            }, function (response) {
+                swal("Error !", "There is Some errors please try again later!", "error");
+                for (var key in response.body) {
+                    alertify.error(response.body[key]);
+                }
+                this.disabled = false;
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n    <br><br><br>\n    <div class=\"col-md-8 col-md-offset-2\">\n        <div class=\"row nicediv\" style=\"padding: 20px !important;\">\n            <h3>Add Credit To User\n            <a v-link=\"{name: 'User', params:{user_id: user.id, name:user.name}}\" style=\"color: #777;font-weight: 300; text-decoration: none;cursor: pointer;\">\n                <span>{{ user.name }}</span>\n            </a>\n            </h3>\n            <hr>\n            <div class=\"form-group\">\n                <label class=\"control-label\" for=\"username\">Price in $</label>\n                <input type=\"number\" required=\"\" v-model=\"price\" class=\"form-control\" placeholder=\"price...\">\n            </div>\n            <button type=\"button\" :disabled=\"disabled\" @click=\"AddCreditNow\" class=\"btn btn-default btn-block\">Add Credit</button>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-fd638830", module.exports)
+  } else {
+    hotAPI.update("_v-fd638830", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],16:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    components: {
+        spinner: require('vue-strap/dist/vue-strap.min').spinner
+    },
+    data: function data() {
+        return {
+            isLoading: false,
+            user: {},
+            charges: [],
+            sum: null
+        };
+    },
+    ready: function ready() {
+        this.$refs.spinner.show();
+        this.getAllCharges();
+    },
+    methods: {
+        getAllCharges: function getAllCharges() {
+            this.$http.get('/getAllCharges').then(function (response) {
+                this.user = response.body.user;
+                this.charges = response.body.charges;
+                this.sum = response.body.sum;
+                this.isLoading = true;
+                this.$refs.spinner.hide();
+            }, function (response) {
+                alert('there is some error please contact us');
+                // window.location = '/';
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n    <br><br><br>\n    <div class=\"col-md-10 col-md-offset-1\">\n        <div class=\"row nicediv\" style=\"padding: 20px !important;\">\n            <h3>Charges Belongs To\n                <a v-link=\"{name: 'User', params:{user_id: user.id, name:user.name}}\" style=\"color: #777;font-weight: 300; text-decoration: none;cursor: pointer;\">\n                    <span>{{ user.name }}</span>\n                </a>\n            </h3>\n            <hr>\n            <h3 class=\"text-center text-success\">total Charged Money Is {{ sum }} $</h3>\n            <hr>\n\n            <div class=\"col-md-12\">\n                <table class=\"table table-bordered table-hover\" v-if=\"charges.length > 0\">\n                    <thead class=\"tablehead\">\n                        <tr>\n                            <th>Payment Method</th>\n                            <th>State</th>\n                            <th>Price</th>\n                            <th>CreatedAt</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"pay in charges\" track-by=\"$index\">\n                            <td class=\"text-center\">\n                                <img v-if=\"pay.payment_method == 'paypal'\" style=\"width: 32px;height: 32px;\" :src=\"'images/pp.png'\" alt=\"paypal\">\n                            </td>\n                            <td><span class=\"label label-success\">{{ pay.state }}</span></td>\n                            <td>{{ pay.price }} $</td>\n                            <td>{{ pay.created_at }} <i class=\"fa fa-clock-o\"></i></td>\n                        </tr>\n                    </tbody>\n                </table>\n                <div v-else=\"\" class=\"alert alert-danger\">There is no charges For You Now</div>\n            </div>\n\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-a6753340", module.exports)
+  } else {
+    hotAPI.update("_v-a6753340", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],17:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -17305,7 +17630,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-a6e800be", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Menu.vue":13,"./SingleMessage.vue":18,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],13:[function(require,module,exports){
+},{"./Menu.vue":18,"./SingleMessage.vue":23,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],18:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.btn-product{\n    width: 100%;\n}\n@media (max-width: 767px) {\n    .btn-product {\n        margin-bottom: 10px;\n    }\n}\n@media (min-width: 768px) {\n    .btn-product {\n        margin-bottom: 10px;\n    }\n}\n.nicediv {\n    box-shadow: 2px 2px 5px #ccc;\n    padding: 5px 20px;\n    margin-bottom: 30px;\n}\n.counter\n{\n    background-color: #eaecf0;\n    text-align: center;\n}\n.div-counter\n{\n    margin-top: 70px;\n    margin-bottom: 70px;\n}\n.counter-count\n{\n    font-size: 18px;\n    background-color: #00b3e7;\n    border-radius: 50%;\n    position: relative;\n    color: #ffffff;\n    text-align: center;\n    line-height: 92px;\n    width: 92px;\n    height: 92px;\n    -webkit-border-radius: 50%;\n    -moz-border-radius: 50%;\n    -ms-border-radius: 50%;\n    -o-border-radius: 50%;\n    display: inline-block;\n}\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.nicedivvv a {\n    color: #333;\n    -webkit-transition: all 0.08s linear;\n    -moz-transition: all 0.08s linear;\n    -o-transition: all 0.08s linear;\n    transition: all 0.08s linear;\n    -webkit-border-radius: 4px 0 0 4px;\n    -moz-border-radius: 4px 0 0 4px;\n    border-radius: 4px 0 0 4px;\n}\n.nicedivvv .active a {\n    cursor: default;\n    background-color: #428bca;\n    color: #fff;\n    text-shadow: 1px 1px 1px #666;\n}\n.nicedivvv .active a:hover {\n    background-color: #428bca;\n}\n.nicedivvv .text-overflow a,\n.nicedivvv .text-overflow .media-body {\n    white-space: nowrap;\n    overflow: hidden;\n    -o-text-overflow: ellipsis;\n    text-overflow: ellipsis;\n}\nli {\n    font-size: 14px;\n}\n")
 'use strict';
@@ -17335,7 +17660,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-635a496e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],14:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],19:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\na, p, h2{text-decoration:none;}\n\n/* PANEL */\n.left-panel .panel-default{border-bottom-left-radius:7px; border-bottom-right-radius:7px; border-bottom:2px #DDD solid;}\n.left-panel .panel-default .panel-body {padding:15; margin:0;}\n.left-panel .panel-default .panel-body .col-md-12{margin:0; padding:0;}\n.left-panel .panel-default .panel-body .thumbnail{border:none; margin:0; padding:0; position:relative;}\n.left-panel .panel:hover img {opacity:.8;}\n.left-panel .panel-default .panel-body .icerik-bilgi{margin:30px;}\n.icerik-bilgi .btn-primary{float:right; margin-bottom:30px;}\n.icerik-bilgi h2{margin-bottom:30px; color:#333;}\n.icerik-bilgi h2:hover{color:#E74C3C; text-decoration:none;}\n.icerik-bilgi a:hover{text-decoration:none;}\n.icerik-bilgi p{margin-bottom:30px; line-height:25px; font-size:16px;}\n")
 'use strict';
@@ -17396,7 +17721,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1699a18a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Menu.vue":13,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],15:[function(require,module,exports){
+},{"./Menu.vue":18,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],20:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -17462,7 +17787,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-51828c91", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Menu.vue":13,"./SingleMessage.vue":18,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],16:[function(require,module,exports){
+},{"./Menu.vue":18,"./SingleMessage.vue":23,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],21:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -17528,7 +17853,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-ececa4c0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],17:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],22:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -17594,7 +17919,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-d8efe0da", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Menu.vue":13,"./SingleMessage.vue":18,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],18:[function(require,module,exports){
+},{"./Menu.vue":18,"./SingleMessage.vue":23,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17628,7 +17953,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-84d34ac0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],19:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3}],24:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -17694,9 +18019,9 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-44dba76a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Menu.vue":13,"./SingleMessage.vue":18,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],20:[function(require,module,exports){
+},{"./Menu.vue":18,"./SingleMessage.vue":23,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],25:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n.tablehead {\n    background-color: #444;\n    color: #fff;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("\n.tablehead {\n    background-color: #555;\n    color: #fefefe;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17753,7 +18078,7 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\n.tablehead {\n    background-color: #444;\n    color: #fff;\n}\n"] = false
+    __vueify_insert__.cache["\n.tablehead {\n    background-color: #555;\n    color: #fefefe;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -17762,7 +18087,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-34bf62c1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Status.vue":23,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],21:[function(require,module,exports){
+},{"./Status.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],26:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.tablehead {\n    background-color: #444;\n    color: #fff;\n}\n")
 'use strict';
@@ -17830,7 +18155,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-2c334c48", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Status.vue":23,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],22:[function(require,module,exports){
+},{"./Status.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],27:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n/*********************************************\n            Theme Elements\n*********************************************/\nbutton {\n    margin-right: 10px;\n}\n.gold{\ncolor: #FFBF00;\n}\n/*********************************************\n                PRODUCTS\n*********************************************/\n.product{\nborder: 1px solid #dddddd;\nheight: 321px;\n}\n.product>img{\nmax-width: 230px;\n}\n.product-rating{\nfont-size: 20px;\nmargin-bottom: 25px;\n}\n.product-title{\nfont-size: 18px;\n}\n.product-desc{\nfont-size: 14px;\n}\n.product-price{\nfont-size: 22px;\n}\n.product-stock{\ncolor: #74DF00;\nfont-size: 20px;\nmargin-top: 10px;\n}\n.product-info{\n    margin-top: 50px;\n}\n/*********************************************\n                VIEW\n*********************************************/\n.content-wrapper {\nmax-width: 1140px;\nbackground: #fff;\nmargin: 0 auto;\nmargin-top: 25px;\nmargin-bottom: 10px;\nborder: 0px;\nborder-radius: 0px;\n}\n.container-fluid{\nmax-width: 1140px;\nmargin: 0 auto;\n}\n.view-wrapper {\nfloat: right;\nmax-width: 70%;\nmargin-top: 25px;\n}\n.container {\npadding-left: 0px;\npadding-right: 0px;\nmax-width: 100%;\n}\n/*********************************************\n            ITEM\n*********************************************/\n.service1-items {\npadding: 0px 0 0px 0;\nfloat: left;\nposition: relative;\noverflow: hidden;\nmax-width: 100%;\nheight: 321px;\nwidth: 130px;\n}\n.service1-item {\nheight: 107px;\nwidth: 120px;\ndisplay: block;\nfloat: left;\nposition: relative;\npadding-right: 20px;\nborder-right: 1px solid #DDD;\nborder-top: 1px solid #DDD;\nborder-bottom: 1px solid #DDD;\n}\n.service1-item > img {\nmax-height: 110px;\nmax-width: 110px;\nopacity: 0.6;\ntransition: all .2s ease-in;\n-o-transition: all .2s ease-in;\n-moz-transition: all .2s ease-in;\n-webkit-transition: all .2s ease-in;\n}\n.service1-item > img:hover {\ncursor: pointer;\nopacity: 1;\n}\n.service-image-left {\npadding-right: 50px;\n}\n.service-image-right {\npadding-left: 50px;\n}\n.service-image-left > center > img,.service-image-right > center > img{\nmax-height: 155px;\n}\n")
 'use strict';
@@ -17928,7 +18253,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-635ef540", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../comments/AllComments.vue":11,"./Status.vue":23,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],23:[function(require,module,exports){
+},{"./../comments/AllComments.vue":14,"./Status.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],28:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n")
 'use strict';
@@ -17955,7 +18280,129 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-56120288", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],24:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],29:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _SingleService = require('./../users/SingleService.vue');
+
+var _SingleService2 = _interopRequireDefault(_SingleService);
+
+var _SideBar = require('./SideBar.vue');
+
+var _SideBar2 = _interopRequireDefault(_SideBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    components: {
+        single_service: _SingleService2.default,
+        spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        main_sidebar: _SideBar2.default
+    },
+    data: function data() {
+        return {
+            services: '',
+            cats: '',
+            sidebarsection1: [],
+            sidebarsection2: [],
+            sidebarsection3: [],
+            isLoading: false,
+            nomore: true,
+            sortKey: '',
+            reverse: 1
+        };
+    },
+    ready: function ready() {
+        this.$refs.spinner.show();
+        this.getAllServices();
+    },
+    methods: {
+        getAllServices: function getAllServices(length) {
+            if (typeof length == 'undefined') {
+                var endlength = '';
+            } else {
+                var endlength = '/' + length;
+            }
+            this.$http.get('/getAllServices' + endlength).then(function (response) {
+                if (typeof length == 'undefined') {
+                    this.services = response.body.services;
+                } else {
+                    if (response.body.services.length > 0) {
+                        this.services = this.services.concat(response.body.services);
+                    } else {
+                        this.nomore = false;
+                    }
+                }
+                if (typeof length == 'undefined') {
+                    this.cats = response.body.cats;
+                    this.sidebarsection1 = response.body.sidebarsection1;
+                    this.sidebarsection2 = response.body.sidebarsection2;
+                    this.sidebarsection3 = response.body.sidebarsection3;
+                }
+                this.isLoading = true;
+                this.$refs.spinner.hide();
+            }, function (response) {
+                alert('There Is An Error Please Contact Us');
+                window.location = '/404';
+            });
+        },
+        ShowMore: function ShowMore() {
+            var length = this.services.length;
+            this.getAllServices(length);
+        },
+        sort: function sort(sortval) {
+            this.reverse = this.sortKey == sortval ? this.reverse * -1 : 1;
+            this.sortKey = sortval;
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n\n    <div class=\"col-md-3\">\n        <main_sidebar :cats=\"cats\" :sidebarsection1=\"sidebarsection1\" :sidebarsection2=\"sidebarsection2\" :sidebarsection3=\"sidebarsection3\"></main_sidebar>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"row nicediv\" style=\"padding-bottom: 15px !important;\">\n            <p class=\"alert alert-success\">Double Click To Reverse The Filters</p>\n            <div class=\"col-md-6\">\n                <input type=\"text\" class=\"form-control\" v-model=\"searchword\" placeholder=\"Search by name or price...\">\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"btn-group\">\n                    <a class=\"btn btn-info\" @click=\"sort('')\" href=\"javascript:;\">All Services</a>\n                    <a class=\"btn btn-default\" @click=\"sort('name')\" href=\"javascript:;\">Name</a>\n                    <a class=\"btn btn-default\" @click=\"sort('sum')\" href=\"javascript:;\">Rating</a>\n                    <a class=\"btn btn-default\" @click=\"sort('price')\" href=\"javascript:;\">Price</a>\n                    <a class=\"btn btn-default\" @click=\"sort('created_at')\" href=\"javascript:;\">Created At</a>\n                </div>\n            </div>\n        </div>\n        <div class=\"row nicediv\">\n            <div v-if=\"services.length > 0\">\n                <div class=\"col-sm-6 col-md-4\" v-for=\"service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'\" track-by=\"$index\">\n                    <single_service :service=\"service\"></single_service>\n                </div>\n                <button v-if=\"nomore\" @click=\"ShowMore\" type=\"button\" class=\"btn btn-primary btn-block\">Show More</button>\n                <div class=\"col-md-12\" v-if=\"!nomore\">\n                    <button type=\"button\" class=\"btn btn-danger btn-block\">no more services to show</button>\n                </div>\n            </div>\n            <div v-else=\"\">\n                <br>\n                <div class=\"col-md-12\">\n                    <div class=\"alert alert-danger\">There Is No Services In This category</div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-45a84a17", module.exports)
+  } else {
+    hotAPI.update("_v-45a84a17", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./../users/SingleService.vue":39,"./SideBar.vue":30,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],30:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: ['cats', 'sidebarsection1', 'sidebarsection2', 'sidebarsection3'],
+    data: function data() {
+        return {};
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"nav-sidebar\" v-if=\"sidebarsection2.length > 0\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Recommended Services</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in sidebarsection2\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }}</a>\n        </li>\n    </ul>\n</nav>\n\n<nav class=\"nav-sidebar\" v-if=\"sidebarsection3.length > 0\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Best selling</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in sidebarsection3\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }} <span class=\"label label-default pull-right\"><i class=\"fa fa-money\"></i> {{ service.order_count }}</span></a>\n        </li>\n    </ul>\n</nav>\n\n<nav class=\"nav-sidebar\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Categouries</h4></a>\n        </li>\n        <br>\n        <li v-for=\"cat in cats\">\n            <a class=\"nav-link\" href=\"javascript:;\" v-link=\"{name: '/Cat', params: {cat_id: cat.id, cat_name: cat.name}}\">{{ cat.name }}</a>\n        </li>\n    </ul>\n</nav>\n<br>\n<nav class=\"nav-sidebar\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Most Viewed Services</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in sidebarsection1\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }} <span class=\"label label-info pull-right\"><i class=\"fa fa-eye\"></i> {{ service.view_times }}</span></a>\n        </li>\n    </ul>\n</nav>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-6f81855d", module.exports)
+  } else {
+    hotAPI.update("_v-6f81855d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":7,"vue-hot-reload-api":3}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18022,7 +18469,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-ce89345e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6}],25:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18033,7 +18480,12 @@ exports.default = {
     methods: {
         AddOrder: function AddOrder() {
             this.$http.get('/AddOrder/' + this.service.id).then(function (response) {
-                swal("Good job!", "Order Request Has Been Sent!", "success");
+                if (response.body == 'Charge your blance and try again please') {
+                    alertify.error(response.body, 5000);
+                }
+                if (response.body == 'true') {
+                    swal("Good job!", "Order Request Has Been Sent!", "success");
+                }
             }, function (response) {
                 alertify.error("Your Request Has Been Rejected From The Server for one of these resones <br />1- You Requested It Before <br />2- This is your service <br />3- server error<br />4- you are not logged in", 5000);
             });
@@ -18052,7 +18504,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-28f3fa93", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],26:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3}],33:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.btn-product{\n    width: 100%;\n}\n@media (max-width: 767px) {\n    .btn-product {\n        margin-bottom: 10px;\n    }\n}\n@media (min-width: 768px) {\n    .btn-product {\n        margin-bottom: 10px;\n    }\n}\n.nicediv {\n    box-shadow: 2px 2px 5px #ccc;\n    padding: 5px 20px;\n    margin-bottom: 30px;\n}\n.img-container {\n    height: 200px;\n}\n.img-container img {\n    height: 100%;\n    width: 100%;\n}\n.counter\n{\n    background-color: #eaecf0;\n    text-align: center;\n}\n.div-counter\n{\n    margin-top: 70px;\n    margin-bottom: 70px;\n}\n.counter-count\n{\n    font-size: 18px;\n    background-color: #00b3e7;\n    border-radius: 50%;\n    position: relative;\n    color: #ffffff;\n    text-align: center;\n    line-height: 92px;\n    width: 92px;\n    height: 92px;\n    -webkit-border-radius: 50%;\n    -moz-border-radius: 50%;\n    -ms-border-radius: 50%;\n    -o-border-radius: 50%;\n    display: inline-block;\n}\n.nav-sidebar {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.nav-sidebar a {\n    color: #333;\n    -webkit-transition: all 0.08s linear;\n    -moz-transition: all 0.08s linear;\n    -o-transition: all 0.08s linear;\n    transition: all 0.08s linear;\n    -webkit-border-radius: 4px 0 0 4px;\n    -moz-border-radius: 4px 0 0 4px;\n    border-radius: 4px 0 0 4px;\n}\n.nav-sidebar .active a {\n    cursor: default;\n    background-color: #428bca;\n    color: #fff;\n    text-shadow: 1px 1px 1px #666;\n}\n.nav-sidebar .active a:hover {\n    background-color: #428bca;\n}\n.nav-sidebar .text-overflow a,\n.nav-sidebar .text-overflow .media-body {\n    white-space: nowrap;\n    overflow: hidden;\n    -o-text-overflow: ellipsis;\n    text-overflow: ellipsis;\n}")
 'use strict';
@@ -18081,7 +18533,8 @@ exports.default = {
             purchaseOrders: '',
             incomingOrders: '',
             approvedCounter: '',
-            isLoading: false
+            isLoading: false,
+            nomore: true
         };
     },
     ready: function ready() {
@@ -18089,9 +18542,22 @@ exports.default = {
         this.getMyServices();
     },
     methods: {
-        getMyServices: function getMyServices() {
-            this.$http.get('/MyServices').then(function (response) {
-                this.services = response.body.services;
+        getMyServices: function getMyServices(length) {
+            if (typeof length == 'undefined') {
+                var endlength = '';
+            } else {
+                var endlength = '/' + length;
+            }
+            this.$http.get('/MyServices' + endlength).then(function (response) {
+                if (typeof length == 'undefined') {
+                    this.services = response.body.services;
+                } else {
+                    if (response.body.services.length > 0) {
+                        this.services = this.services.concat(response.body.services);
+                    } else {
+                        this.nomore = false;
+                    }
+                }
                 this.user = response.body.user;
                 this.isLoading = true;
                 this.purchaseOrders = response.body.purchaseOrders;
@@ -18105,6 +18571,10 @@ exports.default = {
                 });
             });
         },
+        ShowMore: function ShowMore() {
+            var length = this.services.length;
+            this.getMyServices(length);
+        },
         sort: function sort(sortval) {
             this.reverse = this.sortKey == sortval ? this.reverse * -1 : 1;
             this.sortKey = sortval;
@@ -18112,7 +18582,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n    <h2 class=\"text-center\">My Services Page</h2>\n    <hr>\n    <br>\n    <div class=\"col-md-3\">\n        <nav class=\"nav-sidebar\">\n            <p class=\"alert alert-success\">Double Click To Reverse The Filters</p>\n            <input type=\"text\" class=\"form-control\" v-model=\"searchword\" placeholder=\"Search by name or price...\">\n            <br>\n            <ul class=\"nav\">\n                <li><a class=\"nav-link\" @click=\"sort('')\" href=\"javascript:;\">All Services</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('name')\" href=\"javascript:;\">Name</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('price')\" href=\"javascript:;\">Price</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('status')\" href=\"javascript:;\">Wating Services</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('created_at')\" href=\"javascript:;\">Created At</a></li>\n            </ul>\n        </nav>\n        <nav class=\"nav-sidebar\">\n            <div class=\"row\">\n                <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ services.length }}</p>\n                        <p class=\"employee-p\">Services</p>\n                    </div>\n                </div>\n                <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ purchaseOrders }}</p>\n                        <p class=\"order-p\">Purchase Orders</p>\n                    </div>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ incomingOrders }}</p>\n                        <p class=\"employee-p\">Incoming Orders</p>\n                    </div>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ approvedCounter }}</p>\n                        <p class=\"employee-p\">Approved Services</p>\n                    </div>\n                </div>\n                <div class=\"clearfix\"></div>\n            </div>\n        </nav>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"row nicediv\">\n            <div class=\"alert alert-info\"><strong>Welcome {{ user.name + ' Here IS Your All Services You Added..' }}</strong></div>\n            <hr>\n            <h3>Services</h3>\n            <hr>\n            <div class=\"col-sm-6 col-md-4\" v-for=\"service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'\" track-by=\"$index\">\n            \t<single_service :service=\"service\"></single_service>\n            </div>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n    <h2 class=\"text-center\">My Services Page</h2>\n    <hr>\n    <br>\n    <div class=\"col-md-3\">\n        <nav class=\"nav-sidebar\">\n            <p class=\"alert alert-success\">Double Click To Reverse The Filters</p>\n            <input type=\"text\" class=\"form-control\" v-model=\"searchword\" placeholder=\"Search by name or price...\">\n            <br>\n            <ul class=\"nav\">\n                <li><a class=\"nav-link\" @click=\"sort('')\" href=\"javascript:;\">All Services</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('name')\" href=\"javascript:;\">Name</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('price')\" href=\"javascript:;\">Price</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('status')\" href=\"javascript:;\">Wating Services</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('created_at')\" href=\"javascript:;\">Created At</a></li>\n            </ul>\n        </nav>\n        <nav class=\"nav-sidebar\">\n            <div class=\"row\">\n                <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ services.length }}</p>\n                        <p class=\"employee-p\">Services</p>\n                    </div>\n                </div>\n                <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ purchaseOrders }}</p>\n                        <p class=\"order-p\">Purchase Orders</p>\n                    </div>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ incomingOrders }}</p>\n                        <p class=\"employee-p\">Incoming Orders</p>\n                    </div>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ approvedCounter }}</p>\n                        <p class=\"employee-p\">Approved Services</p>\n                    </div>\n                </div>\n                <div class=\"clearfix\"></div>\n            </div>\n        </nav>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"row nicediv\">\n            <div class=\"alert alert-info\"><strong>Welcome {{ user.name + ' Here IS Your All Services You Added..' }}</strong></div>\n            <hr>\n            <h3>Services</h3>\n            <hr>\n            <div v-if=\"services.length > 0\">\n                <div class=\"col-sm-6 col-md-4\" v-for=\"service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'\" track-by=\"$index\">\n                    <single_service :service=\"service\"></single_service>\n                </div>\n                <button v-if=\"nomore\" @click=\"ShowMore\" type=\"button\" class=\"btn btn-primary btn-block\">Show More</button>\n                <div class=\"col-md-12\" v-if=\"!nomore\">\n                    <button type=\"button\" class=\"btn btn-danger btn-block\">no more services to show</button>\n                </div>\n            </div>\n            <div v-else=\"\">\n                <br>\n                <div class=\"col-md-12\">\n                    <div class=\"alert alert-danger\">There Is No Services In This category</div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18127,7 +18597,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-23607bb2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./SingleService.vue":30,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],27:[function(require,module,exports){
+},{"./SingleService.vue":37,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],34:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n")
 'use strict';
@@ -18155,10 +18625,10 @@ exports.default = {
                     },
                     success: function success(response) {
                         if (response == 'voting added') {
-                            alertify.success("thanks for voting");
+                            console.log("thanks for voting");
                         }
                         if (response == 'voting updated') {
-                            alertify.success("thanks for voting update");
+                            console.log("thanks for voting update");
                         }
                         if (response == 'error') {
                             alertify.error("there is some errors");
@@ -18189,7 +18659,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-3878669a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],28:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],35:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n/*********************************************\n            Theme Elements\n*********************************************/\nbutton {\n    margin-right: 10px;\n}\n.gold{\ncolor: #FFBF00;\n}\n/*********************************************\n                PRODUCTS\n*********************************************/\n.product{\nborder: 1px solid #dddddd;\nheight: 321px;\n}\n.product>img{\nmax-width: 230px;\n}\n.product-rating{\nfont-size: 20px;\nmargin-bottom: 25px;\n}\n.product-title{\nfont-size: 20px;\n}\n.product-desc{\nfont-size: 14px;\n}\n.product-price{\nfont-size: 22px;\n}\n.product-stock{\ncolor: #74DF00;\nfont-size: 20px;\nmargin-top: 10px;\n}\n.product-info{\n    margin-top: 50px;\n}\n/*********************************************\n                VIEW\n*********************************************/\n.content-wrapper {\nmax-width: 1140px;\nbackground: #fff;\nmargin: 0 auto;\nmargin-top: 25px;\nmargin-bottom: 10px;\nborder: 0px;\nborder-radius: 0px;\n}\n.container-fluid{\nmax-width: 1140px;\nmargin: 0 auto;\n}\n.view-wrapper {\nfloat: right;\nmax-width: 70%;\nmargin-top: 25px;\n}\n.container {\npadding-left: 0px;\npadding-right: 0px;\nmax-width: 100%;\n}\n/*********************************************\n            ITEM\n*********************************************/\n.service1-items {\npadding: 0px 0 0px 0;\nfloat: left;\nposition: relative;\noverflow: hidden;\nmax-width: 100%;\nheight: 321px;\nwidth: 130px;\n}\n.service1-item {\nheight: 107px;\nwidth: 120px;\ndisplay: block;\nfloat: left;\nposition: relative;\npadding-right: 20px;\nborder-right: 1px solid #DDD;\nborder-top: 1px solid #DDD;\nborder-bottom: 1px solid #DDD;\n}\n.service1-item > img {\nmax-height: 110px;\nmax-width: 110px;\nopacity: 0.6;\ntransition: all .2s ease-in;\n-o-transition: all .2s ease-in;\n-moz-transition: all .2s ease-in;\n-webkit-transition: all .2s ease-in;\n}\n.service1-item > img:hover {\ncursor: pointer;\nopacity: 1;\n}\n.service-image-left {\npadding-right: 50px;\n}\n.service-image-right {\npadding-left: 50px;\n}\n.service-image-left > center > img,.service-image-right > center > img{\nmax-height: 155px;\n}\n")
 'use strict';
@@ -18237,6 +18707,9 @@ exports.default = {
             otherSameCat: '',
             userVote: '',
             sum: '',
+            mostRatedServices: [],
+            mostViewedServices: [],
+            sidebarsection2: [],
             isLoading: false
         };
     },
@@ -18253,6 +18726,9 @@ exports.default = {
                     this.otherSameCat = response.body.otherSameCat;
                     this.userVote = response.body.userVote;
                     this.sum = response.body.sum;
+                    this.mostRatedServices = response.body.mostRatedServices;
+                    this.mostViewedServices = response.body.mostViewedServices;
+                    this.sidebarsection2 = response.body.sidebarsection2;
                     this.isLoading = true;
                     this.$refs.spinner.hide();
                 } else {
@@ -18271,7 +18747,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<br>\n<br>\n<div v-if=\"isLoading\">\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-9\">\n        <div class=\"item-container\">\n            <div class=\"row\">\n                <div class=\"col-md-5\">\n                    <div class=\"row\">\n                        <div class=\"col-md-12 col-sm-12\">\n                            <img class=\"img-responsive img-thumbnail img-rounded\" v-bind:src=\"service.image\" style=\"height: 200px;width: 100%;\">\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-7\">\n                    <div class=\"product-title\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                {{ service.name }}\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"product-rating\">\n                        <div class=\"row\">\n                            <div class=\"col-md-4 col-sm-12 col-xs-12\">\n                                <rating :service=\"service\" :user_vote=\"userVote\"></rating>\n                            </div>\n                            <div class=\"col-md-8 col-sm-12 col-xs-12\" style=\"font-size: 18px;\">\n                                <span class=\"label label-default pull-right\"><i class=\"fa fa-users\" aria-hidden=\"true\"></i> voters {{ service.votes_count }}</span>\n                                <span class=\"label label-primary pull-right\"><i class=\"fa fa-star\" aria-hidden=\"true\"></i> votes {{ sum }}</span>\n                                <span class=\"label label-info pull-right\">percentage {{ (sum * 100) / (service.votes_count * 5) }} %</span>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"product-price\">$ {{ service.price }}</div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"btn-group wishlist\">\n                                <div class=\"btn-group cart\">\n                                    <buy_btn :service=\"service\"></buy_btn>\n                                </div>\n                                <wishlist_btn :service=\"service\"></wishlist_btn>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n\n                </div>\n            </div>\n        </div>\n        <div class=\"product-info\">\n            <ul id=\"myTab\" class=\"nav nav-tabs nav_tabs\">\n                <li class=\"active\"><a href=\"#service-one\" data-toggle=\"tab\">DESCRIPTION</a></li>\n                <li><a href=\"#service-two\" data-toggle=\"tab\">My Services In This Category</a></li>\n                <li><a href=\"#service-three\" data-toggle=\"tab\">Other Services In This Category</a></li>\n            </ul>\n            <div id=\"myTabContent\" class=\"tab-content\">\n                <div class=\"tab-pane fade in active\" id=\"service-one\">\n                    <br>\n                    <br>\n                    {{ service.dis }}\n                </div>\n                <div class=\"tab-pane fade\" id=\"service-two\">\n                    <br>\n                    <br>\n                    <div class=\"row\">\n                        <div v-if=\"mySameCat.length > 0\">\n                            <div class=\"col-sm-4 col-md-4\" v-for=\"service in mySameCat\" track-by=\"$index\">\n                                <my_same_cat :service=\"service\"></my_same_cat>\n                            </div>\n                        </div>\n                        <div class=\"alert alert-danger\" v-if=\"mySameCat.length == 0\">\n                            There Is No Services In This Categoury.\n                        </div>\n                    </div>\n                </div>\n                <div class=\"tab-pane fade\" id=\"service-three\">\n                    <br>\n                    <br>\n                    <div class=\"row\">\n                        <div v-if=\"otherSameCat.length > 0\">\n                            <div class=\"col-sm-4 col-md-4\" v-for=\"service in otherSameCat\" track-by=\"$index\">\n                                <other_same_cat :service=\"service\"></other_same_cat>\n                            </div>\n                        </div>\n                        <div class=\"alert alert-danger\" v-if=\"otherSameCat.length == 0\">\n                            There Is No Services In This Categoury.\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <hr>\n    </div>\n    <div class=\"col-xs-12 col-sm-12 col-md-3 col-lg-3\">\n        <side_bar :service=\"service\"></side_bar>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<br>\n<br>\n<div v-if=\"isLoading\">\n    <div class=\"col-xs-12 col-sm-12 col-md-9 col-lg-9\">\n        <div class=\"item-container\">\n            <div class=\"row\">\n                <div class=\"col-md-5\">\n                    <div class=\"row\">\n                        <div class=\"col-md-12 col-sm-12\">\n                            <img class=\"img-responsive img-thumbnail img-rounded\" v-bind:src=\"service.image\" style=\"height: 200px;width: 100%;\">\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-7\">\n                    <div class=\"product-title\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                {{ service.name }}\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"product-rating\">\n                        <div class=\"row\">\n                            <div class=\"col-md-4 col-sm-12 col-xs-12\">\n                                <rating :service=\"service\" :user_vote=\"userVote\"></rating>\n                            </div>\n                            <div class=\"col-md-8 col-sm-12 col-xs-12\" style=\"font-size: 18px;\">\n                                <span class=\"label label-default pull-right\"><i class=\"fa fa-users\" aria-hidden=\"true\"></i> voters {{ service.votes_count }}</span>\n                                <span class=\"label label-primary pull-right\"><i class=\"fa fa-star\" aria-hidden=\"true\"></i> stars {{ sum }}</span>\n                                <span class=\"label label-info pull-right\">percentage {{ sum != 0 ? (sum * 100) / (service.votes_count * 5) : 0 }} %</span>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"product-price\">$ {{ service.price }}</div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"btn-group wishlist\">\n                                <div class=\"btn-group cart\">\n                                    <buy_btn :service=\"service\"></buy_btn>\n                                </div>\n                                <wishlist_btn :service=\"service\"></wishlist_btn>\n                            </div>\n                        </div>\n                    </div>\n                    <hr>\n\n                </div>\n            </div>\n            <hr>\n            <div class=\"row\" style=\"color: #555;line-height: 1.7;font-size: 13px;\">\n                <div class=\"col-md-12\">\n                    <h4>Description</h4>\n                    <hr>\n                    <p style=\"white-space: pre-line;\">\n                        {{ service.dis }}\n                    </p>\n                </div>\n            </div>\n        </div>\n        <div class=\"product-info\">\n            <ul id=\"myTab\" class=\"nav nav-tabs nav_tabs\">\n                <li class=\"active\"><a href=\"#service-two\" data-toggle=\"tab\">My Services In This Category</a></li>\n                <li><a href=\"#service-three\" data-toggle=\"tab\">Other Services In This Category</a></li>\n            </ul>\n            <div id=\"myTabContent\" class=\"tab-content\">\n                <div class=\"tab-pane fade in active\" id=\"service-two\">\n                    <br>\n                    <br>\n                    <div class=\"row\">\n                        <div v-if=\"mySameCat.length > 0\">\n                            <div class=\"col-sm-4 col-md-4\" v-for=\"service in mySameCat\" track-by=\"$index\">\n                                <my_same_cat :service=\"service\"></my_same_cat>\n                            </div>\n                        </div>\n                        <div class=\"alert alert-danger\" v-if=\"mySameCat.length == 0\">\n                            There Is No Services In This Categoury.\n                        </div>\n                    </div>\n                </div>\n                <div class=\"tab-pane fade\" id=\"service-three\">\n                    <br>\n                    <br>\n                    <div class=\"row\">\n                        <div v-if=\"otherSameCat.length > 0\">\n                            <div class=\"col-sm-4 col-md-4\" v-for=\"service in otherSameCat\" track-by=\"$index\">\n                                <other_same_cat :service=\"service\"></other_same_cat>\n                            </div>\n                        </div>\n                        <div class=\"alert alert-danger\" v-if=\"otherSameCat.length == 0\">\n                            There Is No Services In This Categoury.\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <hr>\n    </div>\n    <div class=\"col-xs-12 col-sm-12 col-md-3 col-lg-3\">\n        <side_bar :service=\"service\" :most_rated_services=\"mostRatedServices\" :most_viewed_services=\"mostViewedServices\" :sidebarsection2=\"sidebarsection2\"></side_bar>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18286,28 +18762,28 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-321825ca", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../users/SingleService.vue":32,"./Buybtn.vue":25,"./Rating.vue":27,"./Sidebar.vue":29,"./WishListbtn.vue":31,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],29:[function(require,module,exports){
+},{"./../users/SingleService.vue":39,"./Buybtn.vue":32,"./Rating.vue":34,"./Sidebar.vue":36,"./WishListbtn.vue":38,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],36:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n.sidebar{\n    background-color: #fefefe;\n    padding: 20px 10px;\n    box-shadow: 2px 2px 8px #ccc;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("\n.nav-sidebar {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.nav-sidebar a {\n    color: #333;\n    -webkit-transition: all 0.08s linear;\n    -moz-transition: all 0.08s linear;\n    -o-transition: all 0.08s linear;\n    transition: all 0.08s linear;\n    -webkit-border-radius: 4px 0 0 4px;\n    -moz-border-radius: 4px 0 0 4px;\n    border-radius: 4px 0 0 4px;\n}\n.nav-sidebar .active a {\n    cursor: default;\n    background-color: #428bca;\n    color: #fff;\n    text-shadow: 1px 1px 1px #666;\n}\n.nav-sidebar .active a:hover {\n    background-color: #428bca;\n}\n.nav-sidebar .text-overflow a,\n.nav-sidebar .text-overflow .media-body {\n    white-space: nowrap;\n    overflow: hidden;\n    -o-text-overflow: ellipsis;\n    text-overflow: ellipsis;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    props: ['service'],
+    props: ['service', 'most_rated_services', 'most_viewed_services', 'sidebarsection2'],
     data: function data() {
         return {};
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar\">\n    <div class=\"btn-group\">\n        <a class=\"btn btn-info\" v-link=\"{name: 'User', params:{user_id: service.user.id, name:service.user.name}}\"><i class=\"fa fa-user\"></i> {{ service.user.name }}</a>\n        <a v-link=\"{name: '/SendMessage', params:{user_id: service.user.id}}\" class=\"btn btn-primary\"><i class=\"fa fa-send\"></i></a>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"nav-sidebar\">\n    <div class=\"btn-group\">\n        <a style=\"color: #fff\" class=\"btn btn-info\" v-link=\"{name: 'User', params:{user_id: service.user.id, name:service.user.name}}\"><i class=\"fa fa-user\"></i> {{ service.user.name }}</a>\n        <a style=\"color: #fff\" v-link=\"{name: '/SendMessage', params:{user_id: service.user.id}}\" class=\"btn btn-primary\"><i class=\"fa fa-send\"></i></a>\n    </div>\n</nav>\n<hr>\n\n<nav class=\"nav-sidebar\" v-if=\"sidebarsection2.length > 0\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Recommended Services</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in sidebarsection2\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }}</a>\n        </li>\n    </ul>\n</nav>\n\n<nav class=\"nav-sidebar\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Most Rated Services</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in most_rated_services\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }} <span class=\"label label-info pull-right\"><i class=\"fa fa-star\"></i> {{ service.vote_sum }}</span></a>\n        </li>\n    </ul>\n</nav>\n<nav class=\"nav-sidebar\">\n    <ul class=\"nav\">\n        <li class=\"active\">\n            <a class=\"nav-link\"><h4>Most Viewed Services</h4></a>\n        </li>\n        <br>\n        <li v-for=\"service in most_viewed_services\">\n            <a class=\"nav-link\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\">{{ service.name }} <span class=\"label label-info pull-right\"><i class=\"fa fa-eye\"></i> {{ service.view_times }}</span></a>\n        </li>\n    </ul>\n</nav>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\n.sidebar{\n    background-color: #fefefe;\n    padding: 20px 10px;\n    box-shadow: 2px 2px 8px #ccc;\n}\n"] = false
+    __vueify_insert__.cache["\n.nav-sidebar {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.nav-sidebar a {\n    color: #333;\n    -webkit-transition: all 0.08s linear;\n    -moz-transition: all 0.08s linear;\n    -o-transition: all 0.08s linear;\n    transition: all 0.08s linear;\n    -webkit-border-radius: 4px 0 0 4px;\n    -moz-border-radius: 4px 0 0 4px;\n    border-radius: 4px 0 0 4px;\n}\n.nav-sidebar .active a {\n    cursor: default;\n    background-color: #428bca;\n    color: #fff;\n    text-shadow: 1px 1px 1px #666;\n}\n.nav-sidebar .active a:hover {\n    background-color: #428bca;\n}\n.nav-sidebar .text-overflow a,\n.nav-sidebar .text-overflow .media-body {\n    white-space: nowrap;\n    overflow: hidden;\n    -o-text-overflow: ellipsis;\n    text-overflow: ellipsis;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -18316,7 +18792,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-aee298a2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],30:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18326,7 +18802,7 @@ exports.default = {
     props: ['service']
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"thumbnail\">\n    <h4 class=\"text-center\">\n        <span class=\"label label-info\">{{ service.category.name }}</span>\n        <span class=\"label label-success\"><i class=\"fa fa-eye\"></i> {{ (service.views).length }}</span>\n    </h4>\n    <div class=\"img-container\">\n        <img class=\"img-responsive\" v-bind:src=\"service.image\">\n    </div>\n    <div class=\"caption\">\n        <div class=\"row\">\n            <div class=\"col-md-8 col-xs-8\">\n                <h5><strong>{{ service.name }}</strong></h5>\n            </div>\n            <div class=\"col-md-4 col-xs-4 price text-right\">\n                <h5><label>$ {{ service.price }}</label></h5>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-6\" v-if=\"service.status == 0\">\n                <a class=\"btn btn-info btn-product\"><span class=\"glyphicon glyphicon-time\"></span> Wating</a>\n            </div>\n            <div class=\"col-md-6\" v-if=\"service.status == 1\">\n                <a class=\"btn btn-primary btn-product\"><span class=\"glyphicon glyphicon-star\"></span> Accepted</a>\n            </div>\n            <div class=\"col-md-6\" v-if=\"service.status == 2\">\n                <a class=\"btn btn-danger btn-product\"><span class=\"glyphicon glyphicon-folder-close\"></span> Denied</a>\n            </div>\n            <div class=\"col-md-6\">\n                <a class=\"btn btn-success btn-product\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\"><span class=\"glyphicon glyphicon-eye-open\"></span> View</a>\n            </div>\n        </div>\n        <p></p>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"thumbnail\">\n    <h4 class=\"text-center\">\n        <span class=\"label label-info\">{{ service.category.name }}</span>\n        <span class=\"label label-success\"><i class=\"fa fa-eye\"></i> {{ (service.views).length }}</span>\n    </h4>\n    <div class=\"img-container\">\n        <img class=\"img-responsive\" v-bind:src=\"service.image\">\n    </div>\n    <div class=\"caption\">\n        <div class=\"row\">\n            <div class=\"col-md-8 col-xs-8\">\n                <h5><strong>{{ service.name }}</strong></h5>\n            </div>\n            <div class=\"col-md-4 col-xs-4 price text-right\">\n                <h5><label>$ {{ service.price }}</label></h5>\n            </div>\n        </div>\n        <div class=\"row text-center\">\n            <div class=\"col-md-12 col-sm-12 col-xs-12\" style=\"font-size: 18px; margin-bottom: 6px;\">\n                <span class=\"label label-default\"><i class=\"fa fa-users\" aria-hidden=\"true\"></i> voters {{ service.votes_count }}</span>\n                <span class=\"label label-primary\"><i class=\"fa fa-star\" aria-hidden=\"true\"></i> stars {{ service.sum }}</span>\n                <span class=\"label label-info\">{{ service.sum != 0 ? (service.sum * 100) / (service.votes_count * 5) : 0 }} %</span>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-6\" v-if=\"service.status == 0\">\n                <a class=\"btn btn-info btn-product\"><span class=\"glyphicon glyphicon-time\"></span> Wating</a>\n            </div>\n            <div class=\"col-md-6\" v-if=\"service.status == 1\">\n                <a class=\"btn btn-primary btn-product\"><span class=\"glyphicon glyphicon-star\"></span> Accepted</a>\n            </div>\n            <div class=\"col-md-6\" v-if=\"service.status == 2\">\n                <a class=\"btn btn-danger btn-product\"><span class=\"glyphicon glyphicon-folder-close\"></span> Denied</a>\n            </div>\n            <div class=\"col-md-6\">\n                <a class=\"btn btn-success btn-product\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\"><span class=\"glyphicon glyphicon-eye-open\"></span> View</a>\n            </div>\n        </div>\n        <p></p>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18337,7 +18813,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6e2548e0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],31:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18355,6 +18831,9 @@ exports.default = {
                     alertify.error(response.body);
                 }
                 if (response.body == 'this is your service') {
+                    alertify.error(response.body);
+                }
+                if (response.body == 'you need to login') {
                     alertify.error(response.body);
                 }
             }, function (response) {
@@ -18378,7 +18857,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-85a3a8ac", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],32:[function(require,module,exports){
+},{"vue":7,"vue-hot-reload-api":3}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18395,19 +18874,10 @@ exports.default = {
     props: ['service'],
     components: {
         buy_btn: _Buybtn2.default
-    },
-    methods: {
-        AddOrder: function AddOrder() {
-            this.$http.get('/AddOrder/' + this.service.id).then(function (response) {
-                swal("Good job!", "Order Request Has Been Sent!", "success");
-            }, function (response) {
-                alertify.error("Your Request Has Been Rejected From The Server for one of these resones <br />1- You Requested It Before <br />2- This is your service <br />3- server error", 5000);
-            });
-        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"thumbnail\">\n    <h4 class=\"text-center\">\n        <span class=\"label label-info\">{{ service.category.name }}</span>\n        <span class=\"label label-success\"><i class=\"fa fa-eye\"></i> {{ (service.views).length }}</span>\n    </h4>\n    <div class=\"img-container\">\n        <img class=\"img-responsive\" v-bind:src=\"service.image\">\n    </div>\n    <div class=\"caption\">\n        <div class=\"row\">\n            <div class=\"col-md-8 col-xs-8\">\n                <h5><strong>{{ service.name }}</strong></h5>\n            </div>\n            <div class=\"col-md-4 col-xs-4 price text-right\">\n                <h5><label>$ {{ service.price }}</label></h5>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-6\">\n                <buy_btn :service=\"service\"></buy_btn>\n            </div>\n            <div class=\"col-md-6\">\n                <a class=\"btn btn-info btn-product\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\"><span class=\"glyphicon glyphicon-eye-open\"></span> View</a>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"thumbnail\">\n    <h4 class=\"text-center\">\n        <span class=\"label label-info\">{{ service.category.name }}</span>\n        <span class=\"label label-success\"><i class=\"fa fa-eye\"></i> {{ (service.views).length }}</span>\n    </h4>\n    <div class=\"img-container\">\n        <img class=\"img-responsive\" v-bind:src=\"service.image\">\n    </div>\n    <div class=\"caption\">\n        <div class=\"row\">\n            <div class=\"col-md-8 col-xs-8\">\n                <h5><strong>{{ service.name }}</strong></h5>\n            </div>\n            <div class=\"col-md-4 col-xs-4 price text-right\">\n                <h5><label>$ {{ service.price }}</label></h5>\n            </div>\n        </div>\n\n        <div class=\"row text-center\">\n            <div class=\"col-md-12 col-sm-12 col-xs-12\" style=\"font-size: 18px; margin-bottom: 6px;\">\n                <span class=\"label label-default\"><i class=\"fa fa-users\" aria-hidden=\"true\"></i> voters {{ service.votes_count }}</span>\n                <span class=\"label label-primary\"><i class=\"fa fa-star\" aria-hidden=\"true\"></i> stars {{ service.sum }}</span>\n                <span class=\"label label-info\">{{ service.sum != 0 ? (service.sum * 100) / (service.votes_count * 5) : 0 }} %</span>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-6\">\n                <buy_btn :service=\"service\"></buy_btn>\n            </div>\n            <div class=\"col-md-6\">\n                <a class=\"btn btn-info btn-product\" v-link=\"{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}\"><span class=\"glyphicon glyphicon-eye-open\"></span> View</a>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18418,7 +18888,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-05398572", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../services/Buybtn.vue":25,"vue":7,"vue-hot-reload-api":3}],33:[function(require,module,exports){
+},{"./../services/Buybtn.vue":32,"vue":7,"vue-hot-reload-api":3}],40:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -18443,6 +18913,7 @@ exports.default = {
             user: '',
             services: '',
             isLoading: false,
+            nomore: true,
             sortKey: '',
             reverse: 1
         };
@@ -18452,10 +18923,23 @@ exports.default = {
         this.getUserServices();
     },
     methods: {
-        getUserServices: function getUserServices() {
-            this.$http.get('/getUserServices/' + this.$route.params.user_id).then(function (response) {
+        getUserServices: function getUserServices(length) {
+            if (typeof length == 'undefined') {
+                var endlength = '';
+            } else {
+                var endlength = '/' + length;
+            }
+            this.$http.get('/getUserServices/' + this.$route.params.user_id + endlength).then(function (response) {
                 this.user = response.body.user;
-                this.services = response.body.services;
+                if (typeof length == 'undefined') {
+                    this.services = response.body.services;
+                } else {
+                    if (response.body.services.length > 0) {
+                        this.services = this.services.concat(response.body.services);
+                    } else {
+                        this.nomore = false;
+                    }
+                }
                 this.isLoading = true;
                 this.$refs.spinner.hide();
             }, function (response) {
@@ -18465,6 +18949,10 @@ exports.default = {
                 });
             });
         },
+        ShowMore: function ShowMore() {
+            var length = this.services.length;
+            this.getUserServices(length);
+        },
         sort: function sort(sortval) {
             this.reverse = this.sortKey == sortval ? this.reverse * -1 : 1;
             this.sortKey = sortval;
@@ -18472,7 +18960,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n    <h2 class=\"text-center\">My Services Page</h2>\n    <hr>\n    <br>\n    <div class=\"col-md-3\">\n        <nav class=\"nav-sidebar\">\n            <p class=\"alert alert-success\">Double Click To Reverse The Filters</p>\n            <input type=\"text\" class=\"form-control\" v-model=\"searchword\" placeholder=\"Search by name or price...\">\n            <br>\n            <ul class=\"nav\">\n                <li><a class=\"nav-link\" @click=\"sort('')\" href=\"javascript:;\">All Services</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('name')\" href=\"javascript:;\">Name</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('price')\" href=\"javascript:;\">Price</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('created_at')\" href=\"javascript:;\">Created At</a></li>\n            </ul>\n        </nav>\n        <nav class=\"nav-sidebar\">\n            <div class=\"row\">\n                <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ services.length }}</p>\n                        <p class=\"employee-p\">Services</p>\n                    </div>\n                </div>\n            </div>\n        </nav>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"row nicediv\">\n            <div class=\"alert alert-warning\"><h3>Welcome To {{ user.name }} Profile</h3> <p>You Can contact him at {{ user.email }}</p></div>\n            <hr>\n            <h3>Services</h3>\n            <hr>\n            <div class=\"col-sm-6 col-md-4\" v-for=\"service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'\" track-by=\"$index\">\n                <single_service :service=\"service\"></single_service>\n            </div>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"isLoading\">\n    <br>\n    <div class=\"col-md-3\">\n        <nav class=\"nav-sidebar\">\n            <p class=\"alert alert-success\">Double Click To Reverse The Filters</p>\n            <input type=\"text\" class=\"form-control\" v-model=\"searchword\" placeholder=\"Search by name or price...\">\n            <br>\n            <ul class=\"nav\">\n                <li><a class=\"nav-link\" @click=\"sort('')\" href=\"javascript:;\">All Services</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('name')\" href=\"javascript:;\">Name</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('price')\" href=\"javascript:;\">Price</a></li>\n                <li><a class=\"nav-link\" @click=\"sort('created_at')\" href=\"javascript:;\">Created At</a></li>\n            </ul>\n        </nav>\n        <nav class=\"nav-sidebar\">\n            <div class=\"row\">\n                <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n                    <div class=\"div-counter text-center\">\n                        <p class=\"counter-count\">{{ services.length }}</p>\n                        <p class=\"employee-p\">Services</p>\n                    </div>\n                </div>\n            </div>\n        </nav>\n    </div>\n    <div class=\"col-md-9\">\n        <div class=\"row nicediv\">\n            <div class=\"alert alert-warning\"><h3>Welcome To {{ user.name }} Profile</h3> <p>You Can contact him at {{ user.email }}</p></div>\n            <hr>\n            <h3>Services</h3>\n            <hr>\n            <div v-if=\"services.length > 0\">\n                <div class=\"col-sm-6 col-md-4\" v-for=\"service in services | orderBy sortKey reverse | filterBy searchword in 'name' 'price'\" track-by=\"$index\">\n                    <single_service :service=\"service\"></single_service>\n                </div>\n                <button v-if=\"nomore\" @click=\"ShowMore\" type=\"button\" class=\"btn btn-primary btn-block\">Show More</button>\n                <div class=\"col-md-12\" v-if=\"!nomore\">\n                    <button type=\"button\" class=\"btn btn-danger btn-block\">no more services to show</button>\n                </div>\n            </div>\n            <div v-else=\"\">\n                <br>\n                <div class=\"col-md-12\">\n                    <div class=\"alert alert-danger\">There Is No Services In This category</div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18487,7 +18975,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-b07b6498", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./SingleService.vue":32,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],34:[function(require,module,exports){
+},{"./SingleService.vue":39,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

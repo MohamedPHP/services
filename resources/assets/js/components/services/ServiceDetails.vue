@@ -27,8 +27,8 @@
                                 </div>
                                 <div class="col-md-8 col-sm-12 col-xs-12" style="font-size: 18px;">
                                     <span class="label label-default pull-right"><i class="fa fa-users" aria-hidden="true"></i> voters {{ service.votes_count }}</span>
-                                    <span class="label label-primary pull-right"><i class="fa fa-star" aria-hidden="true"></i> votes {{ sum }}</span>
-                                    <span class="label label-info pull-right">percentage {{ (sum * 100) / (service.votes_count * 5) }} %</span>
+                                    <span class="label label-primary pull-right"><i class="fa fa-star" aria-hidden="true"></i> stars {{ sum }}</span>
+                                    <span class="label label-info pull-right">percentage {{ sum != 0 ? (sum * 100) / (service.votes_count * 5) : 0 }} %</span>
                                 </div>
                             </div>
                         </div>
@@ -50,20 +50,24 @@
 
                     </div>
                 </div>
+                <hr>
+                <div class="row" style="color: #555;line-height: 1.7;font-size: 13px;">
+                    <div class="col-md-12">
+                        <h4>Description</h4>
+                        <hr>
+                        <p style="white-space: pre-line;">
+                            {{ service.dis }}
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="product-info">
                 <ul id="myTab" class="nav nav-tabs nav_tabs">
-                    <li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
-                    <li><a href="#service-two" data-toggle="tab">My Services In This Category</a></li>
+                    <li class="active"><a href="#service-two" data-toggle="tab">My Services In This Category</a></li>
                     <li><a href="#service-three" data-toggle="tab">Other Services In This Category</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
-                    <div class="tab-pane fade in active" id="service-one">
-                        <br>
-                        <br>
-                        {{ service.dis }}
-                    </div>
-                    <div class="tab-pane fade" id="service-two">
+                    <div class="tab-pane fade in active" id="service-two">
                         <br>
                         <br>
                         <div class="row">
@@ -96,7 +100,7 @@
             <hr>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <side_bar :service="service"></side_bar>
+            <side_bar :service="service" :most_rated_services="mostRatedServices" :most_viewed_services="mostViewedServices" :sidebarsection2="sidebarsection2"></side_bar>
         </div>
     </div>
     <spinner v-ref:spinner size="xl" fixed text="Loading..."></spinner>
@@ -126,6 +130,9 @@ export default {
             otherSameCat: '',
             userVote: '',
             sum: '',
+            mostRatedServices: [],
+            mostViewedServices: [],
+            sidebarsection2: [],
             isLoading: false,
         }
     },
@@ -142,6 +149,9 @@ export default {
                     this.otherSameCat = response.body.otherSameCat;
                     this.userVote     = response.body.userVote;
                     this.sum          = response.body.sum;
+                    this.mostRatedServices = response.body.mostRatedServices;
+                    this.mostViewedServices= response.body.mostViewedServices;
+                    this.sidebarsection2   = response.body.sidebarsection2;
                     this.isLoading    = true;
                     this.$refs.spinner.hide();
                 }else {

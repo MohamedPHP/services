@@ -21,10 +21,13 @@ Route::get('/home', 'HomeController@index');
 
 
 // services
+Route::get('/getAllServices/{length?}', 'ServicesController@getAllServices');
 Route::post('/AddService', 'ServicesController@store');
-Route::get('/MyServices', 'ServicesController@MyServices');
+Route::get('/MyServices/{length?}', 'ServicesController@MyServices');
 Route::get('/service/{id}', 'ServicesController@getServiceById');
-Route::get('/getUserServices/{id}', 'ServicesController@getUserServices');
+Route::get('/getUserServices/{id}/{length?}', 'ServicesController@getUserServices');
+Route::get('/CategoryServices/{id}/{length?}', 'CategoryController@CategoryServices');
+Route::get('/getAllCategories', 'CategoryController@getAllCategories');
 
 // orders
 Route::get('/AddOrder/{id}', 'OrdersController@AddOrder');
@@ -38,7 +41,7 @@ Route::post('/AddComment', 'CommentsController@AddComment');
 Route::get('/getAllComments/{id}', 'CommentsController@getAllComments');
 
 // messages
-Route::post('/SendMessage', 'MessagesController@SendMessage');
+Route::post('/SendMessage', 'MessagesController@SendMessage')->middleware('auth');
 Route::get('/getUserMessages', 'MessagesController@getUserMessages');
 Route::get('/SentMessages', 'MessagesController@SentMessages');
 Route::get('/UnreadMessages', 'MessagesController@UnreadMessages');
@@ -54,6 +57,10 @@ Route::get('/DeleteWishList/{id}', 'WishlistController@DeleteWishList');
 // vote
 Route::get('/AddNewVote', 'VoteController@AddNewVote');
 
+// payments
+Route::get('/getAuthUser', 'UserController@getAuthUser');
+Route::post('/AddCreditNow', 'PaypalController@AddCreditNow')->middleware('auth');
+Route::get('/getAllCharges', 'PaypalController@getAllCharges')->middleware('auth');
 
 
 //

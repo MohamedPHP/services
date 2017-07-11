@@ -16,10 +16,12 @@ class CategouiesTableSeeder extends Seeder
         $categories = [
             [
                 'name' => 'programming',
+                'image' => 'images/cats/pro.jpg',
                 'description' => 'programming programming programming programming programming programming programming programming',
             ],
             [
                 'name' => 'design',
+                'image' => 'images/cats/design.jpg',
                 'description' => 'design design design design design design design design design design design design design design design ',
             ],
         ];

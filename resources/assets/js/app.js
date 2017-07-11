@@ -18,9 +18,16 @@ var route = new VueRouter();
 
 
 route.map({
-    // '/': {
-    //     component: "",
-    // },
+    '/': {
+        component: require('./components/pages/MainPage.vue'),
+    },
+    '/Categories': {
+        component: require('./components/categories/Categories.vue'),
+    },
+    '/Cat/:cat_id/:cat_name': {
+        name: '/Cat',
+        component: require('./components/categories/Category.vue'),
+    },
     '/AddService': {
         component: require('./components/services/AddService.vue'),
     },
@@ -72,6 +79,12 @@ route.map({
     '/Wishlist': {
         name: '/Wishlist',
         component: require('./components/wishlist/Wishlist.vue'),
+    },
+    '/AddCredit': {
+        component: require('./components/credit/AddCredit.vue'),
+    },
+    '/AllCharges': {
+        component: require('./components/credit/AllCharges.vue'),
     },
 
 });

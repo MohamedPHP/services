@@ -30,6 +30,7 @@ elixir(function(mix) {
     //     'lips/sweetalert.min.js',
     //     'lips/alertify.min.js',
     //     'lips/jquery.barrating.min.js',
+    //     'lips/application.js',
     // ], 'public/frontend/js/main.js');
 
     mix.browserify([

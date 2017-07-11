@@ -9,7 +9,12 @@ export default {
         AddOrder: function () {
             this.$http.get('/AddOrder/' + this.service.id).then(
                 function (response) {
-                    swal("Good job!", "Order Request Has Been Sent!", "success");
+                    if (response.body == 'Charge your blance and try again please') {
+                        alertify.error(response.body, 5000);
+                    }
+                    if (response.body == 'true') {
+                        swal("Good job!", "Order Request Has Been Sent!", "success");
+                    }
                 },
                 function (response) {
                     alertify.error("Your Request Has Been Rejected From The Server for one of these resones <br />1- You Requested It Before <br />2- This is your service <br />3- server error<br />4- you are not logged in", 5000);
