@@ -27,17 +27,26 @@ class WishlistController extends Controller
                         $wishlist->own_user = $service->user_id;
                         $wishlist->save();
                         if ($wishlist) {
-                            return 'AddedToWishList';
+                            return [
+                                'status' => 'AddedToWishList',
+                                'sum' => Wishlist::where('user_id', Auth::user()->id)->count(),
+                            ];
                         }
                         abort(403);
                     }
-                    return 'you already added this service to wishlist';
+                    return [
+                        'status' => 'you already added this service to wishlist',
+                    ];
                 }
-                return 'this is your service';
+                return [
+                    'status' => 'this is your service',
+                ];
             }
             abort(403);
         }
-        return 'you need to login';
+        return [
+            'status' => 'you need to login',
+        ];
     }
 
     public function GetUserWishList() {
@@ -52,7 +61,10 @@ class WishlistController extends Controller
         if ($wishlist) {
             if ($wishlist->user_id == Auth::user()->id) {
                 $wishlist->delete();
-                return 'service deleted';
+                return [
+                    'status'=>'service deleted',
+                    'sum' => Wishlist::where('user_id', Auth::user()->id)->count(),
+                ];
             }
             abort(403);
         }

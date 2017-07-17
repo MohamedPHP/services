@@ -1,7 +1,8 @@
 <template>
+    <navbar></navbar>
     <br>
     <br>
-    <div v-if="isLoading">
+    <div v-if="isLoading" class="container">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-8 col-md-offset-2">
             <div class="item-container">
                 <div class="row">
@@ -40,10 +41,15 @@
                                 <div class="product-price">$ {{ service.price }}</div>
                             </div>
                             <hr>
-                            <div class="col-md-12" v-if="user_id.id == AuthUser.id && btns == true">
+                            <div class="col-md-12" v-if="user_id.id == AuthUser.id && status == 1">
                                 <button @click="changeStatus(2)" type="button" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Accept Order</button>
                                 <button @click="changeStatus(3)" type="button" class="btn btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i> Reject Order</button>
                             </div>
+
+                            <div class="col-md-12" v-if="order_user.id == AuthUser.id && status == 2">
+                                <button @click="finishOrder(4)" type="button" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Finish Order</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -76,6 +82,7 @@ export default {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
         status: Status,
         all_comments: AllComments,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {
@@ -121,6 +128,21 @@ export default {
             this.$http.get('/ChangeStatus/' + this.$route.params.order_id + '/' + status).then(
                 function (response) {
                     this.btns = false;
+                    this.status = response.body.status;
+                    this.$refs.spinner.hide();
+                },
+                function (response) {
+                    alert('There Is An Error Please Contact Us');
+                    this.$router.go({
+                        path: '/',
+                    });
+                }
+            );
+        },
+        finishOrder: function (status) {
+            this.$refs.spinner.show();
+            this.$http.get('/finishOrder/' + this.$route.params.order_id + '/' + status).then(
+                function (response) {
                     this.status = response.body.status;
                     this.$refs.spinner.hide();
                 },

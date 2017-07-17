@@ -102,18 +102,5 @@ class PaypalController extends Controller
         return $pay;
     }
 
-    public function getAllCharges()
-    {
-        if (Auth::check()) {
-            $sum = Paypal::where('user_id', Auth::user()->id)->sum('price') > 0 ? Paypal::where('user_id', Auth::user()->id)->sum('price') : 0;
-            return [
-                'user' => Auth::user(),
-                'charges' => Paypal::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->get(),
-                'sum' => $sum,
-            ];
-        }
-        abort(403);
-    }
-
 
 }

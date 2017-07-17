@@ -1,5 +1,6 @@
 <template>
-    <div v-if="isLoading">
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
         <br><br><br>
         <div class="col-md-8 col-md-offset-2">
             <div class="row nicediv" style="padding: 20px !important;">
@@ -24,6 +25,7 @@
 export default {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {

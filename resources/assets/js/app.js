@@ -86,6 +86,18 @@ route.map({
     '/AllCharges': {
         component: require('./components/credit/AllCharges.vue'),
     },
+    '/AllPayments': {
+        component: require('./components/credit/AllPayments.vue'),
+    },
+    '/Profits': {
+        component: require('./components/credit/Profits.vue'),
+    },
+    '/Balance': {
+        component: require('./components/credit/Balance.vue'),
+    },
+    '/AllNotifications': {
+        component: require('./components/notifications/AllNotifications.vue'),
+    },
 
 });
 

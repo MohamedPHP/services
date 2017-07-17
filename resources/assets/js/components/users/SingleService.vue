@@ -10,7 +10,7 @@
         <div class="caption">
             <div class="row">
                 <div class="col-md-8 col-xs-8">
-                    <h5><strong>{{ service.name }}</strong></h5>
+                    <a v-link="{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}"><h5><strong>{{ service.name }}</strong></h5></a>
                 </div>
                 <div class="col-md-4 col-xs-4 price text-right">
                     <h5><label>$ {{ service.price }}</label></h5>
@@ -30,7 +30,7 @@
                     <buy_btn :service="service"></buy_btn>
                 </div>
                 <div class="col-md-6">
-                    <a class="btn btn-info btn-product" v-link="{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}"><span class="glyphicon glyphicon-eye-open"></span> View</a>
+                    <wishlist_btn :service="service"></wishlist_btn>
                 </div>
             </div>
         </div>
@@ -39,10 +39,12 @@
 
 <script>
 import Buybtn from './../services/Buybtn.vue';
+import WishListbtn from './../services/WishListbtn.vue';
 export default {
     props: ['service'],
     components: {
         buy_btn: Buybtn,
+        wishlist_btn: WishListbtn,
     }
 }
 </script>

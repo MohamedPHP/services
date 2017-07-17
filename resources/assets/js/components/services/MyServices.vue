@@ -1,5 +1,6 @@
 <template>
-    <div v-if="isLoading">
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
         <h2 class="text-center">My Services Page</h2>
         <hr>
         <br>
@@ -57,9 +58,6 @@
                         <single_service :service="service"></single_service>
                     </div>
                     <button v-if="nomore" @click="ShowMore" type="button" class="btn btn-primary btn-block">Show More</button>
-                    <div class="col-md-12" v-if="!nomore">
-                        <button type="button" class="btn btn-danger btn-block">no more services to show</button>
-                    </div>
                 </div>
                 <div v-else>
                     <br>
@@ -81,6 +79,7 @@ export default {
     components: {
         single_service: SingleService,
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {

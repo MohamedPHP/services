@@ -1,5 +1,6 @@
 <template>
-    <div v-if="isLoading">
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
         <h2 class="text-center text-success">Purchase Orders</h2>
         <hr>
         <div class="col-md-10 col-md-offset-1">
@@ -63,6 +64,7 @@ export default {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
         status: Status,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {

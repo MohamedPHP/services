@@ -16,7 +16,7 @@ class CreateNotificationsTable extends Migration
             DB::statement('SET FOREIGN_KEY_CHECKS=0');
             $table->increments('id');
             $table->integer('notify_id');
-            $table->tinyInteger('type');
+            $table->string('type');
             $table->tinyInteger('seen');
             $table->string('url');
             $table->integer('user_notify_you')->unsigned(); // how sent the noty

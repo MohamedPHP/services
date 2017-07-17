@@ -4,37 +4,38 @@
         <br><br><br>
         <div class="col-md-10 col-md-offset-1">
             <div class="row nicediv" style="padding: 20px !important;">
-                <h3>Charges Belongs To
+                <h3>All profits of
                     <a v-link="{name: 'User', params:{user_id: user.id, name:user.name}}" style="color: #777;font-weight: 300; text-decoration: none;cursor: pointer;">
                         <span>{{ user.name }}</span>
                     </a>
                 </h3>
                 <hr>
-                <h3 class="text-center text-success">total Charged Money Is {{ sum }} $</h3>
+                <h3 class="text-center text-success">Total Profits Is {{ sum }} $</h3>
                 <hr>
 
                 <div class="col-md-12">
-                    <table class="table table-bordered table-hover" v-if="charges.length > 0">
+                    <table class="table table-bordered table-hover" v-if="profits.length > 0">
                         <thead class="tablehead">
                             <tr>
-                                <th>Payment Method</th>
-                                <th>State</th>
+                                <th>#ID</th>
                                 <th>Price</th>
-                                <th>CreatedAt</th>
+                                <th>Order View</th>
+                                <th>Created At</th>
                             </tr>
                         </thead>
+                        <!-- `user_id`, `order_id`, `price`, `isfinished` -->
                         <tbody>
-                            <tr v-for="pay in charges" track-by="$index">
+                            <tr v-for="pay in profits" track-by="$index">
+                                <td class="text-center">{{ pay.id }}</td>
+                                <td class="text-center">{{ pay.price }} $ <i class="fa fa-money"></i></td>
                                 <td class="text-center">
-                                    <img v-if="pay.payment_method == 'paypal'" style="width: 32px;height: 32px;" :src="'images/pp.png'" alt="paypal">
+                                    <a v-link="{name: 'Order', params:{order_id: pay.order_id}}" class="btn btn-info"><i class="fa fa-eye"></i></a>
                                 </td>
-                                <td><span class="label label-success">{{ pay.state }}</span></td>
-                                <td>{{ pay.price }} $</td>
-                                <td>{{ pay.created_at }} <i class="fa fa-clock-o"></i></td>
+                                <td class="text-center">{{ pay.created_at }} <i class="fa fa-clock-o"></i></td>
                             </tr>
                         </tbody>
                     </table>
-                    <div v-else class="alert alert-danger">There is no charges For You Now</div>
+                    <div v-else class="alert alert-danger">There is no profits For You Now</div>
                 </div>
 
             </div>
@@ -53,19 +54,19 @@ export default {
         return {
             isLoading: false,
             user: {},
-            charges: [],
+            profits: [],
             sum: null,
         }
     },
     ready: function () {
         this.$refs.spinner.show();
-        this.getAllCharges();
+        this.getAllprofits();
     },
     methods: {
-        getAllCharges: function () {
-            this.$http.get('/getAllCharges').then(function (response) {
+        getAllprofits: function () {
+            this.$http.get('/Profits').then(function (response) {
                 this.user = response.body.user;
-                this.charges = response.body.charges;
+                this.profits = response.body.profits;
                 this.sum = response.body.sum;
                 this.isLoading = true;
                 this.$refs.spinner.hide();

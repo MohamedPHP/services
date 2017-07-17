@@ -1,64 +1,67 @@
 <template>
     <!-- `name`, `dis`, `image`, `price`, `cat_id` -->
-    <div class="panel panel-default" v-if="isLoading">
-        <div class="panel-heading">
-            <h3 class="panel-title">Add Service Form</h3>
-        </div>
-        <div class="panel-body">
-            <h2 class="text-center text-primary">Add Service</h2>
-            <hr>
-            <br>
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="name">Name</label>
-                    <div class="col-md-10">
-                        <input id="name" name="name" v-model="name" type="text" placeholder="service name" class="form-control">
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Add Service Form</h3>
+            </div>
+            <div class="panel-body">
+                <h2 class="text-center text-primary">Add Service</h2>
+                <hr>
+                <br>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="name">Name</label>
+                        <div class="col-md-10">
+                            <input id="name" name="name" v-model="name" type="text" placeholder="service name" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="image">image</label>
-                    <div class="col-md-10">
-                        <input id="image" name="image" v-el:image type="file" class="form-control">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="image">image</label>
+                        <div class="col-md-10">
+                            <input id="image" name="image" v-el:image type="file" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="price">price</label>
-                    <div class="col-md-10">
-                        <select id="price" name="price" v-model="price" class="form-control">
-                            <!-- 5, 10, 15, 20, 25, 30, 40, 50 -->
-                            <option value="5" selected>5 $</option>
-                            <option value="10">10 $</option>
-                            <option value="15">15 $</option>
-                            <option value="20">20 $</option>
-                            <option value="25">25 $</option>
-                            <option value="30">30 $</option>
-                            <option value="40">40 $</option>
-                            <option value="50">50 $</option>
-                        </select>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="price">price</label>
+                        <div class="col-md-10">
+                            <select id="price" name="price" v-model="price" class="form-control">
+                                <!-- 5, 10, 15, 20, 25, 30, 40, 50 -->
+                                <option value="5" selected>5 $</option>
+                                <option value="10">10 $</option>
+                                <option value="15">15 $</option>
+                                <option value="20">20 $</option>
+                                <option value="25">25 $</option>
+                                <option value="30">30 $</option>
+                                <option value="40">40 $</option>
+                                <option value="50">50 $</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="price">Categoury</label>
-                    <div class="col-md-10">
-                        <select id="cat_id" name="cat_id" v-model="cat_id" class="form-control">
-                            <option value="1" selected>programming</option>
-                            <option value="2">designers</option>
-                        </select>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="price">Categoury</label>
+                        <div class="col-md-10">
+                            <select id="cat_id" name="cat_id" v-model="cat_id" class="form-control">
+                                <option value="1" selected>programming</option>
+                                <option value="2">designers</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="dis">Description</label>
-                    <div class="col-md-10">
-                        <textarea id="dis" name="dis" v-model="dis" placeholder="service description" class="form-control" rows="8" cols="80"></textarea>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="dis">Description</label>
+                        <div class="col-md-10">
+                            <textarea id="dis" name="dis" v-model="dis" placeholder="service description" class="form-control" rows="8" cols="80"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="AddService"></label>
-                    <div class="col-md-10">
-                        <button type="submit" @click="AddService" id="AddService" name="AddService" class="btn btn-primary">Add Service</button>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="AddService"></label>
+                        <div class="col-md-10">
+                            <button type="submit" @click="AddService" id="AddService" name="AddService" class="btn btn-primary">Add Service</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     <spinner v-ref:spinner size="xl" fixed text="Loading..."></spinner>
@@ -77,6 +80,7 @@
         },
         components: {
             spinner: require('vue-strap/dist/vue-strap.min').spinner,
+            navbar: require('./../navbar.vue'),
         },
         ready: function () {
             this.$refs.spinner.show();

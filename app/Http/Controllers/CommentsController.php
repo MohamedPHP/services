@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Comment;
 use App\Order;
+use App\Notification;
 use Auth;
 
 class CommentsController extends Controller
@@ -26,6 +27,19 @@ class CommentsController extends Controller
                 $comment->user_id = Auth::user()->id;
                 $comment->save();
                 if ($comment) {
+                    $notification = new Notification();
+                    $notification->notify_id       = $order->id;
+                    $notification->type            = 'NewComment';
+                    $notification->seen            = 0;
+                    $notification->url             = '';
+                    if (Auth::user()->id == $order->user_id) {
+                        $notification->user_notify_you = Auth::user()->id;
+                        $notification->user_id         = $order->user_order;
+                    }else {
+                        $notification->user_notify_you = Auth::user()->id;
+                        $notification->user_id         = $order->user_id;
+                    }
+                    $notification->save();
                     return Comment::where('id', $comment->id)->with('user')->first();
                 }
                 abort(403);

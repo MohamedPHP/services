@@ -1,5 +1,6 @@
 <template>
-    <div v-if="isLoading">
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
 
         <div class="col-md-3">
             <main_sidebar :cats="cats" :sidebarsection1="sidebarsection1" :sidebarsection2="sidebarsection2" :sidebarsection3="sidebarsection3"></main_sidebar>
@@ -50,6 +51,7 @@ export default {
         single_service: SingleService,
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
         main_sidebar: SideBar,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {
@@ -105,6 +107,11 @@ export default {
         sort: function (sortval) {
             this.reverse = (this.sortKey == sortval) ? this.reverse * -1 : 1;
             this.sortKey = sortval;
+        }
+    },
+    events: {
+        AddToparentFav:function (val) {
+            this.$broadcast('AddToparentFavHeader', val);
         }
     }
 }

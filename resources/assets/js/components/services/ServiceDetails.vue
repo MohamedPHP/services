@@ -1,7 +1,9 @@
 <template>
+    <navbar></navbar>
     <br>
     <br>
-    <div v-if="isLoading">
+
+    <div v-if="isLoading" class="container">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
             <div class="item-container">
                 <div class="row">
@@ -122,6 +124,7 @@ export default {
         wishlist_btn:WishListbtn,
         rating:Rating,
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {
@@ -164,6 +167,11 @@ export default {
                 });
             });
         }
+    },
+    events: {
+        AddToparentFav: function (val) {
+            this.$broadcast('AddToparentFavHeader', val);
+        },
     },
     route: {
         canReuse: false,

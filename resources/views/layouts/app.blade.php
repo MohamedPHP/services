@@ -16,7 +16,7 @@
 
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default navbar-static-top">
+    {{-- <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
 
@@ -99,9 +99,32 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a v-link="{ path: '/AddCredit' }"><i class="fa fa-btn fa-exchange"></i>Charge Balance</a></li>
                                 <li><a v-link="{ path: '/AllCharges' }"><i class="fa fa-btn fa-check"></i>My Charges</a></li>
+                                <li><a v-link="{ path: '/AllPayments' }"><i class="fa fa-btn fa-money"></i>AllPayments</a></li>
+                                <li><a v-link="{ path: '/Profits' }"><i class="fa fa-btn fa-plus-circle"></i>Profits</a></li>
+                                <li><a v-link="{ path: '/Balance' }">Balance</a></li>
                             </ul>
                         </li>
-                        <li><a v-link="{name: '/Wishlist'}"><i class="fa fa-heart"></i></a></li>
+                        <li class="dropdown">
+                            @include('layouts.notifications')
+                        </li>
+                        <li>
+                            <a v-link="{name: '/Wishlist'}">
+                                <i class="fa fa-heart"></i>
+                                <span class="label label-danger calc">{{ getCountWishlistItems(Auth::user()->id) }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a v-link="{name: '/Inbox'}">
+                                <i class="fa fa-inbox"></i>
+                                <span class="label label-warning calc">{{ getCountInboxMessages(Auth::user()->id) }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a v-link="{ path: '/IncomingOrders' }">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span class="label label-primary calc">{{ getCountIncomingOrders(Auth::user()->id) }}</span>
+                            </a>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
@@ -118,7 +141,9 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> --}}
+
+
     @yield('content')
 
 
@@ -155,6 +180,5 @@
 
     {{ Html::script('frontend/js/main.js') }}
     {{ Html::script('frontend/js/app.js') }}
-
 </body>
 </html>

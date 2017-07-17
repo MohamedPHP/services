@@ -1,5 +1,6 @@
 <template lang="html">
-    <div v-if="isLoading">
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <h2 class="text-center text-primary">MessageDetails</h2>
@@ -56,6 +57,7 @@ export default {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
         menu: Menu,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {

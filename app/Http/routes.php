@@ -19,6 +19,7 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/getAllInfo', 'HomeController@getAllInfo');
 
 // services
 Route::get('/getAllServices/{length?}', 'ServicesController@getAllServices');
@@ -35,6 +36,7 @@ Route::get('/getMyPurchaseOrders', 'OrdersController@getMyPurchaseOrders');
 Route::get('/getMyIncomeOrders', 'OrdersController@getMyIncomeOrders');
 Route::get('/GetOrderById/{id}', 'OrdersController@GetOrderById');
 Route::get('/ChangeStatus/{id}/{status}', 'OrdersController@ChangeStatus');
+Route::get('/finishOrder/{id}/{status}', 'OrdersController@finishOrder');
 
 // comments
 Route::post('/AddComment', 'CommentsController@AddComment');
@@ -60,7 +62,14 @@ Route::get('/AddNewVote', 'VoteController@AddNewVote');
 // payments
 Route::get('/getAuthUser', 'UserController@getAuthUser');
 Route::post('/AddCreditNow', 'PaypalController@AddCreditNow')->middleware('auth');
-Route::get('/getAllCharges', 'PaypalController@getAllCharges')->middleware('auth');
+Route::get('/getAllCharges', 'UserController@getAllCharges')->middleware('auth');
+Route::get('/getAllpayments', 'UserController@getAllpayments')->middleware('auth');
+Route::get('/Profits', 'UserController@Profits')->middleware('auth');
+Route::get('/getAllBalance', 'UserController@getAllBalance')->middleware('auth');
+
+// notifications
+Route::get('/getUserNotifications/{length?}', 'UserController@getUserNotifications')->middleware('auth');
+Route::get('/getNotificationList', 'UserController@getNotificationList')->middleware('auth');
 
 
 //

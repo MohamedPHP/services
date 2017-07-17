@@ -1,5 +1,7 @@
 <template>
-    <div v-if="isLoading">
+
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
         <div class="col-md-8 col-sm-12 col-xs-12 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading text-center"><h4>Wishlist</h4></div>
@@ -49,6 +51,7 @@
 export default {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {
@@ -75,8 +78,9 @@ export default {
         },
         DeleteWishList: function (index, id) {
             this.$http.get('/DeleteWishList/' + id).then(function (response) {
-                if (response.body == 'service deleted') {
+                if (response.body.status == 'service deleted') {
                     alertify.success('Service deleted from the wishlist');
+                    this.$broadcast('ServiceRemovedFromWishList', response.body.sum);
                     this.wishlists.splice(index, 1);
                 }
             }, function (response) {

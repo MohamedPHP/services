@@ -1,5 +1,5 @@
 <template>
-    <a @click="AddToWishList" class="btn btn-danger"><span class="glyphicon glyphicon-star"></span> Add To WishList</a>
+    <a @click="AddToWishList" class="btn btn-danger"><span class="glyphicon glyphicon-heart"></span>WishList</a>
 </template>
 
 <script>
@@ -9,17 +9,18 @@ export default {
         AddToWishList: function () {
             this.$http.get('/AddToWishList/' + this.service.id).then(
                 function (response) {
-                    if (response.body == 'AddedToWishList') {
+                    if (response.body.status == 'AddedToWishList') {
+                        this.$dispatch('AddToparentFav', response.body.sum);
                         swal("Good job!", "Added To Wish List!", "success");
                     }
-                    if (response.body == 'you already added this service to wishlist') {
-                        alertify.error(response.body);
+                    if (response.body.status == 'you already added this service to wishlist') {
+                        alertify.error(response.body.status);
                     }
-                    if (response.body == 'this is your service') {
-                        alertify.error(response.body);
+                    if (response.body.status == 'this is your service') {
+                        alertify.error(response.body.status);
                     }
-                    if (response.body == 'you need to login') {
-                        alertify.error(response.body);
+                    if (response.body.status == 'you need to login') {
+                        alertify.error(response.body.status);
                     }
                 },
                 function (response) {

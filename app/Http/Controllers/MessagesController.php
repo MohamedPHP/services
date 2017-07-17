@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Message;
 use App\User;
+use App\Notification;
 use Auth;
 
 
@@ -32,7 +33,18 @@ class MessagesController extends Controller
                 $message->user_id               = $userReceve->id;
                 $message->save();
                 if ($message) {
-                    return 'done';
+                    $notification = new Notification();
+                    $notification->notify_id       = $message->id;
+                    $notification->type            = 'ReceiveMessage';
+                    $notification->seen            = 0;
+                    $notification->url             = '';
+                    $notification->user_notify_you = Auth::user()->id;
+                    $notification->user_id         = $message->user_id;
+                    $notification->save();
+                    if ($notification) {
+                        return 'done';
+                    }
+                    abort(403);
                 }
                 abort(403);
             }
@@ -69,6 +81,13 @@ class MessagesController extends Controller
                     // لو السين يساوي صفر والي عامل لوج ان هو الي مستلم يبقي لو دخل شاف الخدمه يبقي كده صح و زي الفل
                     $message->seen = 1;
                     $message->save();
+                    
+                    /*
+                    ** table fields [ `notify_id`, `type`, `seen`, `url`, `user_notify_you`, `user_id` ]
+                    ** @params (notify_id, type, user_id)
+                    ** MakeNotificationSeen(notify_id, type, user_id);
+                    */
+                    MakeNotificationSeen($message->id, 'ReceiveMessage', Auth::user()->id);
                 }
                 return ['message' => $message];
             }

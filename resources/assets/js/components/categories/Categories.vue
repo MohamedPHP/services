@@ -1,5 +1,6 @@
 <template>
-    <div v-if="isLoading">
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
         <div class="col-md-10 col-md-offset-1">
             <div class="row nicediv" style="padding: 20px !important;">
                 <h3>Categories</h3>
@@ -34,6 +35,7 @@ import SingleService from './../users/SingleService.vue';
 export default {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {

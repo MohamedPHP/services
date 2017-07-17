@@ -1,5 +1,6 @@
 <template lang="html">
-    <div v-if="isLoading">
+    <navbar></navbar>
+    <div v-if="isLoading" class="container">
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <h2 class="text-center text-primary">Messages You Sent</h2>
@@ -31,6 +32,7 @@ export default {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
         menu: Menu,
         single_message: SingleMessage,
+        navbar: require('./../navbar.vue'),
     },
     data: function () {
         return {
