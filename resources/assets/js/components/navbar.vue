@@ -188,6 +188,8 @@ export default {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
     },
     ready: function () {
+        $('body').css('overflowY', 'visible');
+        $('body').css('overflowX', 'hidden');
         this.userIsLoggedIn = userIsLoggedIn;
         if (this.userIsLoggedIn == 1) {
             this.getAllInfo();

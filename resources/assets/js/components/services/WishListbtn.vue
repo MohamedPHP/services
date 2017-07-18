@@ -24,10 +24,14 @@ export default {
                     }
                 },
                 function (response) {
-                    alert('There Is An Error Please Contact Us');
-                    this.$router.go({
-                        path: '/',
-                    });
+                    if (response.body == 'You Need To login.') {
+                        alertify.error(response.body);
+                    }else {
+                        alert('Error Wishlist');
+                        this.$router.go({
+                            path: '/',
+                        });
+                    }
                 }
             );
         }

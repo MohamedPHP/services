@@ -27,7 +27,7 @@ function getCountIncomingOrders($user_id)
 function getNotificationObjects()
 {
     // return \App\Notification::where('user_id', Auth::user()->id)->where('seen', 0)->orderBy('id', 'DESC')->with('getSender')->get();
-    return \App\Notification::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->with('getSender')->get();
+    return \App\Notification::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->limit(20)->with('getSender')->get();
 }
 
 function MakeNotificationSeen($notify_id, $type, $user_id)
