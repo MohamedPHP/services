@@ -163,7 +163,11 @@ export default {
                 this.$refs.spinner.hide();
                 this.isLoading = true;
             }, function (response) {
-                alert('There Is An Error [ 1000 ] Please Contact Us');
+                alert(" Error 1000 ");
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/',
                 });
@@ -173,6 +177,14 @@ export default {
             var length = this.notifications.length;
             this.getUserNotifications(length);
         },
+    },
+    route:{
+        canReuse: false,
+        activate: function () {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
+        }
     }
 }
 </script>

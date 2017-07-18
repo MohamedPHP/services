@@ -90,6 +90,14 @@ export default {
                 });
             });
         }
+    },
+    route:{
+        canReuse: false,
+        activate: function () {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
+        }
     }
 }
 </script>

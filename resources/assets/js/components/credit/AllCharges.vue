@@ -71,9 +71,20 @@ export default {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('there is some error please contact us');
-                // window.location = '/';
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
             });
         },
+    },
+    route:{
+        canReuse: false,
+        activate: function () {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
+        }
     }
 }
 </script>

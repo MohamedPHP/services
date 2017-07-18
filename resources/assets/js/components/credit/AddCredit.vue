@@ -63,11 +63,23 @@ export default {
                 }
             }, function (response) {
                 swal("Error !", "There is Some errors please try again later!", "error");
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 for (var key in response.body) {
                     alertify.error(response.body[key]);
                 }
                 this.disabled = false;
             });
+        }
+    },
+    route:{
+        canReuse: false,
+        activate: function () {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 }

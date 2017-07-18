@@ -64,11 +64,23 @@ export default {
                     }
                 },
                 function (response) {
+                    if (response.body == 'You Need To login.') {
+                        alert(response.body);
+                        window.location = '/login';
+                    }
                     for (var key in response.body) {
                         alertify.error(response.body[key]);
                     }
                 }
             );
+        }
+    },
+    route:{
+        canReuse: false,
+        activate: function () {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 }

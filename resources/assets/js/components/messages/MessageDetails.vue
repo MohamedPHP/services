@@ -77,11 +77,23 @@ export default {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/',
                 });
             });
         },
+    },
+    route:{
+        canReuse: false,
+        activate: function () {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
+        }
     }
 }
 </script>

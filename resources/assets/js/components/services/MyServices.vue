@@ -136,6 +136,14 @@ export default {
             this.reverse = (this.sortKey == sortval) ? this.reverse * -1 : 1;
             this.sortKey = sortval;
         }
+    },
+    route:{
+        canReuse: false,
+        activate: function () {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
+        }
     }
 }
 </script>

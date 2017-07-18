@@ -29,6 +29,10 @@ export default {
                 this.comment = '';
                 this.$dispatch('AddComment', response.body);
             }, function (response) {
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 for (var key in response.body) {
                     alertify.error(response.body[key]);
                 }

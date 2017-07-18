@@ -32,7 +32,7 @@
                 </form>
 
                 <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" v-if="userIsLoggedIn == 1">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             Orders <span class="caret"></span>
@@ -163,6 +163,10 @@
                         </ul>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right" v-else>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -177,13 +181,17 @@ export default {
             ordersCount:0,
             notiCount:0,
             notificationList:[],
+            userIsLoggedIn:'',
         }
     },
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
     },
     ready: function () {
-        this.getAllInfo();
+        this.userIsLoggedIn = userIsLoggedIn;
+        if (this.userIsLoggedIn == 1) {
+            this.getAllInfo();
+        }
     },
     methods: {
         getAllInfo: function () {
@@ -194,17 +202,27 @@ export default {
                 this.notiCount = response.body.notiCount;
             }, function (response) {
                 alert('There Is An Error [ 1000 ] Please Contact Us');
-                window.location = '/login';
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
             });
         },
         getNotificationList :function () {
-            this.$refs.spinner.show();
-            this.$http.get('getNotificationList').then(function (response) {
-                this.notificationList = response.body;
-                this.$refs.spinner.hide();
-            }, function (response) {
-
-            });
+            if (this.userIsLoggedIn == 1) {
+                this.$refs.spinner.show();
+                this.$http.get('getNotificationList').then(function (response) {
+                    this.notificationList = response.body;
+                    this.$refs.spinner.hide();
+                }, function (response) {
+                    if (response.body == 'You Need To login.') {
+                        alert(response.body);
+                        window.location = '/login';
+                    }
+                });
+            }else {
+                window.location = '/login';
+            }
         }
     },
     events: {

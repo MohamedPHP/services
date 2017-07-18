@@ -17196,6 +17196,10 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 window.location = '/404';
             });
         }
@@ -17369,6 +17373,10 @@ exports.default = {
                 this.comment = '';
                 this.$dispatch('AddComment', response.body);
             }, function (response) {
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 for (var key in response.body) {
                     alertify.error(response.body[key]);
                 }
@@ -17423,6 +17431,10 @@ exports.default = {
                 this.comments = response.body;
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
@@ -17500,11 +17512,23 @@ exports.default = {
                 }
             }, function (response) {
                 swal("Error !", "There is Some errors please try again later!", "error");
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 for (var key in response.body) {
                     alertify.error(response.body[key]);
                 }
                 this.disabled = false;
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -17559,8 +17583,19 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('there is some error please contact us');
-                // window.location = '/';
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -17615,8 +17650,19 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('there is some error please contact us');
-                // window.location = '/';
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -17674,8 +17720,19 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('there is some error please contact us');
-                // window.location = '/';
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -17730,8 +17787,19 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('there is some error please contact us');
-                // window.location = '/';
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -17795,10 +17863,22 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -17887,10 +17967,22 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -17954,10 +18046,22 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -18021,10 +18125,22 @@ exports.default = {
                     alertify.success("Message Has Been Sent Successfully");
                 }
             }, function (response) {
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 for (var key in response.body) {
                     alertify.error(response.body[key]);
                 }
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -18088,10 +18204,22 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -18189,10 +18317,22 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -18227,14 +18367,18 @@ exports.default = {
             inboxCount: 0,
             ordersCount: 0,
             notiCount: 0,
-            notificationList: []
+            notificationList: [],
+            userIsLoggedIn: ''
         };
     },
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner
     },
     ready: function ready() {
-        this.getAllInfo();
+        this.userIsLoggedIn = userIsLoggedIn;
+        if (this.userIsLoggedIn == 1) {
+            this.getAllInfo();
+        }
     },
     methods: {
         getAllInfo: function getAllInfo() {
@@ -18245,15 +18389,27 @@ exports.default = {
                 this.notiCount = response.body.notiCount;
             }, function (response) {
                 alert('There Is An Error [ 1000 ] Please Contact Us');
-                window.location = '/login';
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
             });
         },
         getNotificationList: function getNotificationList() {
-            this.$refs.spinner.show();
-            this.$http.get('getNotificationList').then(function (response) {
-                this.notificationList = response.body;
-                this.$refs.spinner.hide();
-            }, function (response) {});
+            if (this.userIsLoggedIn == 1) {
+                this.$refs.spinner.show();
+                this.$http.get('getNotificationList').then(function (response) {
+                    this.notificationList = response.body;
+                    this.$refs.spinner.hide();
+                }, function (response) {
+                    if (response.body == 'You Need To login.') {
+                        alert(response.body);
+                        window.location = '/login';
+                    }
+                });
+            } else {
+                window.location = '/login';
+            }
         }
     },
     events: {
@@ -18266,7 +18422,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-default navbar-static-top\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n\n            <!-- Collapsed Hamburger -->\n            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#app-navbar-collapse\">\n                <span class=\"sr-only\">Toggle Navigation</span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n\n            <!-- Branding Image -->\n            <a class=\"navbar-brand\" href=\"/\">\n                Services\n            </a>\n        </div>\n\n        <div class=\"collapse navbar-collapse\" id=\"app-navbar-collapse\">\n            <!-- Left Side Of Navbar -->\n            <ul class=\"nav navbar-nav\">\n                <li><a v-link=\"{ path: '/' }\">Home</a></li>\n                <li><a v-link=\"{ path: '/Categories' }\">Categories</a></li>\n            </ul>\n\n            <form class=\"navbar-form navbar-left\" role=\"search\">\n                <div class=\"form-group\">\n                    <input type=\"text\" class=\"form-control\" placeholder=\"Search...\">\n                </div>\n                <button type=\"submit\" class=\"btn btn-info\"><i class=\"fa fa-search\"></i></button>\n            </form>\n\n            <!-- Right Side Of Navbar -->\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Orders <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/IncomingOrders' }\"><i class=\"fa fa-btn fa-truck\"></i>Incoming Orders</a></li>\n                        <li><a v-link=\"{ path: '/PurchaseOrders' }\"><i class=\"fa fa-btn fa-cart-plus\"></i>Purchase Orders</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Services <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/AddService' }\"><i class=\"fa fa-btn fa-plus\"></i>Add Service</a></li>\n                        <li><a v-link=\"{ path: '/MyServices' }\"><i class=\"fa fa-btn fa-user\"></i>My Services</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i> <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a v-link=\"{name: '/Inbox'}\"><i class=\"fa fa-inbox\"></i> Inbox</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/SentMessages'}\"><i class=\"fa fa-send\"></i> Sent Messages</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/UnreadMessages'}\"><i class=\"fa fa-eye-slash\"></i> Unread Messages</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/ReadMessages'}\"><i class=\"fa fa-eye\"></i> Read Messages</a>\n                        </li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        <i class=\"fa fa-money\" aria-hidden=\"true\"></i> <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/AddCredit' }\"><i class=\"fa fa-btn fa-exchange\"></i>Charge Balance</a></li>\n                        <li><a v-link=\"{ path: '/AllCharges' }\"><i class=\"fa fa-btn fa-check\"></i>My Charges</a></li>\n                        <li><a v-link=\"{ path: '/AllPayments' }\"><i class=\"fa fa-btn fa-money\"></i>AllPayments</a></li>\n                        <li><a v-link=\"{ path: '/Profits' }\"><i class=\"fa fa-btn fa-plus-circle\"></i>Profits</a></li>\n                        <li><a v-link=\"{ path: '/Balance' }\">Balance</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a @click=\"getNotificationList\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"fa fa-bell\"></i>\n                        <span class=\"label label-success calc\">{{ notiCount }}</span>\n                    </a>\n                    <ul class=\"dropdown-menu notify-drop\">\n                        <div class=\"notify-drop-title\">\n                            <div class=\"row\">\n                                <div class=\"col-md-6 col-sm-6 col-xs-6\">Count (<b>{{ notiCount }}</b>)</div>\n                                <div class=\"col-md-6 col-sm-6 col-xs-6 text-right\"><a href=\"\" class=\"rIcon allRead\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Mark All As Read\"><i class=\"fa fa-dot-circle-o\"></i></a></div>\n                            </div>\n                        </div>\n                        <!-- end notify title -->\n                        <!-- notify content -->\n                        <div class=\"drop-content\">\n                            <spinner v-ref:spinner=\"\" size=\"md\" text=\"Loading...\"></spinner>\n                            <li v-for=\"note in notificationList\" track-by=\"$index\">\n                                <div class=\"col-md-12 col-sm-12 col-xs-12 pd-l0 text-center\">\n                                    <a v-link=\"{name: 'User', params:{user_id: note.get_sender.id, name:note.get_sender.name}}\">{{ note.get_sender.name }}</a>\n                                    <span v-if=\"note.type == 'ReceiveOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Requested Order.. </a>\n                                    </span>\n                                    <span v-if=\"note.type == 'ReceiveMessage'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: '/GetMessageById', params: {msg_id: note.notify_id, message_title: note.type}}\">- Sent Message..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'NewComment'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Made A Comment ..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'CompletedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Completed Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'AcceptedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Accepted Your Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'RejectedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Rejected Order..</a>\n                                    </span>\n                                    <span v-if=\"note.seen == 0\" class=\"badge\" style=\"background-color: #c0392b\">unseen</span>\n                                    <span v-if=\"note.seen == 1\" class=\"badge\" style=\"background-color: #2ecc71\">seen</span>\n                                    <span class=\"label label-default\">{{note.created_at}}</span>\n                                </div>\n                            </li>\n                        </div>\n                        <div class=\"notify-drop-footer text-center\">\n                            <a v-link=\"{path:'/AllNotifications'}\"><i class=\"fa fa-eye\"></i> All Notifications</a>\n                        </div>\n                    </ul>\n\n                </li>\n\n                <li>\n                    <a v-link=\"{name: '/Wishlist'}\">\n                        <i class=\"fa fa-heart\"></i>\n                        <span class=\"label label-danger calc\">{{ favCount }}</span>\n                    </a>\n                </li>\n                <li>\n                    <a v-link=\"{name: '/Inbox'}\">\n                        <i class=\"fa fa-inbox\"></i>\n                        <span class=\"label label-warning calc\">{{ inboxCount }}</span>\n                    </a>\n                </li>\n                <li>\n                    <a v-link=\"{ path: '/IncomingOrders' }\">\n                        <i class=\"fa fa-shopping-cart\"></i>\n                        <span class=\"label label-primary calc\">{{ ordersCount }}</span>\n                    </a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Mohamed Zayed <span class=\"caret\"></span>\n                    </a>\n\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a href=\"#\"><i class=\"fa fa-btn fa-edit\"></i>Edit Data</a></li>\n                        <li><a href=\"#\"><i class=\"fa fa-btn fa-money\"></i>Balance</a></li>\n                        <li><a v-link=\"{ path: '/AddCredit' }\"><i class=\"fa fa-btn fa-exchange\"></i>Charge Balance</a></li>\n                        <li><a href=\"/logout\"><i class=\"fa fa-btn fa-sign-out\"></i>Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-default navbar-static-top\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n\n            <!-- Collapsed Hamburger -->\n            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#app-navbar-collapse\">\n                <span class=\"sr-only\">Toggle Navigation</span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n\n            <!-- Branding Image -->\n            <a class=\"navbar-brand\" href=\"/\">\n                Services\n            </a>\n        </div>\n\n        <div class=\"collapse navbar-collapse\" id=\"app-navbar-collapse\">\n            <!-- Left Side Of Navbar -->\n            <ul class=\"nav navbar-nav\">\n                <li><a v-link=\"{ path: '/' }\">Home</a></li>\n                <li><a v-link=\"{ path: '/Categories' }\">Categories</a></li>\n            </ul>\n\n            <form class=\"navbar-form navbar-left\" role=\"search\">\n                <div class=\"form-group\">\n                    <input type=\"text\" class=\"form-control\" placeholder=\"Search...\">\n                </div>\n                <button type=\"submit\" class=\"btn btn-info\"><i class=\"fa fa-search\"></i></button>\n            </form>\n\n            <!-- Right Side Of Navbar -->\n            <ul class=\"nav navbar-nav navbar-right\" v-if=\"userIsLoggedIn == 1\">\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Orders <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/IncomingOrders' }\"><i class=\"fa fa-btn fa-truck\"></i>Incoming Orders</a></li>\n                        <li><a v-link=\"{ path: '/PurchaseOrders' }\"><i class=\"fa fa-btn fa-cart-plus\"></i>Purchase Orders</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Services <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/AddService' }\"><i class=\"fa fa-btn fa-plus\"></i>Add Service</a></li>\n                        <li><a v-link=\"{ path: '/MyServices' }\"><i class=\"fa fa-btn fa-user\"></i>My Services</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i> <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a v-link=\"{name: '/Inbox'}\"><i class=\"fa fa-inbox\"></i> Inbox</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/SentMessages'}\"><i class=\"fa fa-send\"></i> Sent Messages</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/UnreadMessages'}\"><i class=\"fa fa-eye-slash\"></i> Unread Messages</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/ReadMessages'}\"><i class=\"fa fa-eye\"></i> Read Messages</a>\n                        </li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        <i class=\"fa fa-money\" aria-hidden=\"true\"></i> <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/AddCredit' }\"><i class=\"fa fa-btn fa-exchange\"></i>Charge Balance</a></li>\n                        <li><a v-link=\"{ path: '/AllCharges' }\"><i class=\"fa fa-btn fa-check\"></i>My Charges</a></li>\n                        <li><a v-link=\"{ path: '/AllPayments' }\"><i class=\"fa fa-btn fa-money\"></i>AllPayments</a></li>\n                        <li><a v-link=\"{ path: '/Profits' }\"><i class=\"fa fa-btn fa-plus-circle\"></i>Profits</a></li>\n                        <li><a v-link=\"{ path: '/Balance' }\">Balance</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a @click=\"getNotificationList\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"fa fa-bell\"></i>\n                        <span class=\"label label-success calc\">{{ notiCount }}</span>\n                    </a>\n                    <ul class=\"dropdown-menu notify-drop\">\n                        <div class=\"notify-drop-title\">\n                            <div class=\"row\">\n                                <div class=\"col-md-6 col-sm-6 col-xs-6\">Count (<b>{{ notiCount }}</b>)</div>\n                                <div class=\"col-md-6 col-sm-6 col-xs-6 text-right\"><a href=\"\" class=\"rIcon allRead\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Mark All As Read\"><i class=\"fa fa-dot-circle-o\"></i></a></div>\n                            </div>\n                        </div>\n                        <!-- end notify title -->\n                        <!-- notify content -->\n                        <div class=\"drop-content\">\n                            <spinner v-ref:spinner=\"\" size=\"md\" text=\"Loading...\"></spinner>\n                            <li v-for=\"note in notificationList\" track-by=\"$index\">\n                                <div class=\"col-md-12 col-sm-12 col-xs-12 pd-l0 text-center\">\n                                    <a v-link=\"{name: 'User', params:{user_id: note.get_sender.id, name:note.get_sender.name}}\">{{ note.get_sender.name }}</a>\n                                    <span v-if=\"note.type == 'ReceiveOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Requested Order.. </a>\n                                    </span>\n                                    <span v-if=\"note.type == 'ReceiveMessage'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: '/GetMessageById', params: {msg_id: note.notify_id, message_title: note.type}}\">- Sent Message..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'NewComment'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Made A Comment ..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'CompletedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Completed Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'AcceptedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Accepted Your Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'RejectedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Rejected Order..</a>\n                                    </span>\n                                    <span v-if=\"note.seen == 0\" class=\"badge\" style=\"background-color: #c0392b\">unseen</span>\n                                    <span v-if=\"note.seen == 1\" class=\"badge\" style=\"background-color: #2ecc71\">seen</span>\n                                    <span class=\"label label-default\">{{note.created_at}}</span>\n                                </div>\n                            </li>\n                        </div>\n                        <div class=\"notify-drop-footer text-center\">\n                            <a v-link=\"{path:'/AllNotifications'}\"><i class=\"fa fa-eye\"></i> All Notifications</a>\n                        </div>\n                    </ul>\n\n                </li>\n\n                <li>\n                    <a v-link=\"{name: '/Wishlist'}\">\n                        <i class=\"fa fa-heart\"></i>\n                        <span class=\"label label-danger calc\">{{ favCount }}</span>\n                    </a>\n                </li>\n                <li>\n                    <a v-link=\"{name: '/Inbox'}\">\n                        <i class=\"fa fa-inbox\"></i>\n                        <span class=\"label label-warning calc\">{{ inboxCount }}</span>\n                    </a>\n                </li>\n                <li>\n                    <a v-link=\"{ path: '/IncomingOrders' }\">\n                        <i class=\"fa fa-shopping-cart\"></i>\n                        <span class=\"label label-primary calc\">{{ ordersCount }}</span>\n                    </a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Mohamed Zayed <span class=\"caret\"></span>\n                    </a>\n\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a href=\"#\"><i class=\"fa fa-btn fa-edit\"></i>Edit Data</a></li>\n                        <li><a href=\"#\"><i class=\"fa fa-btn fa-money\"></i>Balance</a></li>\n                        <li><a v-link=\"{ path: '/AddCredit' }\"><i class=\"fa fa-btn fa-exchange\"></i>Charge Balance</a></li>\n                        <li><a href=\"/logout\"><i class=\"fa fa-btn fa-sign-out\"></i>Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\" v-else=\"\">\n                <li><a href=\"/login\">Login</a></li>\n                <li><a href=\"/register\">Register</a></li>\n            </ul>\n        </div>\n    </div>\n</nav>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18325,7 +18481,11 @@ exports.default = {
                 this.$refs.spinner.hide();
                 this.isLoading = true;
             }, function (response) {
-                alert('There Is An Error [ 1000 ] Please Contact Us');
+                alert(" Error 1000 ");
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
@@ -18334,6 +18494,14 @@ exports.default = {
         ShowMore: function ShowMore() {
             var length = this.notifications.length;
             this.getUserNotifications(length);
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -18396,6 +18564,10 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
@@ -18403,6 +18575,14 @@ exports.default = {
         },
         filter: function filter(value) {
             this.filterData = value;
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -18465,6 +18645,10 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
@@ -18472,6 +18656,14 @@ exports.default = {
         },
         filter: function filter(value) {
             this.filterData = value;
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -18551,6 +18743,10 @@ exports.default = {
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('There Is An Error Please Contact Us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
                 this.$router.go({
                     path: '/'
                 });
@@ -18583,7 +18779,12 @@ exports.default = {
         }
     },
     route: {
-        canReuse: false
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
+        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -18811,6 +19012,14 @@ exports.default = {
                 }
             });
         }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
+        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -18935,6 +19144,14 @@ exports.default = {
         sort: function sort(sortval) {
             this.reverse = this.sortKey == sortval ? this.reverse * -1 : 1;
             this.sortKey = sortval;
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };
@@ -19397,6 +19614,14 @@ exports.default = {
                     path: '/'
                 });
             });
+        }
+    },
+    route: {
+        canReuse: false,
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
         }
     }
 };

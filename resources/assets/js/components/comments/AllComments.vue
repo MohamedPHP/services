@@ -84,6 +84,10 @@ export default {
                 },
                 function (response) {
                     alert('There Is An Error Please Contact Us');
+                    if (response.body == 'You Need To login.') {
+                        alert(response.body);
+                        window.location = '/login';
+                    }
                     this.$router.go({
                         path: '/',
                     });
