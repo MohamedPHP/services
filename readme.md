@@ -1,3 +1,6 @@
+# Developer Notes
+To Understand The Payment Processes [ Profit Distribution System ]  Go To [ app/http/controllers/OrdersController ] at line 33
+
 # Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)

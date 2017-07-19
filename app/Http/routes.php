@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/GetOrderById/{id}', 'OrdersController@GetOrderById');
     Route::get('/ChangeStatus/{id}/{status}', 'OrdersController@ChangeStatus');
     Route::get('/finishOrder/{id}/{status}', 'OrdersController@finishOrder');
+    Route::get('/deleteOrder/{id}', 'OrdersController@deleteOrder');
     // comments
     Route::post('/AddComment', 'CommentsController@AddComment');
     Route::get('/getAllComments/{id}', 'CommentsController@getAllComments');
@@ -70,6 +71,21 @@ Route::get('/getAllCategories', 'CategoryController@getAllCategories');
 
 Route::group(['middleware' => 'admin', 'prefix' => 'admincp'], function () {
     Route::get('/', 'AdminController@index');
+    // services start
+    Route::get('/services/{sort?}', 'AdminServicesController@index');
+    Route::get('/service-delete/{id}', 'AdminServicesController@delete')->name('service.delete');
+    Route::get('/service-accept/{id}', 'AdminServicesController@accept')->name('service.accept');
+    Route::get('/service-reject/{id}', 'AdminServicesController@reject')->name('service.reject');
+    Route::get('/service-edit/{id}', 'AdminServicesController@edit')->name('service.edit');
+    Route::post('/service-update/{id}', 'AdminServicesController@update')->name('service.update');
+    // services end
+
+    // orders start
+    Route::get('/orders/{sort?}', 'AdminOrdersController@index');
+    Route::get('/orders-view/{id}', 'AdminOrdersController@view')->name('order.view');
+    Route::post('/order-changestatus', 'AdminOrdersController@changeStatus')->name('changestatus.admin');
+    Route::get('/order/getServiceOrders/{service_id}/{sort?}', 'AdminOrdersController@getServiceOrders')->name('getServiceOrders');
+    // orders end
 });
 
 

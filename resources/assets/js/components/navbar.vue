@@ -119,6 +119,15 @@
                                         <span v-if="note.type == 'RejectedOrder'" class="text-muted" style="font-size: 11px;">
                                             <a v-link="{name: 'Order', params:{order_id: note.notify_id}}">- Rejected Order..</a>
                                         </span>
+                                        <span v-if="note.type == 'ChangeStatusFromAdmin'" class="text-muted" style="font-size: 11px;">
+                                            <a v-link="{name: 'Order', params:{order_id: note.notify_id}}">- (Admin) Changed Status..</a>
+                                        </span>
+                                        <span v-if="note.type == 'AcceptService'" class="text-muted" style="font-size: 11px;">
+                                            <a v-link="{name: 'ServiceDetails', params: {service_id: note.notify_id, service_name: 'Notification'}}">- Approved Service..</a>
+                                        </span>
+                                        <span v-if="note.type == 'RejectedService'" class="text-muted" style="font-size: 11px;">
+                                            <a v-link="{name: 'ServiceDetails', params: {service_id: note.notify_id, service_name: 'Notification'}}">- Rejected Service..</a>
+                                        </span>
                                         <span v-if="note.seen == 0" class="badge" style="background-color: #c0392b">unseen</span>
                                         <span v-if="note.seen == 1" class="badge" style="background-color: #2ecc71">seen</span>
                                         <span class="label label-default">{{note.created_at}}</span>
@@ -158,6 +167,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#"><i class="fa fa-btn fa-edit"></i>Edit Data</a></li>
                             <li><a href="#"><i class="fa fa-btn fa-money"></i>Balance</a></li>
+                            <li><a href="/admincp"><i class="fa fa-btn fa-users"></i>Admin CP</a></li>
                             <li><a v-link="{ path: '/AddCredit' }"><i class="fa fa-btn fa-exchange"></i>Charge Balance</a></li>
                             <li><a href="/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                         </ul>
@@ -234,6 +244,9 @@ export default {
         ServiceRemovedFromWishList: function (val) {
             this.favCount = val;
         }
+    },
+    route: {
+        canReuse: false,
     }
 }
 </script>

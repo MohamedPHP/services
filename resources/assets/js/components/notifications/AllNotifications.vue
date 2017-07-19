@@ -112,6 +112,54 @@
                                     <span v-if="notification.seen == 0" class="badge" style="background-color: #c0392b">unseen</span>
                                     <span v-if="notification.seen == 1" class="badge" style="background-color: #2ecc71">seen</span>
                                 </a>
+                                <a v-if="notification.type == 'ChangeStatusFromAdmin'" v-link="{name: 'Order', params:{order_id: notification.notify_id}}" class="list-group-item read">
+                                    <span v-if="notification.seen == 0" class="glyphicon glyphicon-ban-circle"></span>
+                                    <span v-if="notification.seen == 1" class="glyphicon glyphicon-check"></span>
+                                    <span class="name" style="min-width: 120px;display: inline-block;">
+                                        {{ notification.type }}
+                                    </span>
+                                    <span class="">{{ notification.get_sender.name }}</span>
+                                    <span class="text-muted" style="font-size: 11px;">
+                                        - {{ notification.get_sender.name }} Admin Changed The Order Status....
+                                    </span>
+                                    <span class="badge">
+                                        {{ notification.created_at }}
+                                    </span>
+                                    <span v-if="notification.seen == 0" class="badge" style="background-color: #c0392b">unseen</span>
+                                    <span v-if="notification.seen == 1" class="badge" style="background-color: #2ecc71">seen</span>
+                                </a>
+                                <a v-if="notification.type == 'AcceptService'" v-link="{name: 'ServiceDetails', params: {service_id: notification.notify_id, service_name: 'Notification'}}" class="list-group-item read">
+                                    <span v-if="notification.seen == 0" class="glyphicon glyphicon-ban-circle"></span>
+                                    <span v-if="notification.seen == 1" class="glyphicon glyphicon-check"></span>
+                                    <span class="name" style="min-width: 120px;display: inline-block;">
+                                        {{ notification.type }}
+                                    </span>
+                                    <span class="">{{ notification.get_sender.name }}</span>
+                                    <span class="text-muted" style="font-size: 11px;">
+                                        - {{ notification.get_sender.name }} Approved Service....
+                                    </span>
+                                    <span class="badge">
+                                        {{ notification.created_at }}
+                                    </span>
+                                    <span v-if="notification.seen == 0" class="badge" style="background-color: #c0392b">unseen</span>
+                                    <span v-if="notification.seen == 1" class="badge" style="background-color: #2ecc71">seen</span>
+                                </a>
+                                <a v-if="notification.type == 'RejectedService'" v-link="{name: 'ServiceDetails', params: {service_id: notification.notify_id, service_name: 'Notification'}}" class="list-group-item read">
+                                    <span v-if="notification.seen == 0" class="glyphicon glyphicon-ban-circle"></span>
+                                    <span v-if="notification.seen == 1" class="glyphicon glyphicon-check"></span>
+                                    <span class="name" style="min-width: 120px;display: inline-block;">
+                                        {{ notification.type }}
+                                    </span>
+                                    <span class="">{{ notification.get_sender.name }}</span>
+                                    <span class="text-muted" style="font-size: 11px;">
+                                        - {{ notification.get_sender.name }} Rejected The Service....
+                                    </span>
+                                    <span class="badge">
+                                        {{ notification.created_at }}
+                                    </span>
+                                    <span v-if="notification.seen == 0" class="badge" style="background-color: #c0392b">unseen</span>
+                                    <span v-if="notification.seen == 1" class="badge" style="background-color: #2ecc71">seen</span>
+                                </a>
                             </div>
                         </div>
                         <br>

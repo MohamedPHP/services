@@ -16,41 +16,17 @@
 
 </head>
 <body id="app-layout">
-    
+
+
+
+
 
 
     @yield('content')
 
 
-    {{-- <footer>
-        <div class="footer" id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <h3>Contact</h3>
-                        <ul>
-                            <li> <a href="#"> Lorem Ipsum </a> </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h3> Important Links </h3>
-                        <ul>
-                            <li> <a href="#"> Admission </a> </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h3> Location </h3>
-                        <ul>
-                            <li> <a href="#"> Lorem Ipsum </a> </li>
-                        </ul>
-                    </div>
-                </div>
-                <!--/.row-->
-            </div>
-            <!--/.container-->
-        </div>
-        <!--/.footer-->
-    </footer> --}}
+
+
 
     <script>
         var userIsLoggedIn = '{{ Auth::check() }}';

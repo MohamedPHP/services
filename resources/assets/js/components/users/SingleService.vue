@@ -10,7 +10,7 @@
         <div class="caption">
             <div class="row">
                 <div class="col-md-8 col-xs-8">
-                    <a v-link="{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}"><h5><strong>{{ service.name }}</strong></h5></a>
+                    <a v-link="{name: 'ServiceDetails', params: {service_id: service.id, service_name: service.name}}"><h5><strong>{{ (service.name).substring(0, 15) }}</strong></h5></a>
                 </div>
                 <div class="col-md-4 col-xs-4 price text-right">
                     <h5><label>$ {{ service.price }}</label></h5>

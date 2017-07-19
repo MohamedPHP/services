@@ -46,7 +46,7 @@
                         </td>
                         <td>
                             <a v-link="{name: 'Order', params:{order_id: order.id}}" class="btn btn-info"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                            <a v-if="order.status == 0" @click="deleteOrder($index, order.id)" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -100,9 +100,31 @@ export default {
                 }
             );
         },
+        deleteOrder: function (index, id) {
+            this.$http.get('/deleteOrder/' + id).then(
+                function (response) {
+                    if (response.body == 'done') {
+                        alertify.success('Order Deleted Success');
+                        this.orders.splice(index, 1);
+                    }else {
+                        window.location = '/';
+                    }
+                },
+                function (response) {
+                    if (response.body == 'You Need To login.') {
+                        alert(response.body);
+                        window.location = '/login';
+                    }
+                    alert('There Is An Error Please Contact Us');
+                    this.$router.go({
+                        path: '/',
+                    });
+                }
+            );
+        },
         filter: function (value) {
             this.filterData = value;
-        }
+        },
     },
     route:{
         activate: function () {

@@ -12,7 +12,7 @@
     <hr>
     <div class="row" style="border-left: 3px solid #3c763d; padding: 15px;">
         <div class="col-md-12">
-            Test
+
         </div>
     </div>
 @endsection
