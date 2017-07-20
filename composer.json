@@ -9,7 +9,9 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "^5.2.0",
         "intervention/image": "^2.3",
-        "paypal/rest-api-sdk-php": "*"
+        "paypal/rest-api-sdk-php": "*",
+        "barryvdh/laravel-debugbar": "^2.4",
+        "fightbulc/moment": "^1.26"
 
     },
     "require-dev": {

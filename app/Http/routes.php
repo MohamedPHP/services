@@ -56,6 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/getAllpayments', 'UserController@getAllpayments');
     Route::get('/Profits', 'UserController@Profits');
     Route::get('/getAllBalance', 'UserController@getAllBalance');
+    Route::get('/getAllWithdrawbalance', 'UserController@getAllWithdrawbalance');
+    Route::post('/getProfits', 'UserController@getProfits');
     // notifications
     Route::get('/getUserNotifications/{length?}', 'UserController@getUserNotifications');
     Route::get('/getNotificationList', 'UserController@getNotificationList');
@@ -81,11 +83,22 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admincp'], function () {
     // services end
 
     // orders start
-    Route::get('/orders/{sort?}', 'AdminOrdersController@index');
+    Route::get('/orders/{sort?}', 'AdminOrdersController@index')->name('order.index');
     Route::get('/orders-view/{id}', 'AdminOrdersController@view')->name('order.view');
     Route::post('/order-changestatus', 'AdminOrdersController@changeStatus')->name('changestatus.admin');
     Route::get('/order/getServiceOrders/{service_id}/{sort?}', 'AdminOrdersController@getServiceOrders')->name('getServiceOrders');
     // orders end
+
+    // users start
+    Route::get('/users/{sort?}', 'AdminUserController@index');
+    Route::get('/users-edit/{user_id}', 'AdminUserController@edit')->name('user.edit');
+    Route::post('/users-update/{user_id}', 'AdminUserController@update')->name('user.update');
+    // users end
+
+    // profits start
+    Route::get('/profits/{sort?}', 'AdminProfitController@index');
+    // profits end
+
 });
 
 

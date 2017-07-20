@@ -46,7 +46,7 @@
             {{ csrf_field() }}
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="please add services name..." value="{{ old('name') !== null ? old('name') : $service->name}}">
+                <input type="text" class="form-control" id="name" name="name" placeholder="please add services name..." value="{{ old('name') !== null ? old('name') : $service->name}}" required>
                 @if ($errors->has('name'))
                     <span class="help-block">
                         <strong>{{ $errors->first('name') }}</strong>
@@ -55,7 +55,7 @@
             </div>
             <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
                 <label for="image">image</label>
-                <input type="file" class="form-control" id="image" name="image">
+                <input type="file" class="form-control" id="image" name="image" required>
                 @if ($errors->has('image'))
                     <span class="help-block">
                         <strong>{{ $errors->first('image') }}</strong>
@@ -66,7 +66,7 @@
             </div>
             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                 <label for="price">price</label>
-                <select id="price" name="price" class="form-control">
+                <select id="price" name="price" class="form-control" required>
                     <!-- 5, 10, 15, 20, 25, 30, 40, 50 -->
                     <option value="5" {{ $service->price == 5 ? 'selected' : '' }}>5 $</option>
                     <option value="10" {{ $service->price == 10 ? 'selected' : '' }}>10 $</option>
@@ -85,7 +85,7 @@
             </div>
             <div class="form-group{{ $errors->has('cat_id') ? ' has-error' : '' }}">
                 <label for="prcat_idice">Category</label>
-                <select id="cat_id" name="cat_id" class="form-control">
+                <select id="cat_id" name="cat_id" class="form-control" required>
                 @foreach ($cats as $cat)
                     <option value="{{ $cat->id }}" {{ $cat->id == $service->cat_id ? 'selected' : '' }}>{{ $cat->name }}</option>
                 @endforeach
@@ -98,7 +98,7 @@
             </div>
             <div class="form-group{{ $errors->has('dis') ? ' has-error' : '' }}">
                 <label for="discription">discription</label>
-                <textarea type="text" rows="8" cols="80" class="form-control" id="discription" name="dis" placeholder="please add services discription...">{{ old('dis') !== null ? old('dis') : $service->dis}}</textarea>
+                <textarea required type="text" rows="8" cols="80" class="form-control" id="discription" name="dis" placeholder="please add services discription...">{{ old('dis') !== null ? old('dis') : $service->dis}}</textarea>
                 @if ($errors->has('dis'))
                     <span class="help-block">
                         <strong>{{ $errors->first('dis') }}</strong>

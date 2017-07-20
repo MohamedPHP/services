@@ -10,8 +10,23 @@
         </div>
         <div class="col-md-6">
             <div style="margin-top: 25px;">
-                <form action="{{ url('/admincp') }}" method="get">
-                    <div class="col-md-12">
+                <form action="{{ url('/admincp/services') }}" method="get">
+                    <div class="col-md-4">
+                        <!-- Single button -->
+                        <div class="btn-group">
+                            <button type="button" style="width: 160px;" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                By Category <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach (\App\Category::all() as $cat)
+                                    <li><a href="{{ url('/admincp/services', ['sort' => 'ByCategory']) }}?cat_id={{ $cat->id }}">{{ $cat->name }}</a></li>
+                                @endforeach
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
                         <input type="text" value="{{ Request::get('q') }}" name="q" class="form-control" placeholder="Search... Hit Enter">
                     </div>
                 </form>
@@ -22,7 +37,7 @@
     <hr>
 
     <div class="row" style="border-left: 3px solid #3c763d; box-shadow: 1px 1px 3px #777;">
-        <div class="col-md-12" style="">
+        <div class="col-md-12" style="margin: 0 0 15px 0;">
             <div class="btn-group" style="margin-top: 15px;">
                 <a class="btn btn-primary" href="{{ url('/admincp/services', ['sort' => '']) }}">Reset Sorting</a>
                 <a class="btn btn-default" href="{{ url('/admincp/services', ['sort' => 'byAccepted']) }}">By Accepted</a>
@@ -75,7 +90,6 @@
                         <td><a href="{{ route('getServiceOrders', ['service_id' => $service->id]) }}">{{ $service->orders_count }}</a></td>
                         <td>
                             <a href="{{ route('service.edit', ['id' => $service->id]) }}" class="btn btn-success"><i class="fa fa-edit"></i></a>
-                            <a href="{{ route('service.delete', ['id' => $service->id]) }}" class="btn btn-danger delete"><i class="fa fa-trash-o"></i></a>
                             @if ($service->status == 0)
                                 <a href="{{ route('service.accept', ['id' => $service->id]) }}" class="btn btn-info confirmed"><i class="fa fa-unlock"></i></a>
                                 <a href="{{ route('service.reject', ['id' => $service->id]) }}" class="btn btn-warning confirmed"><i class="fa fa-lock"></i></a>

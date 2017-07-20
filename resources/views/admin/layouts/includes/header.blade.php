@@ -15,6 +15,22 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-left">
                 <li><a href="{{ url('/') }}">Frontend</a></li>
+                <li>
+                    <a href="{{ url('/admincp/profits', ['sort' => 'TodaysProfits']) }}">
+                        Send Profits {{ $timeNow }}
+                        <span class="label label-success">
+                            {{ $todaysProfitsCount }}
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('/admincp/profits', ['sort' => 'TodaysProfitsSent']) }}">
+                        Sent Profits {{ $timeNow }}
+                        <span class="label label-success">
+                            {{ $todaysProfitsSentCount }}
+                        </span>
+                    </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

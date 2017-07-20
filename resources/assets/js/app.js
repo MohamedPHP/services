@@ -95,6 +95,9 @@ route.map({
     '/Balance': {
         component: require('./components/credit/Balance.vue'),
     },
+    '/Withdrawbalance': {
+        component: require('./components/credit/Withdrawbalance.vue'),
+    },
     '/AllNotifications': {
         component: require('./components/notifications/AllNotifications.vue'),
     },

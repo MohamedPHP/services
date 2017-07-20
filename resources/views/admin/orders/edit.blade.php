@@ -60,7 +60,7 @@
             <div class="alert alert-info"><strong>! Important !</strong> When You Change the status of the order the profits of sernder and the receiver will be effected also so <strong>Take care</strong></div>
             <hr>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="panel panel-success">
                         <!-- Default panel contents -->
                         <div class="panel-heading">Service Owner</div>
@@ -73,23 +73,43 @@
                             <thead>
                                 <tr>
                                     <th>Balance</th>
+                                    <th>All Profits</th>
                                     <th>Profits</th>
+                                    <th>Wating Withdraw</th>
+                                    <th>Done Withdraw</th>
                                     <th>Charges</th>
                                     <th>Payments</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                // كل الارباح الي انا كسبتها من بيع الخدمات
+                                $profits      = \App\Payment::where('receiver_id', $order->getServiceOwner->id)->where('isfinished', 1)->sum('price') > 0 ? \App\Payment::where('receiver_id', $order->getServiceOwner->id)->where('isfinished', 1)->sum('price') : 0;
+                                // الارباح الي انا بعت طلب اني اخدها
+                                $gotProfits   = \App\Profit::where('user_id', $order->getServiceOwner->id)->sum('price') > 0  ? \App\Profit::where('user_id', $order->getServiceOwner->id)->sum('price') : 0;
+                                // الارباح الي انا بعت طلب و مستني تتوافق
+                                $waitProfits  = \App\Profit::where('user_id', $order->getServiceOwner->id)->where('status', 0)->sum('price') > 0  ? \App\Profit::where('user_id', $order->getServiceOwner->id)->where('status', 0)->sum('price') : 0;
+                                // الارباح الي انا بعت طلب علشان اخدها و اتوافقت
+                                $doneProfits  = \App\Profit::where('user_id', $order->getServiceOwner->id)->where('status', 1)->sum('price') > 0  ? \App\Profit::where('user_id', $order->getServiceOwner->id)->where('status', 1)->sum('price') : 0;
+                                // المدفوعات
+                                $payments     = \App\Payment::where('user_id', $order->getServiceOwner->id)->where('isfinished', '!=', 2)->sum('price') > 0 ? \App\Payment::where('user_id', $order->getServiceOwner->id)->where('isfinished', '!=', 2)->sum('price') : 0;
+                                // اجمالي عمليات الشحن
+                                $charges      = \App\Paypal::where('user_id', $order->getServiceOwner->id)->sum('price') > 0 ? \App\Paypal::where('user_id', $order->getServiceOwner->id)->sum('price') : 0;
+                                @endphp
                                 <tr>
-                                    <td>{{ (\App\Paypal::where('user_id', $order->getServiceOwner->id)->sum('price') + \App\Payment::where('receiver_id', $order->getServiceOwner->id)->where('isfinished', 1)->sum('price')) - \App\Payment::where('user_id', $order->getServiceOwner->id)->where('isfinished', '!=', 2)->sum('price') }}$</td>
-                                    <td>{{ \App\Payment::where('receiver_id', $order->getServiceOwner->id)->where('isfinished', 1)->sum('price') > 0 ? \App\Payment::where('receiver_id', $order->getServiceOwner->id)->where('isfinished', 1)->sum('price') : 0 }}$</td>
-                                    <td>{{ \App\Paypal::where('user_id', $order->getServiceOwner->id)->sum('price') > 0 ? \App\Paypal::where('user_id', $order->getServiceOwner->id)->sum('price') : 0 }}$</td>
-                                    <td>{{ \App\Payment::where('user_id', $order->getServiceOwner->id)->where('isfinished', '!=', 2)->sum('price') > 0 ? \App\Payment::where('user_id', $order->getServiceOwner->id)->where('isfinished', '!=', 2)->sum('price') : 0 }}$</td>
+                                    <td>{{ ($charges - $payments) + ($profits - $gotProfits) }}$</td>
+                                    <td>{{ ($profits) }}$</td>
+                                    <td>{{ ($profits - $gotProfits) }}$</td>
+                                    <td>{{ $waitProfits }}$</td>
+                                    <td>{{ $doneProfits }}$</td>
+                                    <td>{{ $charges }}$</td>
+                                    <td>{{ $payments }}$</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="panel panel-info">
                         <!-- Default panel contents -->
                         <div class="panel-heading">Service Requester</div>
@@ -102,17 +122,37 @@
                             <thead>
                                 <tr>
                                     <th>Balance</th>
+                                    <th>All Profits</th>
                                     <th>Profits</th>
+                                    <th>Wating Withdraw</th>
+                                    <th>Done Withdraw</th>
                                     <th>Charges</th>
                                     <th>Payments</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                // كل الارباح الي انا كسبتها من بيع الخدمات
+                                $profitsUserOrder      = \App\Payment::where('receiver_id', $order->userThatRequestTheService->id)->where('isfinished', 1)->sum('price') > 0 ? \App\Payment::where('receiver_id', $order->userThatRequestTheService->id)->where('isfinished', 1)->sum('price') : 0;
+                                // الارباح الي انا بعت طلب اني اخدها
+                                $gotProfitsUserOrder   = \App\Profit::where('user_id', $order->userThatRequestTheService->id)->sum('price') > 0  ? \App\Profit::where('user_id', $order->userThatRequestTheService->id)->sum('price') : 0;
+                                // الارباح الي انا بعت طلب و مستني تتوافق
+                                $waitProfitsUserOrder  = \App\Profit::where('user_id', $order->userThatRequestTheService->id)->where('status', 0)->sum('price') > 0  ? \App\Profit::where('user_id', $order->userThatRequestTheService->id)->where('status', 0)->sum('price') : 0;
+                                // الارباح الي انا بعت طلب علشان اخدها و اتوافقت
+                                $doneProfitsUserOrder  = \App\Profit::where('user_id', $order->userThatRequestTheService->id)->where('status', 1)->sum('price') > 0  ? \App\Profit::where('user_id', $order->userThatRequestTheService->id)->where('status', 1)->sum('price') : 0;
+                                // المدفوعات
+                                $paymentsUserOrder     = \App\Payment::where('user_id', $order->userThatRequestTheService->id)->where('isfinished', '!=', 2)->sum('price') > 0 ? \App\Payment::where('user_id', $order->userThatRequestTheService->id)->where('isfinished', '!=', 2)->sum('price') : 0;
+                                // اجمالي عمليات الشحن
+                                $chargesUserOrder      = \App\Paypal::where('user_id', $order->userThatRequestTheService->id)->sum('price') > 0 ? \App\Paypal::where('user_id', $order->userThatRequestTheService->id)->sum('price') : 0;
+                                @endphp
                                 <tr>
-                                    <td>{{ (\App\Paypal::where('user_id', $order->userThatRequestTheService->id)->sum('price') + \App\Payment::where('receiver_id', $order->userThatRequestTheService->id)->where('isfinished', 1)->sum('price')) - \App\Payment::where('user_id', $order->userThatRequestTheService->id)->where('isfinished', '!=', 2)->sum('price') }}$</td>
-                                    <td>{{ \App\Payment::where('receiver_id', $order->userThatRequestTheService->id)->where('isfinished', 1)->sum('price') > 0 ? \App\Payment::where('receiver_id', $order->userThatRequestTheService->id)->where('isfinished', 1)->sum('price') : 0 }}$</td>
-                                    <td>{{ \App\Paypal::where('user_id', $order->userThatRequestTheService->id)->sum('price') > 0 ? \App\Paypal::where('user_id', $order->userThatRequestTheService->id)->sum('price') : 0 }}$</td>
-                                    <td>{{ \App\Payment::where('user_id', $order->userThatRequestTheService->id)->where('isfinished', '!=', 2)->sum('price') > 0 ? \App\Payment::where('user_id', $order->userThatRequestTheService->id)->where('isfinished', '!=', 2)->sum('price') : 0 }}$</td>
+                                    <td>{{ ($chargesUserOrder - $paymentsUserOrder) + ($profitsUserOrder - $gotProfitsUserOrder) }}$</td>
+                                    <td>{{ ($profitsUserOrder) }}$</td>
+                                    <td>{{ ($profitsUserOrder - $gotProfitsUserOrder) }}$</td>
+                                    <td>{{ $waitProfitsUserOrder }}$</td>
+                                    <td>{{ $doneProfitsUserOrder }}$</td>
+                                    <td>{{ $chargesUserOrder }}$</td>
+                                    <td>{{ $paymentsUserOrder }}$</td>
                                 </tr>
                             </tbody>
                         </table>

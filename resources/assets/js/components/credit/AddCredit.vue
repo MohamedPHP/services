@@ -67,10 +67,12 @@ export default {
                     alert(response.body);
                     window.location = '/login';
                 }
-                for (var key in response.body) {
-                    alertify.error(response.body[key]);
+                if (typeof(response.body) == 'object') {
+                    for (var key in response.body) {
+                        alertify.error(response.body[key]);
+                    }
+                    this.disabled = false;
                 }
-                this.disabled = false;
             });
         }
     },

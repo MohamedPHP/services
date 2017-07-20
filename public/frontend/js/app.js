@@ -1,6 +1,1017 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/symbol"), __esModule: true };
+},{"core-js/library/fn/symbol":5}],2:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/symbol/iterator"), __esModule: true };
+},{"core-js/library/fn/symbol/iterator":6}],3:[function(require,module,exports){
+"use strict";
 
-},{}],2:[function(require,module,exports){
+exports.__esModule = true;
+
+var _iterator = require("../core-js/symbol/iterator");
+
+var _iterator2 = _interopRequireDefault(_iterator);
+
+var _symbol = require("../core-js/symbol");
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
+} : function (obj) {
+  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+};
+},{"../core-js/symbol":1,"../core-js/symbol/iterator":2}],4:[function(require,module,exports){
+
+},{}],5:[function(require,module,exports){
+require('../../modules/es6.symbol');
+require('../../modules/es6.object.to-string');
+require('../../modules/es7.symbol.async-iterator');
+require('../../modules/es7.symbol.observable');
+module.exports = require('../../modules/_core').Symbol;
+},{"../../modules/_core":12,"../../modules/es6.object.to-string":64,"../../modules/es6.symbol":66,"../../modules/es7.symbol.async-iterator":67,"../../modules/es7.symbol.observable":68}],6:[function(require,module,exports){
+require('../../modules/es6.string.iterator');
+require('../../modules/web.dom.iterable');
+module.exports = require('../../modules/_wks-ext').f('iterator');
+},{"../../modules/_wks-ext":61,"../../modules/es6.string.iterator":65,"../../modules/web.dom.iterable":69}],7:[function(require,module,exports){
+module.exports = function(it){
+  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+  return it;
+};
+},{}],8:[function(require,module,exports){
+module.exports = function(){ /* empty */ };
+},{}],9:[function(require,module,exports){
+var isObject = require('./_is-object');
+module.exports = function(it){
+  if(!isObject(it))throw TypeError(it + ' is not an object!');
+  return it;
+};
+},{"./_is-object":28}],10:[function(require,module,exports){
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject = require('./_to-iobject')
+  , toLength  = require('./_to-length')
+  , toIndex   = require('./_to-index');
+module.exports = function(IS_INCLUDES){
+  return function($this, el, fromIndex){
+    var O      = toIObject($this)
+      , length = toLength(O.length)
+      , index  = toIndex(fromIndex, length)
+      , value;
+    // Array#includes uses SameValueZero equality algorithm
+    if(IS_INCLUDES && el != el)while(length > index){
+      value = O[index++];
+      if(value != value)return true;
+    // Array#toIndex ignores holes, Array#includes - not
+    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
+      if(O[index] === el)return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+},{"./_to-index":53,"./_to-iobject":55,"./_to-length":56}],11:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = function(it){
+  return toString.call(it).slice(8, -1);
+};
+},{}],12:[function(require,module,exports){
+var core = module.exports = {version: '2.4.0'};
+if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+},{}],13:[function(require,module,exports){
+// optional / simple context binding
+var aFunction = require('./_a-function');
+module.exports = function(fn, that, length){
+  aFunction(fn);
+  if(that === undefined)return fn;
+  switch(length){
+    case 1: return function(a){
+      return fn.call(that, a);
+    };
+    case 2: return function(a, b){
+      return fn.call(that, a, b);
+    };
+    case 3: return function(a, b, c){
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function(/* ...args */){
+    return fn.apply(that, arguments);
+  };
+};
+},{"./_a-function":7}],14:[function(require,module,exports){
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+},{}],15:[function(require,module,exports){
+// Thank's IE8 for his funny defineProperty
+module.exports = !require('./_fails')(function(){
+  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+});
+},{"./_fails":20}],16:[function(require,module,exports){
+var isObject = require('./_is-object')
+  , document = require('./_global').document
+  // in old IE typeof document.createElement is 'object'
+  , is = isObject(document) && isObject(document.createElement);
+module.exports = function(it){
+  return is ? document.createElement(it) : {};
+};
+},{"./_global":21,"./_is-object":28}],17:[function(require,module,exports){
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+},{}],18:[function(require,module,exports){
+// all enumerable object keys, includes symbols
+var getKeys = require('./_object-keys')
+  , gOPS    = require('./_object-gops')
+  , pIE     = require('./_object-pie');
+module.exports = function(it){
+  var result     = getKeys(it)
+    , getSymbols = gOPS.f;
+  if(getSymbols){
+    var symbols = getSymbols(it)
+      , isEnum  = pIE.f
+      , i       = 0
+      , key;
+    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))result.push(key);
+  } return result;
+};
+},{"./_object-gops":42,"./_object-keys":45,"./_object-pie":46}],19:[function(require,module,exports){
+var global    = require('./_global')
+  , core      = require('./_core')
+  , ctx       = require('./_ctx')
+  , hide      = require('./_hide')
+  , PROTOTYPE = 'prototype';
+
+var $export = function(type, name, source){
+  var IS_FORCED = type & $export.F
+    , IS_GLOBAL = type & $export.G
+    , IS_STATIC = type & $export.S
+    , IS_PROTO  = type & $export.P
+    , IS_BIND   = type & $export.B
+    , IS_WRAP   = type & $export.W
+    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+    , expProto  = exports[PROTOTYPE]
+    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+    , key, own, out;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if(own && key in exports)continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function(C){
+      var F = function(a, b, c){
+        if(this instanceof C){
+          switch(arguments.length){
+            case 0: return new C;
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if(IS_PROTO){
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library` 
+module.exports = $export;
+},{"./_core":12,"./_ctx":13,"./_global":21,"./_hide":23}],20:[function(require,module,exports){
+module.exports = function(exec){
+  try {
+    return !!exec();
+  } catch(e){
+    return true;
+  }
+};
+},{}],21:[function(require,module,exports){
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+},{}],22:[function(require,module,exports){
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function(it, key){
+  return hasOwnProperty.call(it, key);
+};
+},{}],23:[function(require,module,exports){
+var dP         = require('./_object-dp')
+  , createDesc = require('./_property-desc');
+module.exports = require('./_descriptors') ? function(object, key, value){
+  return dP.f(object, key, createDesc(1, value));
+} : function(object, key, value){
+  object[key] = value;
+  return object;
+};
+},{"./_descriptors":15,"./_object-dp":37,"./_property-desc":47}],24:[function(require,module,exports){
+module.exports = require('./_global').document && document.documentElement;
+},{"./_global":21}],25:[function(require,module,exports){
+module.exports = !require('./_descriptors') && !require('./_fails')(function(){
+  return Object.defineProperty(require('./_dom-create')('div'), 'a', {get: function(){ return 7; }}).a != 7;
+});
+},{"./_descriptors":15,"./_dom-create":16,"./_fails":20}],26:[function(require,module,exports){
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = require('./_cof');
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+},{"./_cof":11}],27:[function(require,module,exports){
+// 7.2.2 IsArray(argument)
+var cof = require('./_cof');
+module.exports = Array.isArray || function isArray(arg){
+  return cof(arg) == 'Array';
+};
+},{"./_cof":11}],28:[function(require,module,exports){
+module.exports = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+},{}],29:[function(require,module,exports){
+'use strict';
+var create         = require('./_object-create')
+  , descriptor     = require('./_property-desc')
+  , setToStringTag = require('./_set-to-string-tag')
+  , IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+require('./_hide')(IteratorPrototype, require('./_wks')('iterator'), function(){ return this; });
+
+module.exports = function(Constructor, NAME, next){
+  Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
+  setToStringTag(Constructor, NAME + ' Iterator');
+};
+},{"./_hide":23,"./_object-create":36,"./_property-desc":47,"./_set-to-string-tag":49,"./_wks":62}],30:[function(require,module,exports){
+'use strict';
+var LIBRARY        = require('./_library')
+  , $export        = require('./_export')
+  , redefine       = require('./_redefine')
+  , hide           = require('./_hide')
+  , has            = require('./_has')
+  , Iterators      = require('./_iterators')
+  , $iterCreate    = require('./_iter-create')
+  , setToStringTag = require('./_set-to-string-tag')
+  , getPrototypeOf = require('./_object-gpo')
+  , ITERATOR       = require('./_wks')('iterator')
+  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
+  , FF_ITERATOR    = '@@iterator'
+  , KEYS           = 'keys'
+  , VALUES         = 'values';
+
+var returnThis = function(){ return this; };
+
+module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED){
+  $iterCreate(Constructor, NAME, next);
+  var getMethod = function(kind){
+    if(!BUGGY && kind in proto)return proto[kind];
+    switch(kind){
+      case KEYS: return function keys(){ return new Constructor(this, kind); };
+      case VALUES: return function values(){ return new Constructor(this, kind); };
+    } return function entries(){ return new Constructor(this, kind); };
+  };
+  var TAG        = NAME + ' Iterator'
+    , DEF_VALUES = DEFAULT == VALUES
+    , VALUES_BUG = false
+    , proto      = Base.prototype
+    , $native    = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT]
+    , $default   = $native || getMethod(DEFAULT)
+    , $entries   = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined
+    , $anyNative = NAME == 'Array' ? proto.entries || $native : $native
+    , methods, key, IteratorPrototype;
+  // Fix native
+  if($anyNative){
+    IteratorPrototype = getPrototypeOf($anyNative.call(new Base));
+    if(IteratorPrototype !== Object.prototype){
+      // Set @@toStringTag to native iterators
+      setToStringTag(IteratorPrototype, TAG, true);
+      // fix for some old engines
+      if(!LIBRARY && !has(IteratorPrototype, ITERATOR))hide(IteratorPrototype, ITERATOR, returnThis);
+    }
+  }
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if(DEF_VALUES && $native && $native.name !== VALUES){
+    VALUES_BUG = true;
+    $default = function values(){ return $native.call(this); };
+  }
+  // Define iterator
+  if((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])){
+    hide(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  Iterators[NAME] = $default;
+  Iterators[TAG]  = returnThis;
+  if(DEFAULT){
+    methods = {
+      values:  DEF_VALUES ? $default : getMethod(VALUES),
+      keys:    IS_SET     ? $default : getMethod(KEYS),
+      entries: $entries
+    };
+    if(FORCED)for(key in methods){
+      if(!(key in proto))redefine(proto, key, methods[key]);
+    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+},{"./_export":19,"./_has":22,"./_hide":23,"./_iter-create":29,"./_iterators":32,"./_library":34,"./_object-gpo":43,"./_redefine":48,"./_set-to-string-tag":49,"./_wks":62}],31:[function(require,module,exports){
+module.exports = function(done, value){
+  return {value: value, done: !!done};
+};
+},{}],32:[function(require,module,exports){
+module.exports = {};
+},{}],33:[function(require,module,exports){
+var getKeys   = require('./_object-keys')
+  , toIObject = require('./_to-iobject');
+module.exports = function(object, el){
+  var O      = toIObject(object)
+    , keys   = getKeys(O)
+    , length = keys.length
+    , index  = 0
+    , key;
+  while(length > index)if(O[key = keys[index++]] === el)return key;
+};
+},{"./_object-keys":45,"./_to-iobject":55}],34:[function(require,module,exports){
+module.exports = true;
+},{}],35:[function(require,module,exports){
+var META     = require('./_uid')('meta')
+  , isObject = require('./_is-object')
+  , has      = require('./_has')
+  , setDesc  = require('./_object-dp').f
+  , id       = 0;
+var isExtensible = Object.isExtensible || function(){
+  return true;
+};
+var FREEZE = !require('./_fails')(function(){
+  return isExtensible(Object.preventExtensions({}));
+});
+var setMeta = function(it){
+  setDesc(it, META, {value: {
+    i: 'O' + ++id, // object ID
+    w: {}          // weak collections IDs
+  }});
+};
+var fastKey = function(it, create){
+  // return primitive with prefix
+  if(!isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if(!has(it, META)){
+    // can't set metadata to uncaught frozen object
+    if(!isExtensible(it))return 'F';
+    // not necessary to add metadata
+    if(!create)return 'E';
+    // add missing metadata
+    setMeta(it);
+  // return object ID
+  } return it[META].i;
+};
+var getWeak = function(it, create){
+  if(!has(it, META)){
+    // can't set metadata to uncaught frozen object
+    if(!isExtensible(it))return true;
+    // not necessary to add metadata
+    if(!create)return false;
+    // add missing metadata
+    setMeta(it);
+  // return hash weak collections IDs
+  } return it[META].w;
+};
+// add metadata on freeze-family methods calling
+var onFreeze = function(it){
+  if(FREEZE && meta.NEED && isExtensible(it) && !has(it, META))setMeta(it);
+  return it;
+};
+var meta = module.exports = {
+  KEY:      META,
+  NEED:     false,
+  fastKey:  fastKey,
+  getWeak:  getWeak,
+  onFreeze: onFreeze
+};
+},{"./_fails":20,"./_has":22,"./_is-object":28,"./_object-dp":37,"./_uid":59}],36:[function(require,module,exports){
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var anObject    = require('./_an-object')
+  , dPs         = require('./_object-dps')
+  , enumBugKeys = require('./_enum-bug-keys')
+  , IE_PROTO    = require('./_shared-key')('IE_PROTO')
+  , Empty       = function(){ /* empty */ }
+  , PROTOTYPE   = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function(){
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = require('./_dom-create')('iframe')
+    , i      = enumBugKeys.length
+    , lt     = '<'
+    , gt     = '>'
+    , iframeDocument;
+  iframe.style.display = 'none';
+  require('./_html').appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while(i--)delete createDict[PROTOTYPE][enumBugKeys[i]];
+  return createDict();
+};
+
+module.exports = Object.create || function create(O, Properties){
+  var result;
+  if(O !== null){
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty;
+    Empty[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : dPs(result, Properties);
+};
+
+},{"./_an-object":9,"./_dom-create":16,"./_enum-bug-keys":17,"./_html":24,"./_object-dps":38,"./_shared-key":50}],37:[function(require,module,exports){
+var anObject       = require('./_an-object')
+  , IE8_DOM_DEFINE = require('./_ie8-dom-define')
+  , toPrimitive    = require('./_to-primitive')
+  , dP             = Object.defineProperty;
+
+exports.f = require('./_descriptors') ? Object.defineProperty : function defineProperty(O, P, Attributes){
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if(IE8_DOM_DEFINE)try {
+    return dP(O, P, Attributes);
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
+  return O;
+};
+},{"./_an-object":9,"./_descriptors":15,"./_ie8-dom-define":25,"./_to-primitive":58}],38:[function(require,module,exports){
+var dP       = require('./_object-dp')
+  , anObject = require('./_an-object')
+  , getKeys  = require('./_object-keys');
+
+module.exports = require('./_descriptors') ? Object.defineProperties : function defineProperties(O, Properties){
+  anObject(O);
+  var keys   = getKeys(Properties)
+    , length = keys.length
+    , i = 0
+    , P;
+  while(length > i)dP.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+},{"./_an-object":9,"./_descriptors":15,"./_object-dp":37,"./_object-keys":45}],39:[function(require,module,exports){
+var pIE            = require('./_object-pie')
+  , createDesc     = require('./_property-desc')
+  , toIObject      = require('./_to-iobject')
+  , toPrimitive    = require('./_to-primitive')
+  , has            = require('./_has')
+  , IE8_DOM_DEFINE = require('./_ie8-dom-define')
+  , gOPD           = Object.getOwnPropertyDescriptor;
+
+exports.f = require('./_descriptors') ? gOPD : function getOwnPropertyDescriptor(O, P){
+  O = toIObject(O);
+  P = toPrimitive(P, true);
+  if(IE8_DOM_DEFINE)try {
+    return gOPD(O, P);
+  } catch(e){ /* empty */ }
+  if(has(O, P))return createDesc(!pIE.f.call(O, P), O[P]);
+};
+},{"./_descriptors":15,"./_has":22,"./_ie8-dom-define":25,"./_object-pie":46,"./_property-desc":47,"./_to-iobject":55,"./_to-primitive":58}],40:[function(require,module,exports){
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+var toIObject = require('./_to-iobject')
+  , gOPN      = require('./_object-gopn').f
+  , toString  = {}.toString;
+
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
+
+var getWindowNames = function(it){
+  try {
+    return gOPN(it);
+  } catch(e){
+    return windowNames.slice();
+  }
+};
+
+module.exports.f = function getOwnPropertyNames(it){
+  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
+};
+
+},{"./_object-gopn":41,"./_to-iobject":55}],41:[function(require,module,exports){
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys      = require('./_object-keys-internal')
+  , hiddenKeys = require('./_enum-bug-keys').concat('length', 'prototype');
+
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
+  return $keys(O, hiddenKeys);
+};
+},{"./_enum-bug-keys":17,"./_object-keys-internal":44}],42:[function(require,module,exports){
+exports.f = Object.getOwnPropertySymbols;
+},{}],43:[function(require,module,exports){
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has         = require('./_has')
+  , toObject    = require('./_to-object')
+  , IE_PROTO    = require('./_shared-key')('IE_PROTO')
+  , ObjectProto = Object.prototype;
+
+module.exports = Object.getPrototypeOf || function(O){
+  O = toObject(O);
+  if(has(O, IE_PROTO))return O[IE_PROTO];
+  if(typeof O.constructor == 'function' && O instanceof O.constructor){
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
+},{"./_has":22,"./_shared-key":50,"./_to-object":57}],44:[function(require,module,exports){
+var has          = require('./_has')
+  , toIObject    = require('./_to-iobject')
+  , arrayIndexOf = require('./_array-includes')(false)
+  , IE_PROTO     = require('./_shared-key')('IE_PROTO');
+
+module.exports = function(object, names){
+  var O      = toIObject(object)
+    , i      = 0
+    , result = []
+    , key;
+  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while(names.length > i)if(has(O, key = names[i++])){
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+},{"./_array-includes":10,"./_has":22,"./_shared-key":50,"./_to-iobject":55}],45:[function(require,module,exports){
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys       = require('./_object-keys-internal')
+  , enumBugKeys = require('./_enum-bug-keys');
+
+module.exports = Object.keys || function keys(O){
+  return $keys(O, enumBugKeys);
+};
+},{"./_enum-bug-keys":17,"./_object-keys-internal":44}],46:[function(require,module,exports){
+exports.f = {}.propertyIsEnumerable;
+},{}],47:[function(require,module,exports){
+module.exports = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+},{}],48:[function(require,module,exports){
+module.exports = require('./_hide');
+},{"./_hide":23}],49:[function(require,module,exports){
+var def = require('./_object-dp').f
+  , has = require('./_has')
+  , TAG = require('./_wks')('toStringTag');
+
+module.exports = function(it, tag, stat){
+  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+};
+},{"./_has":22,"./_object-dp":37,"./_wks":62}],50:[function(require,module,exports){
+var shared = require('./_shared')('keys')
+  , uid    = require('./_uid');
+module.exports = function(key){
+  return shared[key] || (shared[key] = uid(key));
+};
+},{"./_shared":51,"./_uid":59}],51:[function(require,module,exports){
+var global = require('./_global')
+  , SHARED = '__core-js_shared__'
+  , store  = global[SHARED] || (global[SHARED] = {});
+module.exports = function(key){
+  return store[key] || (store[key] = {});
+};
+},{"./_global":21}],52:[function(require,module,exports){
+var toInteger = require('./_to-integer')
+  , defined   = require('./_defined');
+// true  -> String#at
+// false -> String#codePointAt
+module.exports = function(TO_STRING){
+  return function(that, pos){
+    var s = String(defined(that))
+      , i = toInteger(pos)
+      , l = s.length
+      , a, b;
+    if(i < 0 || i >= l)return TO_STRING ? '' : undefined;
+    a = s.charCodeAt(i);
+    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+      ? TO_STRING ? s.charAt(i) : a
+      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+  };
+};
+},{"./_defined":14,"./_to-integer":54}],53:[function(require,module,exports){
+var toInteger = require('./_to-integer')
+  , max       = Math.max
+  , min       = Math.min;
+module.exports = function(index, length){
+  index = toInteger(index);
+  return index < 0 ? max(index + length, 0) : min(index, length);
+};
+},{"./_to-integer":54}],54:[function(require,module,exports){
+// 7.1.4 ToInteger
+var ceil  = Math.ceil
+  , floor = Math.floor;
+module.exports = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+},{}],55:[function(require,module,exports){
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = require('./_iobject')
+  , defined = require('./_defined');
+module.exports = function(it){
+  return IObject(defined(it));
+};
+},{"./_defined":14,"./_iobject":26}],56:[function(require,module,exports){
+// 7.1.15 ToLength
+var toInteger = require('./_to-integer')
+  , min       = Math.min;
+module.exports = function(it){
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+},{"./_to-integer":54}],57:[function(require,module,exports){
+// 7.1.13 ToObject(argument)
+var defined = require('./_defined');
+module.exports = function(it){
+  return Object(defined(it));
+};
+},{"./_defined":14}],58:[function(require,module,exports){
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = require('./_is-object');
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function(it, S){
+  if(!isObject(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+},{"./_is-object":28}],59:[function(require,module,exports){
+var id = 0
+  , px = Math.random();
+module.exports = function(key){
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+},{}],60:[function(require,module,exports){
+var global         = require('./_global')
+  , core           = require('./_core')
+  , LIBRARY        = require('./_library')
+  , wksExt         = require('./_wks-ext')
+  , defineProperty = require('./_object-dp').f;
+module.exports = function(name){
+  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
+};
+},{"./_core":12,"./_global":21,"./_library":34,"./_object-dp":37,"./_wks-ext":61}],61:[function(require,module,exports){
+exports.f = require('./_wks');
+},{"./_wks":62}],62:[function(require,module,exports){
+var store      = require('./_shared')('wks')
+  , uid        = require('./_uid')
+  , Symbol     = require('./_global').Symbol
+  , USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function(name){
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
+},{"./_global":21,"./_shared":51,"./_uid":59}],63:[function(require,module,exports){
+'use strict';
+var addToUnscopables = require('./_add-to-unscopables')
+  , step             = require('./_iter-step')
+  , Iterators        = require('./_iterators')
+  , toIObject        = require('./_to-iobject');
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+module.exports = require('./_iter-define')(Array, 'Array', function(iterated, kind){
+  this._t = toIObject(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , kind  = this._k
+    , index = this._i++;
+  if(!O || index >= O.length){
+    this._t = undefined;
+    return step(1);
+  }
+  if(kind == 'keys'  )return step(0, index);
+  if(kind == 'values')return step(0, O[index]);
+  return step(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+Iterators.Arguments = Iterators.Array;
+
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+},{"./_add-to-unscopables":8,"./_iter-define":30,"./_iter-step":31,"./_iterators":32,"./_to-iobject":55}],64:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4}],65:[function(require,module,exports){
+'use strict';
+var $at  = require('./_string-at')(true);
+
+// 21.1.3.27 String.prototype[@@iterator]()
+require('./_iter-define')(String, 'String', function(iterated){
+  this._t = String(iterated); // target
+  this._i = 0;                // next index
+// 21.1.5.2.1 %StringIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , index = this._i
+    , point;
+  if(index >= O.length)return {value: undefined, done: true};
+  point = $at(O, index);
+  this._i += point.length;
+  return {value: point, done: false};
+});
+},{"./_iter-define":30,"./_string-at":52}],66:[function(require,module,exports){
+'use strict';
+// ECMAScript 6 symbols shim
+var global         = require('./_global')
+  , has            = require('./_has')
+  , DESCRIPTORS    = require('./_descriptors')
+  , $export        = require('./_export')
+  , redefine       = require('./_redefine')
+  , META           = require('./_meta').KEY
+  , $fails         = require('./_fails')
+  , shared         = require('./_shared')
+  , setToStringTag = require('./_set-to-string-tag')
+  , uid            = require('./_uid')
+  , wks            = require('./_wks')
+  , wksExt         = require('./_wks-ext')
+  , wksDefine      = require('./_wks-define')
+  , keyOf          = require('./_keyof')
+  , enumKeys       = require('./_enum-keys')
+  , isArray        = require('./_is-array')
+  , anObject       = require('./_an-object')
+  , toIObject      = require('./_to-iobject')
+  , toPrimitive    = require('./_to-primitive')
+  , createDesc     = require('./_property-desc')
+  , _create        = require('./_object-create')
+  , gOPNExt        = require('./_object-gopn-ext')
+  , $GOPD          = require('./_object-gopd')
+  , $DP            = require('./_object-dp')
+  , $keys          = require('./_object-keys')
+  , gOPD           = $GOPD.f
+  , dP             = $DP.f
+  , gOPN           = gOPNExt.f
+  , $Symbol        = global.Symbol
+  , $JSON          = global.JSON
+  , _stringify     = $JSON && $JSON.stringify
+  , PROTOTYPE      = 'prototype'
+  , HIDDEN         = wks('_hidden')
+  , TO_PRIMITIVE   = wks('toPrimitive')
+  , isEnum         = {}.propertyIsEnumerable
+  , SymbolRegistry = shared('symbol-registry')
+  , AllSymbols     = shared('symbols')
+  , OPSymbols      = shared('op-symbols')
+  , ObjectProto    = Object[PROTOTYPE]
+  , USE_NATIVE     = typeof $Symbol == 'function'
+  , QObject        = global.QObject;
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
+
+// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+var setSymbolDesc = DESCRIPTORS && $fails(function(){
+  return _create(dP({}, 'a', {
+    get: function(){ return dP(this, 'a', {value: 7}).a; }
+  })).a != 7;
+}) ? function(it, key, D){
+  var protoDesc = gOPD(ObjectProto, key);
+  if(protoDesc)delete ObjectProto[key];
+  dP(it, key, D);
+  if(protoDesc && it !== ObjectProto)dP(ObjectProto, key, protoDesc);
+} : dP;
+
+var wrap = function(tag){
+  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
+  sym._k = tag;
+  return sym;
+};
+
+var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function(it){
+  return typeof it == 'symbol';
+} : function(it){
+  return it instanceof $Symbol;
+};
+
+var $defineProperty = function defineProperty(it, key, D){
+  if(it === ObjectProto)$defineProperty(OPSymbols, key, D);
+  anObject(it);
+  key = toPrimitive(key, true);
+  anObject(D);
+  if(has(AllSymbols, key)){
+    if(!D.enumerable){
+      if(!has(it, HIDDEN))dP(it, HIDDEN, createDesc(1, {}));
+      it[HIDDEN][key] = true;
+    } else {
+      if(has(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
+      D = _create(D, {enumerable: createDesc(0, false)});
+    } return setSymbolDesc(it, key, D);
+  } return dP(it, key, D);
+};
+var $defineProperties = function defineProperties(it, P){
+  anObject(it);
+  var keys = enumKeys(P = toIObject(P))
+    , i    = 0
+    , l = keys.length
+    , key;
+  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
+  return it;
+};
+var $create = function create(it, P){
+  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
+};
+var $propertyIsEnumerable = function propertyIsEnumerable(key){
+  var E = isEnum.call(this, key = toPrimitive(key, true));
+  if(this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return false;
+  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
+};
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
+  it  = toIObject(it);
+  key = toPrimitive(key, true);
+  if(it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return;
+  var D = gOPD(it, key);
+  if(D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
+  return D;
+};
+var $getOwnPropertyNames = function getOwnPropertyNames(it){
+  var names  = gOPN(toIObject(it))
+    , result = []
+    , i      = 0
+    , key;
+  while(names.length > i){
+    if(!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META)result.push(key);
+  } return result;
+};
+var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
+  var IS_OP  = it === ObjectProto
+    , names  = gOPN(IS_OP ? OPSymbols : toIObject(it))
+    , result = []
+    , i      = 0
+    , key;
+  while(names.length > i){
+    if(has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true))result.push(AllSymbols[key]);
+  } return result;
+};
+
+// 19.4.1.1 Symbol([description])
+if(!USE_NATIVE){
+  $Symbol = function Symbol(){
+    if(this instanceof $Symbol)throw TypeError('Symbol is not a constructor!');
+    var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
+    var $set = function(value){
+      if(this === ObjectProto)$set.call(OPSymbols, value);
+      if(has(this, HIDDEN) && has(this[HIDDEN], tag))this[HIDDEN][tag] = false;
+      setSymbolDesc(this, tag, createDesc(1, value));
+    };
+    if(DESCRIPTORS && setter)setSymbolDesc(ObjectProto, tag, {configurable: true, set: $set});
+    return wrap(tag);
+  };
+  redefine($Symbol[PROTOTYPE], 'toString', function toString(){
+    return this._k;
+  });
+
+  $GOPD.f = $getOwnPropertyDescriptor;
+  $DP.f   = $defineProperty;
+  require('./_object-gopn').f = gOPNExt.f = $getOwnPropertyNames;
+  require('./_object-pie').f  = $propertyIsEnumerable;
+  require('./_object-gops').f = $getOwnPropertySymbols;
+
+  if(DESCRIPTORS && !require('./_library')){
+    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
+  }
+
+  wksExt.f = function(name){
+    return wrap(wks(name));
+  }
+}
+
+$export($export.G + $export.W + $export.F * !USE_NATIVE, {Symbol: $Symbol});
+
+for(var symbols = (
+  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
+  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
+).split(','), i = 0; symbols.length > i; )wks(symbols[i++]);
+
+for(var symbols = $keys(wks.store), i = 0; symbols.length > i; )wksDefine(symbols[i++]);
+
+$export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
+  // 19.4.2.1 Symbol.for(key)
+  'for': function(key){
+    return has(SymbolRegistry, key += '')
+      ? SymbolRegistry[key]
+      : SymbolRegistry[key] = $Symbol(key);
+  },
+  // 19.4.2.5 Symbol.keyFor(sym)
+  keyFor: function keyFor(key){
+    if(isSymbol(key))return keyOf(SymbolRegistry, key);
+    throw TypeError(key + ' is not a symbol!');
+  },
+  useSetter: function(){ setter = true; },
+  useSimple: function(){ setter = false; }
+});
+
+$export($export.S + $export.F * !USE_NATIVE, 'Object', {
+  // 19.1.2.2 Object.create(O [, Properties])
+  create: $create,
+  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+  defineProperty: $defineProperty,
+  // 19.1.2.3 Object.defineProperties(O, Properties)
+  defineProperties: $defineProperties,
+  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+  // 19.1.2.7 Object.getOwnPropertyNames(O)
+  getOwnPropertyNames: $getOwnPropertyNames,
+  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+  getOwnPropertySymbols: $getOwnPropertySymbols
+});
+
+// 24.3.2 JSON.stringify(value [, replacer [, space]])
+$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function(){
+  var S = $Symbol();
+  // MS Edge converts symbol values to JSON as {}
+  // WebKit converts symbol values to JSON as null
+  // V8 throws on boxed symbols
+  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
+})), 'JSON', {
+  stringify: function stringify(it){
+    if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
+    var args = [it]
+      , i    = 1
+      , replacer, $replacer;
+    while(arguments.length > i)args.push(arguments[i++]);
+    replacer = args[1];
+    if(typeof replacer == 'function')$replacer = replacer;
+    if($replacer || !isArray(replacer))replacer = function(key, value){
+      if($replacer)value = $replacer.call(this, key, value);
+      if(!isSymbol(value))return value;
+    };
+    args[1] = replacer;
+    return _stringify.apply($JSON, args);
+  }
+});
+
+// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
+$Symbol[PROTOTYPE][TO_PRIMITIVE] || require('./_hide')($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+// 19.4.3.5 Symbol.prototype[@@toStringTag]
+setToStringTag($Symbol, 'Symbol');
+// 20.2.1.9 Math[@@toStringTag]
+setToStringTag(Math, 'Math', true);
+// 24.3.3 JSON[@@toStringTag]
+setToStringTag(global.JSON, 'JSON', true);
+},{"./_an-object":9,"./_descriptors":15,"./_enum-keys":18,"./_export":19,"./_fails":20,"./_global":21,"./_has":22,"./_hide":23,"./_is-array":27,"./_keyof":33,"./_library":34,"./_meta":35,"./_object-create":36,"./_object-dp":37,"./_object-gopd":39,"./_object-gopn":41,"./_object-gopn-ext":40,"./_object-gops":42,"./_object-keys":45,"./_object-pie":46,"./_property-desc":47,"./_redefine":48,"./_set-to-string-tag":49,"./_shared":51,"./_to-iobject":55,"./_to-primitive":58,"./_uid":59,"./_wks":62,"./_wks-define":60,"./_wks-ext":61}],67:[function(require,module,exports){
+require('./_wks-define')('asyncIterator');
+},{"./_wks-define":60}],68:[function(require,module,exports){
+require('./_wks-define')('observable');
+},{"./_wks-define":60}],69:[function(require,module,exports){
+require('./es6.array.iterator');
+var global        = require('./_global')
+  , hide          = require('./_hide')
+  , Iterators     = require('./_iterators')
+  , TO_STRING_TAG = require('./_wks')('toStringTag');
+
+for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
+  var NAME       = collections[i]
+    , Collection = global[NAME]
+    , proto      = Collection && Collection.prototype;
+  if(proto && !proto[TO_STRING_TAG])hide(proto, TO_STRING_TAG, NAME);
+  Iterators[NAME] = Iterators.Array;
+}
+},{"./_global":21,"./_hide":23,"./_iterators":32,"./_wks":62,"./es6.array.iterator":63}],70:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -186,7 +1197,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],3:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 var Vue // late bind
 var map = Object.create(null)
 var shimmed = false
@@ -487,7 +1498,7 @@ function format (id) {
   return match ? match[0] : id
 }
 
-},{}],4:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 /*!
  * vue-resource v1.3.4
  * https://github.com/pagekit/vue-resource
@@ -2057,7 +3068,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 module.exports = plugin;
 
-},{"got":1}],5:[function(require,module,exports){
+},{"got":4}],73:[function(require,module,exports){
 /*!
  * vue-router v0.7.13
  * (c) 2016 Evan You
@@ -4767,7 +5778,7 @@ module.exports = plugin;
   return Router;
 
 }));
-},{}],6:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -6791,7 +7802,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }]);
 });
 
-},{}],7:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 (function (process){
 /*!
  * Vue.js v1.0.28
@@ -17032,7 +18043,7 @@ setTimeout(function () {
 
 module.exports = Vue;
 }).call(this,require('_process'))
-},{"_process":2}],8:[function(require,module,exports){
+},{"_process":70}],76:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -17052,7 +18063,7 @@ exports.insert = function (css) {
   return elem
 }
 
-},{}],9:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 var Vue = require('vue');
@@ -17150,6 +18161,9 @@ route.map({
     '/Balance': {
         component: require('./components/credit/Balance.vue')
     },
+    '/Withdrawbalance': {
+        component: require('./components/credit/Withdrawbalance.vue')
+    },
     '/AllNotifications': {
         component: require('./components/notifications/AllNotifications.vue')
     }
@@ -17158,7 +18172,7 @@ route.map({
 
 route.start(App, '#app-layout');
 
-},{"./components/categories/Categories.vue":10,"./components/categories/Category.vue":11,"./components/credit/AddCredit.vue":15,"./components/credit/AllCharges.vue":16,"./components/credit/AllPayments.vue":17,"./components/credit/Balance.vue":18,"./components/credit/Profits.vue":19,"./components/messages/IncomingMessages.vue":20,"./components/messages/MessageDetails.vue":22,"./components/messages/ReadMessages.vue":23,"./components/messages/SendMessage.vue":24,"./components/messages/SentMessages.vue":25,"./components/messages/UnreadMessages.vue":27,"./components/notifications/AllNotifications.vue":29,"./components/orders/IncomingOrders.vue":30,"./components/orders/PurchaseOrders.vue":31,"./components/orders/SingleOrder.vue":32,"./components/pages/MainPage.vue":34,"./components/services/AddService.vue":36,"./components/services/MyServices.vue":38,"./components/services/ServiceDetails.vue":40,"./components/users/UserServices.vue":45,"./components/wishlist/Wishlist.vue":46,"vue":7,"vue-resource":4,"vue-router":5}],10:[function(require,module,exports){
+},{"./components/categories/Categories.vue":78,"./components/categories/Category.vue":79,"./components/credit/AddCredit.vue":83,"./components/credit/AllCharges.vue":84,"./components/credit/AllPayments.vue":85,"./components/credit/Balance.vue":86,"./components/credit/Profits.vue":87,"./components/credit/Withdrawbalance.vue":88,"./components/messages/IncomingMessages.vue":89,"./components/messages/MessageDetails.vue":91,"./components/messages/ReadMessages.vue":92,"./components/messages/SendMessage.vue":93,"./components/messages/SentMessages.vue":94,"./components/messages/UnreadMessages.vue":96,"./components/notifications/AllNotifications.vue":98,"./components/orders/IncomingOrders.vue":99,"./components/orders/PurchaseOrders.vue":100,"./components/orders/SingleOrder.vue":101,"./components/pages/MainPage.vue":103,"./components/services/AddService.vue":105,"./components/services/MyServices.vue":107,"./components/services/ServiceDetails.vue":109,"./components/users/UserServices.vue":114,"./components/wishlist/Wishlist.vue":115,"vue":75,"vue-resource":72,"vue-router":73}],78:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n\n.glyphicon { margin-right:5px; }\n\n")
 'use strict';
@@ -17221,7 +18235,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-0a34329b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./../users/SingleService.vue":44,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],11:[function(require,module,exports){
+},{"./../navbar.vue":97,"./../users/SingleService.vue":113,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],79:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n")
 'use strict';
@@ -17325,7 +18339,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-593c363d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./../users/SingleService.vue":44,"./SideBar.vue":12,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],12:[function(require,module,exports){
+},{"./../navbar.vue":97,"./../users/SingleService.vue":113,"./SideBar.vue":80,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17349,7 +18363,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-54fe014d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],13:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17396,7 +18410,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6c83e99e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],14:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17463,7 +18477,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-20eb2ac4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../comments/AddComments.vue":13,"vue":7,"vue-hot-reload-api":3}],15:[function(require,module,exports){
+},{"./../comments/AddComments.vue":81,"vue":75,"vue-hot-reload-api":71}],83:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n")
 'use strict';
@@ -17471,6 +18485,13 @@ var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
@@ -17516,10 +18537,12 @@ exports.default = {
                     alert(response.body);
                     window.location = '/login';
                 }
-                for (var key in response.body) {
-                    alertify.error(response.body[key]);
+                if ((0, _typeof3.default)(response.body) == 'object') {
+                    for (var key in response.body) {
+                        alertify.error(response.body[key]);
+                    }
+                    this.disabled = false;
                 }
-                this.disabled = false;
             });
         }
     },
@@ -17547,7 +18570,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-fd638830", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],16:[function(require,module,exports){
+},{"./../navbar.vue":97,"babel-runtime/helpers/typeof":3,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],84:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n")
 'use strict';
@@ -17613,7 +18636,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-a6753340", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],17:[function(require,module,exports){
+},{"./../navbar.vue":97,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],85:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n")
 'use strict';
@@ -17679,7 +18702,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-50ee8d5c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],18:[function(require,module,exports){
+},{"./../navbar.vue":97,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],86:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n.circle-tile {\n    margin-bottom: 15px;\n    text-align: center;\n}\n.circle-tile-heading {\n    border: 3px solid rgba(255, 255, 255, 0.3);\n    border-radius: 100%;\n    color: #FFFFFF;\n    height: 80px;\n    margin: 0 auto -40px;\n    position: relative;\n    transition: all 0.3s ease-in-out 0s;\n    width: 80px;\n}\n.circle-tile-heading .fa {\n    line-height: 80px;\n}\n.circle-tile-content {\n    padding-top: 50px;\n}\n.circle-tile-number {\n    font-size: 26px;\n    font-weight: 700;\n    line-height: 1;\n    padding: 5px 0 15px;\n}\n.circle-tile-description {\n    text-transform: uppercase;\n}\n.circle-tile-footer {\n    background-color: rgba(0, 0, 0, 0.1);\n    color: rgba(255, 255, 255, 0.5);\n    display: block;\n    padding: 5px;\n    transition: all 0.3s ease-in-out 0s;\n}\n.circle-tile-footer:hover {\n    background-color: rgba(0, 0, 0, 0.2);\n    color: rgba(255, 255, 255, 0.5);\n    text-decoration: none;\n}\n.circle-tile-heading.dark-blue:hover {\n    background-color: #2E4154;\n}\n.circle-tile-heading.green:hover {\n    background-color: #138F77;\n}\n.circle-tile-heading.orange:hover {\n    background-color: #DA8C10;\n}\n.circle-tile-heading.blue:hover {\n    background-color: #2473A6;\n}\n.circle-tile-heading.red:hover {\n    background-color: #CF4435;\n}\n.circle-tile-heading.purple:hover {\n    background-color: #7F3D9B;\n}\n.tile-img {\n    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);\n}\n\n.dark-blue {\n    background-color: #34495E;\n}\n.green {\n    background-color: #16A085;\n}\n.blue {\n    background-color: #2980B9;\n}\n.orange {\n    background-color: #c0392b;\n}\n.red {\n    background-color: #E74C3C;\n}\n.purple {\n    background-color: #8E44AD;\n}\n.dark-gray {\n    background-color: #7F8C8D;\n}\n.gray {\n    background-color: #95A5A6;\n}\n.light-gray {\n    background-color: #BDC3C7;\n}\n.yellow {\n    background-color: #F1C40F;\n}\n.text-dark-blue {\n    color: #34495E;\n}\n.text-green {\n    color: #16A085;\n}\n.text-blue {\n    color: #2980B9;\n}\n.text-orange {\n    color: #F39C12;\n}\n.text-red {\n    color: #E74C3C;\n}\n.text-purple {\n    color: #8E44AD;\n}\n.text-faded {\n    color: rgba(255, 255, 255, 0.7);\n}\n\n\n\n\n\n")
 'use strict';
@@ -17687,6 +18710,13 @@ var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
     components: {
         spinner: require('vue-strap/dist/vue-strap.min').spinner,
@@ -17698,7 +18728,11 @@ exports.default = {
             user: {},
             profits: 0,
             payments: 0,
-            charges: 0
+            charges: 0,
+            profitsField: '',
+            isdisabled: false,
+            waitProfits: 0,
+            doneProfits: 0
         };
     },
     ready: function ready() {
@@ -17710,13 +18744,49 @@ exports.default = {
             this.$http.get('/getAllBalance').then(function (response) {
                 this.user = response.body.user;
                 this.profits = response.body.profits;
+                this.profitsField = response.body.profits;
                 this.payments = response.body.payments;
+                this.waitProfits = response.body.waitProfits;
+                this.doneProfits = response.body.doneProfits;
                 this.charges = response.body.charges;
 
                 this.isLoading = true;
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('there is some error please contact us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
+            });
+        },
+        getProfits: function getProfits() {
+            this.isdisabled = true;
+            var form = new FormData();
+            form.append('profits', this.profitsField);
+            this.$http.post('/getProfits', form).then(function (response) {
+                if (response.body.status == 'done') {
+                    this.profits -= response.body.gotProfit;
+                    this.profitsField = this.profits;
+                    this.waitProfits = response.body.waitProfits;
+                    this.doneProfits = response.body.doneProfits;
+                    swal("Good job!", "Balance Charging Proccess Successed!", "success");
+                    this.isdisabled = false;
+                }
+                if (response.body == "try again later") {
+                    alertify.error(response.body);
+                }
+                if (response.body == "Error You Can't Get Balance More Than You Have") {
+                    alertify.error(response.body);
+                    this.isdisabled = false;
+                }
+            }, function (response) {
+                if ((0, _typeof3.default)(response.body) == 'object') {
+                    for (var key in response.body) {
+                        alertify.error(response.body[key]);
+                    }
+                    this.isdisabled = false;
+                }
                 if (response.body == 'You Need To login.') {
                     alert(response.body);
                     window.location = '/login';
@@ -17733,7 +18803,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<navbar></navbar>\n<div v-if=\"isLoading\" class=\"container\">\n    <br><br><br>\n    <div class=\"col-md-10 col-md-offset-1\">\n        <div class=\"row nicediv\" style=\"padding: 20px !important;\">\n            <h3>Balance of\n                <a v-link=\"{name: 'User', params:{user_id: user.id, name:user.name}}\" style=\"color: #777;font-weight: 300; text-decoration: none;cursor: pointer;\">\n                    <span>{{ user.name }}</span>\n                </a>\n            </h3>\n            <hr>\n\n            <div class=\"col-md-12\">\n                <div class=\"row\">\n                    <div class=\"col-md-3 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading orange\"><i class=\"fa fa-credit-card fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content orange\">\n                                <div class=\"circle-tile-description text-faded\"> payments</div>\n                                <div class=\"circle-tile-number text-faded \">{{ payments }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"col-md-3 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading blue\"><i class=\"fa fa-bolt fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content blue\">\n                                <div class=\"circle-tile-description text-faded\"> charges </div>\n                                <div class=\"circle-tile-number text-faded \">{{ charges }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"col-md-3 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading dark-blue\"><i class=\"fa fa-area-chart fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content dark-blue\">\n                                <div class=\"circle-tile-description text-faded\"> profits </div>\n                                <div class=\"circle-tile-number text-faded \">{{ profits }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-md-3 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading dark-blue\"><i class=\"fa fa-dollar fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content dark-blue\">\n                                <div class=\"circle-tile-description text-faded\"> My Balance </div>\n                                <div class=\"circle-tile-number text-faded \">{{ profits + (charges - payments) }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<navbar></navbar>\n<div v-if=\"isLoading\" class=\"container\">\n    <br><br><br>\n    <div class=\"col-md-10 col-md-offset-1\">\n        <div class=\"row nicediv\" style=\"padding: 20px !important;\">\n            <h3>Balance of\n                <a v-link=\"{name: 'User', params:{user_id: user.id, name:user.name}}\" style=\"color: #777;font-weight: 300; text-decoration: none;cursor: pointer;\">\n                    <span>{{ user.name }}</span>\n                </a>\n            </h3>\n            <hr>\n            <div class=\"col-md-12\">\n                <div class=\"row\">\n                    <div class=\"col-md-4 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading orange\"><i class=\"fa fa-credit-card fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content orange\">\n                                <div class=\"circle-tile-description text-faded\"> payments</div>\n                                <div class=\"circle-tile-number text-faded \">{{ payments }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-md-4 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading blue\"><i class=\"fa fa-bolt fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content blue\">\n                                <div class=\"circle-tile-description text-faded\"> charges </div>\n                                <div class=\"circle-tile-number text-faded \">{{ charges }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-md-4 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading dark-blue\"><i class=\"fa fa-dollar fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content dark-blue\">\n                                <div class=\"circle-tile-description text-faded\"> My Balance </div>\n                                <div class=\"circle-tile-number text-faded \">{{ profits + (charges - payments) }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-md-3 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading dark-blue\"><i class=\"fa fa-money fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content dark-blue\">\n                                <div class=\"circle-tile-description text-faded\"> All profits </div>\n                                <div class=\"circle-tile-number text-faded \">{{ profits + waitProfits + doneProfits }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-md-3 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading dark-blue\"><i class=\"fa fa-money fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content dark-blue\">\n                                <div class=\"circle-tile-description text-faded\"> profits </div>\n                                <div class=\"circle-tile-number text-faded \">{{ profits }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-md-3 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading dark-blue\"><i class=\"fa fa-money fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content dark-blue\">\n                                <div class=\"circle-tile-description text-faded\"> Wait profits </div>\n                                <div class=\"circle-tile-number text-faded \">{{ waitProfits }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-md-3 col-sm-6\">\n                        <div class=\"circle-tile \">\n                            <a href=\"javascript:;\"><div class=\"circle-tile-heading dark-blue\"><i class=\"fa fa-money fa-fw fa-3x\"></i></div></a>\n                            <div class=\"circle-tile-content dark-blue\">\n                                <div class=\"circle-tile-description text-faded\"> Done profits </div>\n                                <div class=\"circle-tile-number text-faded \">{{ doneProfits }}$</div>\n                                <a class=\"circle-tile-footer\" href=\"#\">More Info&nbsp;<i class=\"fa fa-chevron-circle-right\"></i></a>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-md-12\">\n                <div class=\"alert alert-warning\"><strong>All The Mony You Can Get Will Be From The Profits Only</strong></div>\n                <input type=\"number\" class=\"form-control\" v-model=\"profitsField\">\n                <br>\n                <button type=\"button\" @click=\"getProfits\" class=\"btn btn-default\" :disabled=\"isdisabled\">Get Profits</button>\n            </div>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17748,7 +18818,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-56ad176c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],19:[function(require,module,exports){
+},{"./../navbar.vue":97,"babel-runtime/helpers/typeof":3,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],87:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n")
 'use strict';
@@ -17814,7 +18884,75 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-0b876e9d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],20:[function(require,module,exports){
+},{"./../navbar.vue":97,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],88:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    components: {
+        spinner: require('vue-strap/dist/vue-strap.min').spinner,
+        navbar: require('./../navbar.vue')
+    },
+    data: function data() {
+        return {
+            isLoading: false,
+            user: {},
+            profits: [],
+            sumWating: null,
+            sumDone: null
+        };
+    },
+    ready: function ready() {
+        this.$refs.spinner.show();
+        this.getAllWithdrawbalance();
+    },
+    methods: {
+        getAllWithdrawbalance: function getAllWithdrawbalance() {
+            this.$http.get('/getAllWithdrawbalance').then(function (response) {
+                this.user = response.body.user;
+                this.profits = response.body.profits;
+                this.sumWating = response.body.sumWating;
+                this.sumDone = response.body.sumDone;
+                this.isLoading = true;
+                this.$refs.spinner.hide();
+            }, function (response) {
+                alert('there is some error please contact us');
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
+            });
+        }
+    },
+    route: {
+        activate: function activate() {
+            if (userIsLoggedIn != 1) {
+                window.location = '/login';
+            }
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<navbar></navbar>\n<div v-if=\"isLoading\" class=\"container\">\n    <br><br><br>\n    <div class=\"col-md-10 col-md-offset-1\">\n        <div class=\"row nicediv\" style=\"padding: 20px !important;\">\n            <h3>Withdrawbalance Of\n                <a v-link=\"{name: 'User', params:{user_id: user.id, name:user.name}}\" style=\"color: #777;font-weight: 300; text-decoration: none;cursor: pointer;\">\n                    <span>{{ user.name }}</span>\n                </a>\n            </h3>\n            <hr>\n            <h3 class=\"text-center text-success\">total Withdraw Wating Is {{ sumWating }}$ And Done Is {{ sumDone }}$</h3>\n            <hr>\n\n            <div class=\"col-md-12\">\n                <table class=\"table table-bordered table-hover\" v-if=\"profits.length > 0\">\n                    <thead class=\"tablehead\">\n                        <!-- `id`, `price`, `status`, `user_id`, `created_at` -->\n                        <tr>\n                            <th style=\"width: 137px;\">Proccess Number</th>\n                            <th>Price</th>\n                            <th>status</th>\n                            <th>created_at</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"pay in profits\" track-by=\"$index\">\n                            <td>{{ pay.id }}</td>\n                            <td>{{ pay.price }}$</td>\n                            <td>\n                                <span v-if=\"pay.status == 0\" class=\"label label-default\">Wating</span>\n                                <span v-if=\"pay.status == 1\" class=\"label label-info\">Done</span>\n                            </td>\n                            <td><i class=\"fa fa-clock-o\"></i> {{ pay.created_at }}</td>\n                        </tr>\n                    </tbody>\n                </table>\n                <div v-else=\"\" class=\"alert alert-danger\">There is no charges For You Now</div>\n            </div>\n\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-0a966e00", module.exports)
+  } else {
+    hotAPI.update("_v-0a966e00", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./../navbar.vue":97,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],89:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -17892,7 +19030,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-a6e800be", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./Menu.vue":21,"./SingleMessage.vue":26,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],21:[function(require,module,exports){
+},{"./../navbar.vue":97,"./Menu.vue":90,"./SingleMessage.vue":95,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],90:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.btn-product{\n    width: 100%;\n}\n@media (max-width: 767px) {\n    .btn-product {\n        margin-bottom: 10px;\n    }\n}\n@media (min-width: 768px) {\n    .btn-product {\n        margin-bottom: 10px;\n    }\n}\n.nicediv {\n    box-shadow: 2px 2px 5px #ccc;\n    padding: 5px 20px;\n    margin-bottom: 30px;\n}\n.counter\n{\n    background-color: #eaecf0;\n    text-align: center;\n}\n.div-counter\n{\n    margin-top: 70px;\n    margin-bottom: 70px;\n}\n.counter-count\n{\n    font-size: 18px;\n    background-color: #00b3e7;\n    border-radius: 50%;\n    position: relative;\n    color: #ffffff;\n    text-align: center;\n    line-height: 92px;\n    width: 92px;\n    height: 92px;\n    -webkit-border-radius: 50%;\n    -moz-border-radius: 50%;\n    -ms-border-radius: 50%;\n    -o-border-radius: 50%;\n    display: inline-block;\n}\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.nicedivvv a {\n    color: #333;\n    -webkit-transition: all 0.08s linear;\n    -moz-transition: all 0.08s linear;\n    -o-transition: all 0.08s linear;\n    transition: all 0.08s linear;\n    -webkit-border-radius: 4px 0 0 4px;\n    -moz-border-radius: 4px 0 0 4px;\n    border-radius: 4px 0 0 4px;\n}\n.nicedivvv .active a {\n    cursor: default;\n    background-color: #428bca;\n    color: #fff;\n    text-shadow: 1px 1px 1px #666;\n}\n.nicedivvv .active a:hover {\n    background-color: #428bca;\n}\n.nicedivvv .text-overflow a,\n.nicedivvv .text-overflow .media-body {\n    white-space: nowrap;\n    overflow: hidden;\n    -o-text-overflow: ellipsis;\n    text-overflow: ellipsis;\n}\nli {\n    font-size: 14px;\n}\n")
 'use strict';
@@ -17922,7 +19060,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-635a496e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],22:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71,"vueify/lib/insert-css":76}],91:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\na, p, h2{text-decoration:none;}\n\n/* PANEL */\n.left-panel .panel-default{border-bottom-left-radius:7px; border-bottom-right-radius:7px; border-bottom:2px #DDD solid;}\n.left-panel .panel-default .panel-body {padding:15; margin:0;}\n.left-panel .panel-default .panel-body .col-md-12{margin:0; padding:0;}\n.left-panel .panel-default .panel-body .thumbnail{border:none; margin:0; padding:0; position:relative;}\n.left-panel .panel:hover img {opacity:.8;}\n.left-panel .panel-default .panel-body .icerik-bilgi{margin:30px;}\n.icerik-bilgi .btn-primary{float:right; margin-bottom:30px;}\n.icerik-bilgi h2{margin-bottom:30px; color:#333;}\n.icerik-bilgi h2:hover{color:#E74C3C; text-decoration:none;}\n.icerik-bilgi a:hover{text-decoration:none;}\n.icerik-bilgi p{margin-bottom:30px; line-height:25px; font-size:16px;}\n")
 'use strict';
@@ -17995,7 +19133,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1699a18a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./Menu.vue":21,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],23:[function(require,module,exports){
+},{"./../navbar.vue":97,"./Menu.vue":90,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],92:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -18073,7 +19211,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-51828c91", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./Menu.vue":21,"./SingleMessage.vue":26,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],24:[function(require,module,exports){
+},{"./../navbar.vue":97,"./Menu.vue":90,"./SingleMessage.vue":95,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],93:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -18151,7 +19289,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-ececa4c0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],25:[function(require,module,exports){
+},{"./../navbar.vue":97,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],94:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -18229,7 +19367,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-d8efe0da", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./Menu.vue":21,"./SingleMessage.vue":26,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],26:[function(require,module,exports){
+},{"./../navbar.vue":97,"./Menu.vue":90,"./SingleMessage.vue":95,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18263,7 +19401,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-84d34ac0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],27:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71}],96:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -18341,7 +19479,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-44dba76a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./Menu.vue":21,"./SingleMessage.vue":26,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],28:[function(require,module,exports){
+},{"./../navbar.vue":97,"./Menu.vue":90,"./SingleMessage.vue":95,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],97:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n")
 'use strict';
@@ -18416,7 +19554,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-default navbar-static-top\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n\n            <!-- Collapsed Hamburger -->\n            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#app-navbar-collapse\">\n                <span class=\"sr-only\">Toggle Navigation</span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n\n            <!-- Branding Image -->\n            <a class=\"navbar-brand\" href=\"/\">\n                Services\n            </a>\n        </div>\n\n        <div class=\"collapse navbar-collapse\" id=\"app-navbar-collapse\">\n            <!-- Left Side Of Navbar -->\n            <ul class=\"nav navbar-nav\">\n                <li><a v-link=\"{ path: '/' }\">Home</a></li>\n                <li><a v-link=\"{ path: '/Categories' }\">Categories</a></li>\n            </ul>\n\n            <form class=\"navbar-form navbar-left\" role=\"search\">\n                <div class=\"form-group\">\n                    <input type=\"text\" class=\"form-control\" placeholder=\"Search...\">\n                </div>\n                <button type=\"submit\" class=\"btn btn-info\"><i class=\"fa fa-search\"></i></button>\n            </form>\n\n            <!-- Right Side Of Navbar -->\n            <ul class=\"nav navbar-nav navbar-right\" v-if=\"userIsLoggedIn == 1\">\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Orders <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/IncomingOrders' }\"><i class=\"fa fa-btn fa-truck\"></i>Incoming Orders</a></li>\n                        <li><a v-link=\"{ path: '/PurchaseOrders' }\"><i class=\"fa fa-btn fa-cart-plus\"></i>Purchase Orders</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Services <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/AddService' }\"><i class=\"fa fa-btn fa-plus\"></i>Add Service</a></li>\n                        <li><a v-link=\"{ path: '/MyServices' }\"><i class=\"fa fa-btn fa-user\"></i>My Services</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i> <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a v-link=\"{name: '/Inbox'}\"><i class=\"fa fa-inbox\"></i> Inbox</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/SentMessages'}\"><i class=\"fa fa-send\"></i> Sent Messages</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/UnreadMessages'}\"><i class=\"fa fa-eye-slash\"></i> Unread Messages</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/ReadMessages'}\"><i class=\"fa fa-eye\"></i> Read Messages</a>\n                        </li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        <i class=\"fa fa-money\" aria-hidden=\"true\"></i> <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/AddCredit' }\"><i class=\"fa fa-btn fa-exchange\"></i>Charge Balance</a></li>\n                        <li><a v-link=\"{ path: '/AllCharges' }\"><i class=\"fa fa-btn fa-check\"></i>My Charges</a></li>\n                        <li><a v-link=\"{ path: '/AllPayments' }\"><i class=\"fa fa-btn fa-money\"></i>AllPayments</a></li>\n                        <li><a v-link=\"{ path: '/Profits' }\"><i class=\"fa fa-btn fa-plus-circle\"></i>Profits</a></li>\n                        <li><a v-link=\"{ path: '/Balance' }\">Balance</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a @click=\"getNotificationList\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"fa fa-bell\"></i>\n                        <span class=\"label label-success calc\">{{ notiCount }}</span>\n                    </a>\n                    <ul class=\"dropdown-menu notify-drop\">\n                        <div class=\"notify-drop-title\">\n                            <div class=\"row\">\n                                <div class=\"col-md-6 col-sm-6 col-xs-6\">Count (<b>{{ notiCount }}</b>)</div>\n                                <div class=\"col-md-6 col-sm-6 col-xs-6 text-right\"><a href=\"\" class=\"rIcon allRead\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Mark All As Read\"><i class=\"fa fa-dot-circle-o\"></i></a></div>\n                            </div>\n                        </div>\n                        <!-- end notify title -->\n                        <!-- notify content -->\n                        <div class=\"drop-content\">\n                            <spinner v-ref:spinner=\"\" size=\"md\" text=\"Loading...\"></spinner>\n                            <li v-for=\"note in notificationList\" track-by=\"$index\">\n                                <div class=\"col-md-12 col-sm-12 col-xs-12 pd-l0 text-center\">\n                                    <a v-link=\"{name: 'User', params:{user_id: note.get_sender.id, name:note.get_sender.name}}\">{{ note.get_sender.name }}</a>\n                                    <span v-if=\"note.type == 'ReceiveOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Requested Order.. </a>\n                                    </span>\n                                    <span v-if=\"note.type == 'ReceiveMessage'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: '/GetMessageById', params: {msg_id: note.notify_id, message_title: note.type}}\">- Sent Message..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'NewComment'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Made A Comment ..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'CompletedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Completed Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'AcceptedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Accepted Your Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'RejectedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Rejected Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'ChangeStatusFromAdmin'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- (Admin) Changed Status..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'AcceptService'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'ServiceDetails', params: {service_id: note.notify_id, service_name: 'Notification'}}\">- Approved Service..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'RejectedService'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'ServiceDetails', params: {service_id: note.notify_id, service_name: 'Notification'}}\">- Rejected Service..</a>\n                                    </span>\n                                    <span v-if=\"note.seen == 0\" class=\"badge\" style=\"background-color: #c0392b\">unseen</span>\n                                    <span v-if=\"note.seen == 1\" class=\"badge\" style=\"background-color: #2ecc71\">seen</span>\n                                    <span class=\"label label-default\">{{note.created_at}}</span>\n                                </div>\n                            </li>\n                        </div>\n                        <div class=\"notify-drop-footer text-center\">\n                            <a v-link=\"{path:'/AllNotifications'}\"><i class=\"fa fa-eye\"></i> All Notifications</a>\n                        </div>\n                    </ul>\n\n                </li>\n\n                <li>\n                    <a v-link=\"{name: '/Wishlist'}\">\n                        <i class=\"fa fa-heart\"></i>\n                        <span class=\"label label-danger calc\">{{ favCount }}</span>\n                    </a>\n                </li>\n                <li>\n                    <a v-link=\"{name: '/Inbox'}\">\n                        <i class=\"fa fa-inbox\"></i>\n                        <span class=\"label label-warning calc\">{{ inboxCount }}</span>\n                    </a>\n                </li>\n                <li>\n                    <a v-link=\"{ path: '/IncomingOrders' }\">\n                        <i class=\"fa fa-shopping-cart\"></i>\n                        <span class=\"label label-primary calc\">{{ ordersCount }}</span>\n                    </a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Mohamed Zayed <span class=\"caret\"></span>\n                    </a>\n\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a href=\"#\"><i class=\"fa fa-btn fa-edit\"></i>Edit Data</a></li>\n                        <li><a href=\"#\"><i class=\"fa fa-btn fa-money\"></i>Balance</a></li>\n                        <li><a href=\"/admincp\"><i class=\"fa fa-btn fa-users\"></i>Admin CP</a></li>\n                        <li><a v-link=\"{ path: '/AddCredit' }\"><i class=\"fa fa-btn fa-exchange\"></i>Charge Balance</a></li>\n                        <li><a href=\"/logout\"><i class=\"fa fa-btn fa-sign-out\"></i>Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\" v-else=\"\">\n                <li><a href=\"/login\">Login</a></li>\n                <li><a href=\"/register\">Register</a></li>\n            </ul>\n        </div>\n    </div>\n</nav>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-default navbar-static-top\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n\n            <!-- Collapsed Hamburger -->\n            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#app-navbar-collapse\">\n                <span class=\"sr-only\">Toggle Navigation</span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n\n            <!-- Branding Image -->\n            <a class=\"navbar-brand\" href=\"/\">\n                Services\n            </a>\n        </div>\n\n        <div class=\"collapse navbar-collapse\" id=\"app-navbar-collapse\">\n            <!-- Left Side Of Navbar -->\n            <ul class=\"nav navbar-nav\">\n                <li><a v-link=\"{ path: '/' }\">Home</a></li>\n                <li><a v-link=\"{ path: '/Categories' }\">Categories</a></li>\n            </ul>\n\n            <form class=\"navbar-form navbar-left\" role=\"search\">\n                <div class=\"form-group\">\n                    <input type=\"text\" class=\"form-control\" placeholder=\"Search...\">\n                </div>\n                <button type=\"submit\" class=\"btn btn-info\"><i class=\"fa fa-search\"></i></button>\n            </form>\n\n            <!-- Right Side Of Navbar -->\n            <ul class=\"nav navbar-nav navbar-right\" v-if=\"userIsLoggedIn == 1\">\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Orders <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/IncomingOrders' }\"><i class=\"fa fa-btn fa-truck\"></i>Incoming Orders</a></li>\n                        <li><a v-link=\"{ path: '/PurchaseOrders' }\"><i class=\"fa fa-btn fa-cart-plus\"></i>Purchase Orders</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Services <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/AddService' }\"><i class=\"fa fa-btn fa-plus\"></i>Add Service</a></li>\n                        <li><a v-link=\"{ path: '/MyServices' }\"><i class=\"fa fa-btn fa-user\"></i>My Services</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        <i class=\"fa fa-envelope\" aria-hidden=\"true\"></i> <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a v-link=\"{name: '/Inbox'}\"><i class=\"fa fa-inbox\"></i> Inbox</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/SentMessages'}\"><i class=\"fa fa-send\"></i> Sent Messages</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/UnreadMessages'}\"><i class=\"fa fa-eye-slash\"></i> Unread Messages</a>\n                        </li>\n                        <li>\n                            <a v-link=\"{name: '/ReadMessages'}\"><i class=\"fa fa-eye\"></i> Read Messages</a>\n                        </li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        <i class=\"fa fa-money\" aria-hidden=\"true\"></i> <span class=\"caret\"></span>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a v-link=\"{ path: '/AddCredit' }\"><i class=\"fa fa-btn fa-exchange\"></i>Charge Balance</a></li>\n                        <li><a v-link=\"{ path: '/AllCharges' }\"><i class=\"fa fa-btn fa-check\"></i>My Charges</a></li>\n                        <li><a v-link=\"{ path: '/AllPayments' }\"><i class=\"fa fa-btn fa-money\"></i>AllPayments</a></li>\n                        <li><a v-link=\"{ path: '/Profits' }\"><i class=\"fa fa-btn fa-plus-circle\"></i>Profits</a></li>\n                        <li><a v-link=\"{ path: '/Withdrawbalance' }\"><i class=\"fa fa-btn fa-plus-circle\"></i>Withdraw balance</a></li>\n                        <li><a v-link=\"{ path: '/Balance' }\">Balance</a></li>\n                    </ul>\n                </li>\n                <li class=\"dropdown\">\n                    <a @click=\"getNotificationList\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"fa fa-bell\"></i>\n                        <span class=\"label label-success calc\">{{ notiCount }}</span>\n                    </a>\n                    <ul class=\"dropdown-menu notify-drop\">\n                        <div class=\"notify-drop-title\">\n                            <div class=\"row\">\n                                <div class=\"col-md-6 col-sm-6 col-xs-6\">Count (<b>{{ notiCount }}</b>)</div>\n                                <div class=\"col-md-6 col-sm-6 col-xs-6 text-right\"><a href=\"\" class=\"rIcon allRead\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Mark All As Read\"><i class=\"fa fa-dot-circle-o\"></i></a></div>\n                            </div>\n                        </div>\n                        <!-- end notify title -->\n                        <!-- notify content -->\n                        <div class=\"drop-content\">\n                            <spinner v-ref:spinner=\"\" size=\"md\" text=\"Loading...\"></spinner>\n                            <li v-for=\"note in notificationList\" track-by=\"$index\">\n                                <div class=\"col-md-12 col-sm-12 col-xs-12 pd-l0 text-center\">\n                                    <a v-link=\"{name: 'User', params:{user_id: note.get_sender.id, name:note.get_sender.name}}\">{{ note.get_sender.name }}</a>\n                                    <span v-if=\"note.type == 'ReceiveOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Requested Order.. </a>\n                                    </span>\n                                    <span v-if=\"note.type == 'ReceiveMessage'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: '/GetMessageById', params: {msg_id: note.notify_id, message_title: note.type}}\">- Sent Message..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'NewComment'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Made A Comment ..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'CompletedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Completed Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'AcceptedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Accepted Your Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'RejectedOrder'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- Rejected Order..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'ChangeStatusFromAdmin'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'Order', params:{order_id: note.notify_id}}\">- (Admin) Changed Status..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'AcceptService'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'ServiceDetails', params: {service_id: note.notify_id, service_name: 'Notification'}}\">- Approved Service..</a>\n                                    </span>\n                                    <span v-if=\"note.type == 'RejectedService'\" class=\"text-muted\" style=\"font-size: 11px;\">\n                                        <a v-link=\"{name: 'ServiceDetails', params: {service_id: note.notify_id, service_name: 'Notification'}}\">- Rejected Service..</a>\n                                    </span>\n                                    <span v-if=\"note.seen == 0\" class=\"badge\" style=\"background-color: #c0392b\">unseen</span>\n                                    <span v-if=\"note.seen == 1\" class=\"badge\" style=\"background-color: #2ecc71\">seen</span>\n                                    <span class=\"label label-default\">{{note.created_at}}</span>\n                                </div>\n                            </li>\n                        </div>\n                        <div class=\"notify-drop-footer text-center\">\n                            <a v-link=\"{path:'/AllNotifications'}\"><i class=\"fa fa-eye\"></i> All Notifications</a>\n                        </div>\n                    </ul>\n\n                </li>\n\n                <li>\n                    <a v-link=\"{name: '/Wishlist'}\">\n                        <i class=\"fa fa-heart\"></i>\n                        <span class=\"label label-danger calc\">{{ favCount }}</span>\n                    </a>\n                </li>\n                <li>\n                    <a v-link=\"{name: '/Inbox'}\">\n                        <i class=\"fa fa-inbox\"></i>\n                        <span class=\"label label-warning calc\">{{ inboxCount }}</span>\n                    </a>\n                </li>\n                <li>\n                    <a v-link=\"{ path: '/IncomingOrders' }\">\n                        <i class=\"fa fa-shopping-cart\"></i>\n                        <span class=\"label label-primary calc\">{{ ordersCount }}</span>\n                    </a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">\n                        Mohamed Zayed <span class=\"caret\"></span>\n                    </a>\n\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a href=\"#\"><i class=\"fa fa-btn fa-edit\"></i>Edit Data</a></li>\n                        <li><a href=\"#\"><i class=\"fa fa-btn fa-money\"></i>Balance</a></li>\n                        <li><a href=\"/admincp\"><i class=\"fa fa-btn fa-users\"></i>Admin CP</a></li>\n                        <li><a v-link=\"{ path: '/AddCredit' }\"><i class=\"fa fa-btn fa-exchange\"></i>Charge Balance</a></li>\n                        <li><a href=\"/logout\"><i class=\"fa fa-btn fa-sign-out\"></i>Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\" v-else=\"\">\n                <li><a href=\"/login\">Login</a></li>\n                <li><a href=\"/register\">Register</a></li>\n            </ul>\n        </div>\n    </div>\n</nav>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18431,7 +19569,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-e1cd9c98", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],29:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],98:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicedivvv {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n")
 'use strict';
@@ -18514,7 +19652,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-626389d2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],30:[function(require,module,exports){
+},{"./../navbar.vue":97,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],99:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.tablehead {\n    background-color: #555;\n    color: #fefefe;\n}\n")
 'use strict';
@@ -18594,7 +19732,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-34bf62c1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./Status.vue":33,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],31:[function(require,module,exports){
+},{"./../navbar.vue":97,"./Status.vue":102,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],100:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.tablehead {\n    background-color: #444;\n    color: #fff;\n}\n")
 'use strict';
@@ -18693,7 +19831,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-2c334c48", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./Status.vue":33,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],32:[function(require,module,exports){
+},{"./../navbar.vue":97,"./Status.vue":102,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],101:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n/*********************************************\n            Theme Elements\n*********************************************/\nbutton {\n    margin-right: 10px;\n}\n.gold{\ncolor: #FFBF00;\n}\n/*********************************************\n                PRODUCTS\n*********************************************/\n.product{\nborder: 1px solid #dddddd;\nheight: 321px;\n}\n.product>img{\nmax-width: 230px;\n}\n.product-rating{\nfont-size: 20px;\nmargin-bottom: 25px;\n}\n.product-title{\nfont-size: 18px;\n}\n.product-desc{\nfont-size: 14px;\n}\n.product-price{\nfont-size: 22px;\n}\n.product-stock{\ncolor: #74DF00;\nfont-size: 20px;\nmargin-top: 10px;\n}\n.product-info{\n    margin-top: 50px;\n}\n/*********************************************\n                VIEW\n*********************************************/\n.content-wrapper {\nmax-width: 1140px;\nbackground: #fff;\nmargin: 0 auto;\nmargin-top: 25px;\nmargin-bottom: 10px;\nborder: 0px;\nborder-radius: 0px;\n}\n.container-fluid{\nmax-width: 1140px;\nmargin: 0 auto;\n}\n.view-wrapper {\nfloat: right;\nmax-width: 70%;\nmargin-top: 25px;\n}\n.container {\npadding-left: 0px;\npadding-right: 0px;\nmax-width: 100%;\n}\n/*********************************************\n            ITEM\n*********************************************/\n.service1-items {\npadding: 0px 0 0px 0;\nfloat: left;\nposition: relative;\noverflow: hidden;\nmax-width: 100%;\nheight: 321px;\nwidth: 130px;\n}\n.service1-item {\nheight: 107px;\nwidth: 120px;\ndisplay: block;\nfloat: left;\nposition: relative;\npadding-right: 20px;\nborder-right: 1px solid #DDD;\nborder-top: 1px solid #DDD;\nborder-bottom: 1px solid #DDD;\n}\n.service1-item > img {\nmax-height: 110px;\nmax-width: 110px;\nopacity: 0.6;\ntransition: all .2s ease-in;\n-o-transition: all .2s ease-in;\n-moz-transition: all .2s ease-in;\n-webkit-transition: all .2s ease-in;\n}\n.service1-item > img:hover {\ncursor: pointer;\nopacity: 1;\n}\n.service-image-left {\npadding-right: 50px;\n}\n.service-image-right {\npadding-left: 50px;\n}\n.service-image-left > center > img,.service-image-right > center > img{\nmax-height: 155px;\n}\n")
 'use strict';
@@ -18812,7 +19950,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-635ef540", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../comments/AllComments.vue":14,"./../navbar.vue":28,"./Status.vue":33,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],33:[function(require,module,exports){
+},{"./../comments/AllComments.vue":82,"./../navbar.vue":97,"./Status.vue":102,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],102:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n")
 'use strict';
@@ -18839,7 +19977,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-56120288", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],34:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71,"vueify/lib/insert-css":76}],103:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nicediv {\n    box-shadow: 1px 1px 5px #ccc !important;\n    padding: 5px 5px !important;\n    margin-bottom: 22px !important;\n}\n")
 'use strict';
@@ -18943,7 +20081,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-45a84a17", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./../users/SingleService.vue":44,"./SideBar.vue":35,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],35:[function(require,module,exports){
+},{"./../navbar.vue":97,"./../users/SingleService.vue":113,"./SideBar.vue":104,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],104:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18967,7 +20105,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6f81855d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],36:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71}],105:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19042,7 +20180,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-ce89345e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6}],37:[function(require,module,exports){
+},{"./../navbar.vue":97,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74}],106:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19077,7 +20215,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-28f3fa93", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],38:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71}],107:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.btn-product{\n    width: 100%;\n}\n@media (max-width: 767px) {\n    .btn-product {\n        margin-bottom: 10px;\n    }\n}\n@media (min-width: 768px) {\n    .btn-product {\n        margin-bottom: 10px;\n    }\n}\n.nicediv {\n    box-shadow: 2px 2px 5px #ccc;\n    padding: 5px 20px;\n    margin-bottom: 30px;\n}\n.img-container {\n    height: 200px;\n}\n.img-container img {\n    height: 100%;\n    width: 100%;\n}\n.counter\n{\n    background-color: #eaecf0;\n    text-align: center;\n}\n.div-counter\n{\n    margin-top: 70px;\n    margin-bottom: 70px;\n}\n.counter-count\n{\n    font-size: 18px;\n    background-color: #00b3e7;\n    border-radius: 50%;\n    position: relative;\n    color: #ffffff;\n    text-align: center;\n    line-height: 92px;\n    width: 92px;\n    height: 92px;\n    -webkit-border-radius: 50%;\n    -moz-border-radius: 50%;\n    -ms-border-radius: 50%;\n    -o-border-radius: 50%;\n    display: inline-block;\n}\n.nav-sidebar {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.nav-sidebar a {\n    color: #333;\n    -webkit-transition: all 0.08s linear;\n    -moz-transition: all 0.08s linear;\n    -o-transition: all 0.08s linear;\n    transition: all 0.08s linear;\n    -webkit-border-radius: 4px 0 0 4px;\n    -moz-border-radius: 4px 0 0 4px;\n    border-radius: 4px 0 0 4px;\n}\n.nav-sidebar .active a {\n    cursor: default;\n    background-color: #428bca;\n    color: #fff;\n    text-shadow: 1px 1px 1px #666;\n}\n.nav-sidebar .active a:hover {\n    background-color: #428bca;\n}\n.nav-sidebar .text-overflow a,\n.nav-sidebar .text-overflow .media-body {\n    white-space: nowrap;\n    overflow: hidden;\n    -o-text-overflow: ellipsis;\n    text-overflow: ellipsis;\n}")
 'use strict';
@@ -19178,7 +20316,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-23607bb2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./SingleService.vue":42,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],39:[function(require,module,exports){
+},{"./../navbar.vue":97,"./SingleService.vue":111,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],108:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n")
 'use strict';
@@ -19240,7 +20378,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-3878669a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],40:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71,"vueify/lib/insert-css":76}],109:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n/*********************************************\n            Theme Elements\n*********************************************/\nbutton {\n    margin-right: 10px;\n}\n.gold{\ncolor: #FFBF00;\n}\n/*********************************************\n                PRODUCTS\n*********************************************/\n.product{\nborder: 1px solid #dddddd;\nheight: 321px;\n}\n.product>img{\nmax-width: 230px;\n}\n.product-rating{\nfont-size: 20px;\nmargin-bottom: 25px;\n}\n.product-title{\nfont-size: 20px;\n}\n.product-desc{\nfont-size: 14px;\n}\n.product-price{\nfont-size: 22px;\n}\n.product-stock{\ncolor: #74DF00;\nfont-size: 20px;\nmargin-top: 10px;\n}\n.product-info{\n    margin-top: 50px;\n}\n/*********************************************\n                VIEW\n*********************************************/\n.content-wrapper {\nmax-width: 1140px;\nbackground: #fff;\nmargin: 0 auto;\nmargin-top: 25px;\nmargin-bottom: 10px;\nborder: 0px;\nborder-radius: 0px;\n}\n.container-fluid{\nmax-width: 1140px;\nmargin: 0 auto;\n}\n.view-wrapper {\nfloat: right;\nmax-width: 70%;\nmargin-top: 25px;\n}\n.container {\npadding-left: 0px;\npadding-right: 0px;\nmax-width: 100%;\n}\n/*********************************************\n            ITEM\n*********************************************/\n.service1-items {\npadding: 0px 0 0px 0;\nfloat: left;\nposition: relative;\noverflow: hidden;\nmax-width: 100%;\nheight: 321px;\nwidth: 130px;\n}\n.service1-item {\nheight: 107px;\nwidth: 120px;\ndisplay: block;\nfloat: left;\nposition: relative;\npadding-right: 20px;\nborder-right: 1px solid #DDD;\nborder-top: 1px solid #DDD;\nborder-bottom: 1px solid #DDD;\n}\n.service1-item > img {\nmax-height: 110px;\nmax-width: 110px;\nopacity: 0.6;\ntransition: all .2s ease-in;\n-o-transition: all .2s ease-in;\n-moz-transition: all .2s ease-in;\n-webkit-transition: all .2s ease-in;\n}\n.service1-item > img:hover {\ncursor: pointer;\nopacity: 1;\n}\n.service-image-left {\npadding-right: 50px;\n}\n.service-image-right {\npadding-left: 50px;\n}\n.service-image-left > center > img,.service-image-right > center > img{\nmax-height: 155px;\n}\n")
 'use strict';
@@ -19349,7 +20487,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-321825ca", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./../users/SingleService.vue":44,"./Buybtn.vue":37,"./Rating.vue":39,"./Sidebar.vue":41,"./WishListbtn.vue":43,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],41:[function(require,module,exports){
+},{"./../navbar.vue":97,"./../users/SingleService.vue":113,"./Buybtn.vue":106,"./Rating.vue":108,"./Sidebar.vue":110,"./WishListbtn.vue":112,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],110:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.nav-sidebar {\n    width: 100%;\n    padding: 8px 0;\n    box-shadow: 1px 1px 2px #ccc;\n}\n.nav-sidebar a {\n    color: #333;\n    -webkit-transition: all 0.08s linear;\n    -moz-transition: all 0.08s linear;\n    -o-transition: all 0.08s linear;\n    transition: all 0.08s linear;\n    -webkit-border-radius: 4px 0 0 4px;\n    -moz-border-radius: 4px 0 0 4px;\n    border-radius: 4px 0 0 4px;\n}\n.nav-sidebar .active a {\n    cursor: default;\n    background-color: #428bca;\n    color: #fff;\n    text-shadow: 1px 1px 1px #666;\n}\n.nav-sidebar .active a:hover {\n    background-color: #428bca;\n}\n.nav-sidebar .text-overflow a,\n.nav-sidebar .text-overflow .media-body {\n    white-space: nowrap;\n    overflow: hidden;\n    -o-text-overflow: ellipsis;\n    text-overflow: ellipsis;\n}\n")
 'use strict';
@@ -19379,7 +20517,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-aee298a2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3,"vueify/lib/insert-css":8}],42:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71,"vueify/lib/insert-css":76}],111:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19400,7 +20538,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6e2548e0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],43:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71}],112:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19449,7 +20587,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-85a3a8ac", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":7,"vue-hot-reload-api":3}],44:[function(require,module,exports){
+},{"vue":75,"vue-hot-reload-api":71}],113:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19485,7 +20623,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-05398572", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../services/Buybtn.vue":37,"./../services/WishListbtn.vue":43,"vue":7,"vue-hot-reload-api":3}],45:[function(require,module,exports){
+},{"./../services/Buybtn.vue":106,"./../services/WishListbtn.vue":112,"vue":75,"vue-hot-reload-api":71}],114:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -19578,7 +20716,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-b07b6498", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"./SingleService.vue":44,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6,"vueify/lib/insert-css":8}],46:[function(require,module,exports){
+},{"./../navbar.vue":97,"./SingleService.vue":113,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74,"vueify/lib/insert-css":76}],115:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19647,6 +20785,6 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-36770b7b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./../navbar.vue":28,"vue":7,"vue-hot-reload-api":3,"vue-strap/dist/vue-strap.min":6}]},{},[9]);
+},{"./../navbar.vue":97,"vue":75,"vue-hot-reload-api":71,"vue-strap/dist/vue-strap.min":74}]},{},[77]);
 
 //# sourceMappingURL=app.js.map

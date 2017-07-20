@@ -79,6 +79,7 @@
                             <li><a v-link="{ path: '/AllCharges' }"><i class="fa fa-btn fa-check"></i>My Charges</a></li>
                             <li><a v-link="{ path: '/AllPayments' }"><i class="fa fa-btn fa-money"></i>AllPayments</a></li>
                             <li><a v-link="{ path: '/Profits' }"><i class="fa fa-btn fa-plus-circle"></i>Profits</a></li>
+                            <li><a v-link="{ path: '/Withdrawbalance' }"><i class="fa fa-btn fa-plus-circle"></i>Withdraw balance</a></li>
                             <li><a v-link="{ path: '/Balance' }">Balance</a></li>
                         </ul>
                     </li>

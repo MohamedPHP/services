@@ -10,10 +10,9 @@
                     </a>
                 </h3>
                 <hr>
-
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-3 col-sm-6">
+                        <div class="col-md-4 col-sm-6">
                             <div class="circle-tile ">
                                 <a href="javascript:;"><div class="circle-tile-heading orange"><i class="fa fa-credit-card fa-fw fa-3x"></i></div></a>
                                 <div class="circle-tile-content orange">
@@ -23,8 +22,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-3 col-sm-6">
+                        <div class="col-md-4 col-sm-6">
                             <div class="circle-tile ">
                                 <a href="javascript:;"><div class="circle-tile-heading blue"><i class="fa fa-bolt fa-fw fa-3x"></i></div></a>
                                 <div class="circle-tile-content blue">
@@ -34,18 +32,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="circle-tile ">
-                                <a href="javascript:;"><div class="circle-tile-heading dark-blue"><i class="fa fa-area-chart fa-fw fa-3x"></i></div></a>
-                                <div class="circle-tile-content dark-blue">
-                                    <div class="circle-tile-description text-faded"> profits </div>
-                                    <div class="circle-tile-number text-faded ">{{ profits }}$</div>
-                                    <a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
+                        <div class="col-md-4 col-sm-6">
                             <div class="circle-tile ">
                                 <a href="javascript:;"><div class="circle-tile-heading dark-blue"><i class="fa fa-dollar fa-fw fa-3x"></i></div></a>
                                 <div class="circle-tile-content dark-blue">
@@ -55,9 +42,54 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="circle-tile ">
+                                <a href="javascript:;"><div class="circle-tile-heading dark-blue"><i class="fa fa-money fa-fw fa-3x"></i></div></a>
+                                <div class="circle-tile-content dark-blue">
+                                    <div class="circle-tile-description text-faded"> All profits </div>
+                                    <div class="circle-tile-number text-faded ">{{ profits + waitProfits + doneProfits }}$</div>
+                                    <a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="circle-tile ">
+                                <a href="javascript:;"><div class="circle-tile-heading dark-blue"><i class="fa fa-money fa-fw fa-3x"></i></div></a>
+                                <div class="circle-tile-content dark-blue">
+                                    <div class="circle-tile-description text-faded"> profits </div>
+                                    <div class="circle-tile-number text-faded ">{{ profits }}$</div>
+                                    <a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="circle-tile ">
+                                <a href="javascript:;"><div class="circle-tile-heading dark-blue"><i class="fa fa-money fa-fw fa-3x"></i></div></a>
+                                <div class="circle-tile-content dark-blue">
+                                    <div class="circle-tile-description text-faded"> Wait profits </div>
+                                    <div class="circle-tile-number text-faded ">{{ waitProfits }}$</div>
+                                    <a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="circle-tile ">
+                                <a href="javascript:;"><div class="circle-tile-heading dark-blue"><i class="fa fa-money fa-fw fa-3x"></i></div></a>
+                                <div class="circle-tile-content dark-blue">
+                                    <div class="circle-tile-description text-faded"> Done profits </div>
+                                    <div class="circle-tile-number text-faded ">{{ doneProfits }}$</div>
+                                    <a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
+                <div class="col-md-12">
+                    <div class="alert alert-warning"><strong>All The Mony You Can Get Will Be From The Profits Only</strong></div>
+                    <input type="number" class="form-control" v-model="profitsField">
+                    <br>
+                    <button type="button" @click="getProfits" class="btn btn-default" :disabled="isdisabled">Get Profits</button>
+                </div>
             </div>
         </div>
     </div>
@@ -77,6 +109,10 @@ export default {
             profits:0,
             payments:0,
             charges:0,
+            profitsField:'',
+            isdisabled: false,
+            waitProfits: 0,
+            doneProfits: 0,
         }
     },
     ready: function () {
@@ -88,7 +124,10 @@ export default {
             this.$http.get('/getAllBalance').then(function (response) {
                 this.user = response.body.user;
                 this.profits = response.body.profits;
+                this.profitsField = response.body.profits;
                 this.payments = response.body.payments;
+                this.waitProfits = response.body.waitProfits;
+                this.doneProfits = response.body.doneProfits;
                 this.charges = response.body.charges;
 
                 this.isLoading = true;
@@ -101,6 +140,39 @@ export default {
                 }
             });
         },
+        getProfits: function () {
+            this.isdisabled = true;
+            var form = new FormData();
+            form.append('profits', this.profitsField);
+            this.$http.post('/getProfits', form).then(function (response) {
+                if (response.body.status == 'done') {
+                    this.profits -= response.body.gotProfit;
+                    this.profitsField = this.profits;
+                    this.waitProfits = response.body.waitProfits;
+                    this.doneProfits = response.body.doneProfits;
+                    swal("Good job!", "Balance Charging Proccess Successed!", "success");
+                    this.isdisabled = false;
+                }
+                if (response.body == "try again later") {
+                    alertify.error(response.body);
+                }
+                if (response.body == "Error You Can't Get Balance More Than You Have") {
+                    alertify.error(response.body);
+                    this.isdisabled = false;
+                }
+            }, function (response) {
+                if (typeof(response.body) == 'object') {
+                    for (var key in response.body) {
+                        alertify.error(response.body[key]);
+                    }
+                    this.isdisabled = false;
+                }
+                if (response.body == 'You Need To login.') {
+                    alert(response.body);
+                    window.location = '/login';
+                }
+            });
+        }
     },
     route:{
         activate: function () {

@@ -18,6 +18,8 @@ use App\Vote;
 
 use App\Payment;
 
+use App\User;
+
 use DB;
 
 use Auth;
@@ -34,13 +36,35 @@ class AdminOrdersController extends Controller
     * 3 => the order request has been rejected order privider
     * 4 => the order request has been ended
     */
-    public function index($sort = '') {
-        $sortKeys = ['byDone', 'byAccepted','byWating','bySeen','byRejected','byAddDateASC','byAddDateDESC',''];
+    public function index(Request $request, $sort = '') {
+        $sortKeys = ['byDone', 'byAccepted','byWating','bySeen','byRejected','byAddDateASC','byAddDateDESC', 'UserPOrders', 'UserIOrders',''];
         if (!in_array($sort, $sortKeys)) {
             return redirect()->back();
         }
         if ($sort == 'byDone') {
             $orders = Order::with('service', 'userThatRequestTheService', 'getServiceOwner')->where('status', 4)->paginate(10);
+        }
+        if ($sort == 'UserPOrders') {
+            if (isset($request->user_order) && $request->user_order != '') {
+                if (User::find($request->user_order)) {
+                    $orders = Order::with('service', 'userThatRequestTheService', 'getServiceOwner')->where('status', 4)->where('user_order', $request->user_order)->paginate(10);
+                }else {
+                    return redirect()->back()->with(['error' => 'there is some error']);
+                }
+            }else {
+                return redirect()->back()->with(['error' => 'there is some error']);
+            }
+        }
+        if ($sort == 'UserIOrders') {
+            if (isset($request->user_id) && $request->user_id != '') {
+                if (User::find($request->user_id)) {
+                    $orders = Order::with('service', 'userThatRequestTheService', 'getServiceOwner')->where('status', 4)->where('user_id', $request->user_id)->paginate(10);
+                }else {
+                    return redirect()->back()->with(['error' => 'there is some error']);
+                }
+            }else {
+                return redirect()->back()->with(['error' => 'there is some error']);
+            }
         }
         if ($sort == 'byAccepted') {
             $orders = Order::with('service', 'userThatRequestTheService', 'getServiceOwner')->where('status', 2)->paginate(10);

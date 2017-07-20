@@ -14,6 +14,8 @@ use App\Category;
 
 use App\Vote;
 
+use App\User;
+
 use DB;
 
 use File;
@@ -34,10 +36,34 @@ class AdminServicesController extends Controller
             'byPriceLowToHigh',
             'byRating',
             'byViewes',
+            'ByCategory',
+            'UserServices',
             '',
         ];
         if (!in_array($sort, $sortKeys)) {
             return redirect()->back();
+        }
+        if ($sort == 'ByCategory') {
+            if (isset($request->cat_id) && $request->cat_id != '') {
+                if (Category::find($request->cat_id)) {
+                    $services = Service::where('cat_id', $request->cat_id)->with('user')->withCount('orders')->paginate(10);
+                }else {
+                    return redirect()->back();
+                }
+            }else {
+                return redirect()->back();
+            }
+        }
+        if ($sort == 'UserServices') {
+            if (isset($request->user_id) && $request->user_id != '') {
+                if (User::find($request->user_id)) {
+                    $services = Service::where('user_id', $request->user_id)->with('user')->withCount('orders')->paginate(10);
+                }else {
+                    return redirect()->back();
+                }
+            }else {
+                return redirect()->back();
+            }
         }
         if ($sort == 'byName') {
             $services = Service::orderBy('name', 'ASC')->with('user')->withCount('orders')->paginate(10);

@@ -30,7 +30,10 @@ class OrdersController extends Controller
             if (Auth::user()->id != $service->user_id) {
                 $orderedBefore = Order::where('user_order', Auth::user()->id)->whereIn('status', [0, 1, 2, 3])->where('service_id', $service->id)->count();
                 if ($orderedBefore == 0) {
-                    $profits = Payment::where('receiver_id', Auth::user()->id)->where('isfinished', 1)->sum('price');
+                    // كل الارباح الي انا كسبتها من بيع الخدمات
+                    $profits      = Payment::where('receiver_id', Auth::user()->id)->where('isfinished', 1)->sum('price') > 0 ? Payment::where('receiver_id', Auth::user()->id)->where('isfinished', 1)->sum('price') : 0;
+                    // الارباح الي انا بعت طلب اني اخدها
+                    $gotProfits   = Profit::where('user_id', Auth::user()->id)->sum('price') > 0  ? Profit::where('user_id', Auth::user()->id)->sum('price') : 0;
                     /*
                     ** is finished field
                     ** -------------------------
@@ -40,7 +43,7 @@ class OrdersController extends Controller
                     */
                     $paymentsOfTheUser = Payment::where('user_id', Auth::user()->id)->where('isfinished', '!=', 2)->sum('price'); // الفلوس الي المستخدم دفعها في الموقع
                     $userChargedMoney = Paypal::where('user_id', Auth::user()->id)->sum('price');
-                    $userRealMony = ($userChargedMoney - $paymentsOfTheUser) + $profits;
+                    $userRealMony = ($userChargedMoney - $paymentsOfTheUser) + ($profits - $gotProfits);
                     if ($userRealMony >= $service->price) {
                         $order = new Order();
                         $order->service_id = $service->id;

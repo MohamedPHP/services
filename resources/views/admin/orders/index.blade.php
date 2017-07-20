@@ -11,8 +11,8 @@
     </div>
     <hr>
     <div class="row" style="border-left: 3px solid #3c763d; box-shadow: 1px 1px 3px #777;">
-        <div class="col-md-12" style="">
-            @if (Route::current()->getName() == 'order.view')
+        <div class="col-md-12" style="margin: 0 0 15px 0;">
+            @if (Route::current()->getName() == 'order.index')
                 <div class="btn-group" style="margin-top: 15px;">
                     <a class="btn btn-primary" href="{{ url('/admincp/orders', ['sort' => '']) }}">Reset Sorting</a>
                     <a class="btn btn-default" href="{{ url('/admincp/orders', ['sort' => 'byDone']) }}">Done Orders</a>
