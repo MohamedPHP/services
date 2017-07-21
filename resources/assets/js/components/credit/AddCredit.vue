@@ -14,7 +14,7 @@
                     <input type="hidden" name="_token" v-model="token">
                     <div class="form-group">
                         <label class="control-label"  for="price">Price in $</label>
-                        <input type="number" id="price" name="price" required class="form-control" placeholder="price...">
+                        <input type="number" id="price" value="5" min="5" name="price" required class="form-control" placeholder="price...">
                     </div>
                     <button type="submit" class="btn btn-default btn-block">Add Credit</button>
                 </form>
@@ -55,31 +55,6 @@ export default {
                 window.location = '/';
             });
         },
-//        AddCreditNow: function () {
-//            this.disabled = true;
-//            this.$refs.spinner.show();
-//            var formData = new FormData();
-//            formData.append('price', this.price);
-//            this.$http.post('/AddCreditNow', formData).then(function (response) {
-//                if (response.body.status == 'done') {
-//                    this.$refs.spinner.hide();
-//                    this.disabled = false;
-//                    swal("Good job!", "Balance Charging Proccess Successed!", "success");
-//                }
-//            }, function (response) {
-//                swal("Error !", "There is Some errors please try again later!", "error");
-//                if (response.body == 'You Need To login.') {
-//                    alert(response.body);
-//                    window.location = '/login';
-//                }
-//                if (typeof(response.body) == 'object') {
-//                    for (var key in response.body) {
-//                        alertify.error(response.body[key]);
-//                    }
-//                    this.disabled = false;
-//                }
-//            });
-//        }
     },
     route:{
         activate: function () {

@@ -18,7 +18,7 @@ class AdminProfitController extends Controller
         $m = (new \Moment\Moment('@'.time(), 'CET'));
         $timeNow = $m->subtractDays(env('profitDay'))->format('Y-m-d');
 
-        $sortKeys = ['byDateASC', 'byDateDESC', 'TodaysProfits', 'SearchByDate', 'TodaysProfitsSent', ''];
+        $sortKeys = ['byDateASC', 'byDateDESC', 'TodaysProfits', 'SearchByDate', 'TodaysProfitsSent', 'byApproved', 'byWating',''];
         if (!in_array($sort, $sortKeys)) {
             return redirect()->back()->with(['error' => 'there is some error']);
         }
@@ -28,16 +28,29 @@ class AdminProfitController extends Controller
         if ($sort == 'byDateDESC') {
             $profits = Profit::orderBy('created_at', 'DESC')->with('user')->paginate(10);
         }
+        if ($sort == 'byApproved') {
+            $profits = Profit::where('status' ,1)->with('user')->paginate(10);
+        }
+        if ($sort == 'byWating') {
+            $profits = Profit::where('status' ,0)->with('user')->paginate(10);
+        }
         if ($sort == 'TodaysProfits') {
-            $profits = Profit::where('status', 0)->where('created_at', '>', $timeNow.' 00:00:00')->where('created_at', '<', $timeNow.' 23:59:59')->with('user')->paginate(10);
+            $profits = Profit::where('status', 0)
+            ->where('created_at', '>', $timeNow.' 00:00:00')
+            ->where('created_at', '<', $timeNow.' 23:59:59')
+            ->with('user')->paginate(10);
         }
         if ($sort == 'TodaysProfitsSent') {
-            $profits = Profit::where('status',1)->where('created_at', '>', $timeNow.' 00:00:00')->where('created_at', '<', $timeNow.' 23:59:59')->with('user')->paginate(10);
+            $profits = Profit::where('status',1)->where('created_at', '>', $timeNow.' 00:00:00')
+            ->where('created_at', '<', $timeNow.' 23:59:59')
+            ->with('user')->paginate(10);
         }
         if ($sort == 'SearchByDate') {
             if (isset($request->q) && $request->q != '') {
                 if ($this->validateDate($request->q, 'Y-m-d')) {
-                    $profits = Profit::where('created_at', '>', (new \Moment\Moment($request->q, 'CET'))->subtractDays(env('profitDay'))->format('Y-m-d').' 00:00:00')->where('created_at', '<', (new \Moment\Moment($request->q, 'CET'))->subtractDays(env('profitDay'))->format('Y-m-d').' 23:59:59')->with('user')->paginate(10);
+                    $profits = Profit::where('created_at', '>', (new \Moment\Moment($request->q, 'CET'))->subtractDays(env('profitDay'))->format('Y-m-d').' 00:00:00')
+                            ->where('created_at', '<', (new \Moment\Moment($request->q, 'CET'))->subtractDays(env('profitDay'))->format('Y-m-d').' 23:59:59')
+                            ->with('user')->paginate(10);
                 }else {
                     return redirect()->back()->with(['error' => 'there is some error']);
                 }

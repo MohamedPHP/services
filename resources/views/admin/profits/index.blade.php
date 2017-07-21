@@ -7,14 +7,13 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Profits Page</h2>
-            <div class="alert alert-info">بص يا معلم المعلمين اولا كده و بالصلاة علي النبي هنا بيظهر كل طلبات سحب الفلوس الي الاعضاء بعتوها مهو هما عاوزين فلوسهم بئة و كدهالمهم عندك حاجات تحت كده تفلتر بيها النتايخ علشان سهولة الاستخدام </div>
-
         </div>
         <div class="col-md-6">
             <div style="margin-top: 25px;">
                 <form action="{{ url('/admincp/profits', ['sort' => 'SearchByDate']) }}" method="get">
                     <div class="col-md-10">
                         <input type="date" value="{{ Request::get('q') }}" name="q" class="form-control" placeholder="Search By Date... Hit Enter">
+                        <p class="help-block">search by day that the payment will approve on</p>
                     </div>
                     <div class="col-md-2" >
                         <button style="margin-left: -32px;border-bottom-left-radius: 0;border-top-left-radius: 0;" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -22,8 +21,6 @@
                 </form>
                 <div class="clearfix"></div>
             </div>
-            <br>
-            <div class="alert alert-warning">Search By The Sent Profit Order Day =====> البحث بتاريخ ارسال طلبات الارباح</div>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -34,19 +31,21 @@
             <div class="btn-group" style="margin-top: 15px;">
                 <a class="btn btn-primary" href="{{ url('/admincp/profits', ['sort' => '']) }}">Reset Sorting</a>
                 <a class="btn btn-default" href="{{ url('/admincp/profits', ['sort' => 'TodaysProfits']) }}">
-                    Today Profits {{ $timeNow }}
+                    Wating To day Profits <span class="label label-default">{{ $timeNow }}</span>
                     <span class="label label-success">
                          <strong>{{ $todaysProfitsCount }}</strong>
                     </span>
                 </a>
                 <a class="btn btn-default" href="{{ url('/admincp/profits', ['sort' => 'TodaysProfitsSent']) }}">
-                    Today Profits Sent {{ $timeNow }}
+                    Done To day Profits <span class="label label-default">{{ $timeNow }}</span>
                     <span class="label label-success">
                          <strong>{{ $todaysProfitsSentCount }}</strong>
                     </span>
                 </a>
-                <a class="btn btn-default" href="{{ url('/admincp/profits', ['sort' => 'byDateASC']) }}">By Date ASC</a>
-                <a class="btn btn-default" href="{{ url('/admincp/profits', ['sort' => 'byDateDESC']) }}">By Date DESC</a>
+                <a class="btn btn-default" href="{{ url('/admincp/profits', ['sort' => 'byApproved']) }}">By Approved</a>
+                <a class="btn btn-default" href="{{ url('/admincp/profits', ['sort' => 'byWating']) }}">By Wating</a>
+                <a class="btn btn-default" href="{{ url('/admincp/profits', ['sort' => 'byDateASC']) }}">Old To New</a>
+                <a class="btn btn-default" href="{{ url('/admincp/profits', ['sort' => 'byDateDESC']) }}">New To Old</a>
             </div>
         </div>
         <div class="col-md-12">
@@ -62,8 +61,9 @@
                         <th>Price</th>
                         <th>Username</th>
                         <th>status</th>
-                        <th>Done Time</th>
-                        <th>created_at</th>
+                        <th>Date of receipt of profits</th>
+                        <th>Creation date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,6 +86,13 @@
                                 {{ (new \Moment\Moment($profit->created_at->format('Y-m-d'), 'CET'))->addDays(env('profitDay'))->format('Y-m-d') }}
                             </td>
                             <td><i class="fa fa-clock-o"></i> {{ $profit->created_at }}</td>
+                            <td>
+                                @if ($profit->status == 0)
+                                    <a href="{{ route('admin.profit.approve', ['id' => $profit->id]) }}" class="btn btn-success">Approve Payment</a>
+                                @else
+                                    <span class="label label-danger">Nothing To Do</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                     @else

@@ -52,6 +52,8 @@ Route::group(['middleware' => 'auth'], function () {
     // payments
     Route::get('/getAuthUser', 'UserController@getAuthUser');
     Route::post('/AddCreditNow', 'PaypalController@AddCreditNow');
+    Route::get('/doneCharge', 'PaypalController@doneCharge');
+    Route::get('/errorCharge', 'PaypalController@errorCharge');
     Route::get('/getAllCharges', 'UserController@getAllCharges');
     Route::get('/getAllpayments', 'UserController@getAllpayments');
     Route::get('/Profits', 'UserController@Profits');
@@ -97,6 +99,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admincp'], function () {
 
     // profits start
     Route::get('/profits/{sort?}', 'AdminProfitController@index');
+    Route::get('/profitsApprove/{id}', 'PaypalController@profitsApprove')->name('admin.profit.approve');
     // profits end
 
 });

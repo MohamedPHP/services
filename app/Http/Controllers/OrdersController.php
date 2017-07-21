@@ -10,6 +10,7 @@ use App\Service;
 use App\Order;
 use App\User;
 use App\Paypal;
+use App\Profit;
 use App\Payment;
 use App\Notification;
 use Auth;

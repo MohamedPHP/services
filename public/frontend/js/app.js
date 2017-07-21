@@ -18515,31 +18515,6 @@ exports.default = {
                 window.location = '/';
             });
         }
-        //        AddCreditNow: function () {
-        //            this.disabled = true;
-        //            this.$refs.spinner.show();
-        //            var formData = new FormData();
-        //            formData.append('price', this.price);
-        //            this.$http.post('/AddCreditNow', formData).then(function (response) {
-        //                if (response.body.status == 'done') {
-        //                    this.$refs.spinner.hide();
-        //                    this.disabled = false;
-        //                    swal("Good job!", "Balance Charging Proccess Successed!", "success");
-        //                }
-        //            }, function (response) {
-        //                swal("Error !", "There is Some errors please try again later!", "error");
-        //                if (response.body == 'You Need To login.') {
-        //                    alert(response.body);
-        //                    window.location = '/login';
-        //                }
-        //                if (typeof(response.body) == 'object') {
-        //                    for (var key in response.body) {
-        //                        alertify.error(response.body[key]);
-        //                    }
-        //                    this.disabled = false;
-        //                }
-        //            });
-        //        }
     },
     route: {
         activate: function activate() {
@@ -18550,7 +18525,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<navbar></navbar>\n<div v-if=\"isLoading\" class=\"container\">\n    <br><br><br>\n    <div class=\"col-md-8 col-md-offset-2\">\n        <div class=\"row nicediv\" style=\"padding: 20px !important;\">\n            <h3>Add Credit To User\n            <a v-link=\"{name: 'User', params:{user_id: user.id, name:user.name}}\" style=\"color: #777;font-weight: 300; text-decoration: none;cursor: pointer;\">\n                <span>{{ user.name }}</span>\n            </a>\n            </h3>\n            <hr>\n            <form action=\"/AddCreditNow\" method=\"post\">\n                <input type=\"hidden\" name=\"_token\" v-model=\"token\">\n                <div class=\"form-group\">\n                    <label class=\"control-label\" for=\"price\">Price in $</label>\n                    <input type=\"number\" id=\"price\" name=\"price\" required=\"\" class=\"form-control\" placeholder=\"price...\">\n                </div>\n                <button type=\"submit\" class=\"btn btn-default btn-block\">Add Credit</button>\n            </form>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<navbar></navbar>\n<div v-if=\"isLoading\" class=\"container\">\n    <br><br><br>\n    <div class=\"col-md-8 col-md-offset-2\">\n        <div class=\"row nicediv\" style=\"padding: 20px !important;\">\n            <h3>Add Credit To User\n            <a v-link=\"{name: 'User', params:{user_id: user.id, name:user.name}}\" style=\"color: #777;font-weight: 300; text-decoration: none;cursor: pointer;\">\n                <span>{{ user.name }}</span>\n            </a>\n            </h3>\n            <hr>\n            <form action=\"/AddCreditNow\" method=\"post\">\n                <input type=\"hidden\" name=\"_token\" v-model=\"token\">\n                <div class=\"form-group\">\n                    <label class=\"control-label\" for=\"price\">Price in $</label>\n                    <input type=\"number\" id=\"price\" value=\"5\" min=\"5\" name=\"price\" required=\"\" class=\"form-control\" placeholder=\"price...\">\n                </div>\n                <button type=\"submit\" class=\"btn btn-default btn-block\">Add Credit</button>\n            </form>\n        </div>\n    </div>\n</div>\n<spinner v-ref:spinner=\"\" size=\"xl\" fixed=\"\" text=\"Loading...\"></spinner>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

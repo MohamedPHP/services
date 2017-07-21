@@ -33,5 +33,25 @@
     </script>
     {{ Html::script('frontend/js/main.js') }}
     {{ Html::script('frontend/js/app.js') }}
+
+
+    @if (Session::has('success'))
+        <script type="text/javascript">
+            swal("Good job!", "Balance Charging Proccess Successed!", "success");
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script type="text/javascript">
+            swal("Error!", "Sorry There Was An Error From the Server!", "Error");
+        </script>
+    @endif
+    @if (count($errors) > 0)
+        @foreach ($errors->all() as $e)
+            <script type="text/javascript">
+                alertify.error("{{ $e }}");
+            </script>
+        @endforeach
+    @endif
+
 </body>
 </html>
