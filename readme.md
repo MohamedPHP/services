@@ -6,9 +6,7 @@ to disable the larvel depuger go to config/app.php line 29 and make it false
 # For The Site Schadualing
 for the schadualing i used [fightbulc]https://packagist.org/packages/fightbulc/moment).
 
-# Laravel PHP Framework
-
-For The Paypal Payment
+# For The Paypal Payment
 
 1- Create Developer Accout In Paypal.
 2- Create App In Paypal.
