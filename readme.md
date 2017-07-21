@@ -13,7 +13,7 @@ For The Paypal Payment
 1- Create Developer Accout In Paypal.
 2- Create App In Paypal.
 3- Make PHP File Into config folder in the laravel project and puth this code into it
-```
+```php
 <?php
     return [
 
@@ -39,7 +39,7 @@ For The Paypal Payment
 5- In The ClientId Key In Accounts Array will have ClientId from dashboard
 6- In The ClientSecret Key In Accounts Array will have ClientSecret from dashboard
 7- create form with price field then create route and controller put these functions into it
-```
+```php
 private $_apiContext;
 
 public function contextPaypal() {
