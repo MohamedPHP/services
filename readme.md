@@ -19,8 +19,8 @@ For The Paypal Payment
 
 
         'Account' => [
-            'ClientId' => 'AS6_Xp-2NuEN71S11C-w-ZyEkBzH32peDszR0ziUJDrC8hLfd4HbzxflJYW9JhJy7nJc7sM-zTC4EwyZ',
-            'ClientSecret' => 'EIvxlk7NaT2K9q67NApDAAMQsEF8RZs_3HFwSq0vLkvLUoJrAJo6iNMpqc4mneJ-UGmkEbTpvSfkyrZC',
+            'ClientId' => 'Your Application ClientId From Paypal',
+            'ClientSecret' => 'Your Application ClientSecret From Paypal',
         ],
 
         'Setting' => [
