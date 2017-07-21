@@ -10,11 +10,14 @@
                 </a>
                 </h3>
                 <hr>
-                <div class="form-group">
-                    <label class="control-label"  for="username">Price in $</label>
-                    <input type="number" required v-model="price" class="form-control" placeholder="price...">
-                </div>
-                <button type="button" :disabled="disabled" @click="AddCreditNow" class="btn btn-default btn-block">Add Credit</button>
+                <form action="/AddCreditNow" method="post">
+                    <input type="hidden" name="_token" v-model="token">
+                    <div class="form-group">
+                        <label class="control-label"  for="price">Price in $</label>
+                        <input type="number" id="price" name="price" required class="form-control" placeholder="price...">
+                    </div>
+                    <button type="submit" class="btn btn-default btn-block">Add Credit</button>
+                </form>
             </div>
         </div>
     </div>
@@ -32,6 +35,7 @@ export default {
             isLoading: false,
             user: {},
             price: 10,
+            token: '',
             disabled: false,
         }
     },
@@ -44,37 +48,38 @@ export default {
             this.$http.get('/getAuthUser').then(function (response) {
                 this.user = response.body.user;
                 this.isLoading = true;
+                this.token = $('#_token').attr('value');
                 this.$refs.spinner.hide();
             }, function (response) {
                 alert('there is some error please contact us');
                 window.location = '/';
             });
         },
-        AddCreditNow: function () {
-            this.disabled = true;
-            this.$refs.spinner.show();
-            var formData = new FormData();
-            formData.append('price', this.price);
-            this.$http.post('/AddCreditNow', formData).then(function (response) {
-                if (response.body.status == 'done') {
-                    this.$refs.spinner.hide();
-                    this.disabled = false;
-                    swal("Good job!", "Balance Charging Proccess Successed!", "success");
-                }
-            }, function (response) {
-                swal("Error !", "There is Some errors please try again later!", "error");
-                if (response.body == 'You Need To login.') {
-                    alert(response.body);
-                    window.location = '/login';
-                }
-                if (typeof(response.body) == 'object') {
-                    for (var key in response.body) {
-                        alertify.error(response.body[key]);
-                    }
-                    this.disabled = false;
-                }
-            });
-        }
+//        AddCreditNow: function () {
+//            this.disabled = true;
+//            this.$refs.spinner.show();
+//            var formData = new FormData();
+//            formData.append('price', this.price);
+//            this.$http.post('/AddCreditNow', formData).then(function (response) {
+//                if (response.body.status == 'done') {
+//                    this.$refs.spinner.hide();
+//                    this.disabled = false;
+//                    swal("Good job!", "Balance Charging Proccess Successed!", "success");
+//                }
+//            }, function (response) {
+//                swal("Error !", "There is Some errors please try again later!", "error");
+//                if (response.body == 'You Need To login.') {
+//                    alert(response.body);
+//                    window.location = '/login';
+//                }
+//                if (typeof(response.body) == 'object') {
+//                    for (var key in response.body) {
+//                        alertify.error(response.body[key]);
+//                    }
+//                    this.disabled = false;
+//                }
+//            });
+//        }
     },
     route:{
         activate: function () {

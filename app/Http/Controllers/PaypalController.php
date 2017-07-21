@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Redirect;
 use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Exception\PayPalConfigurationException;
+use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
 // needed for paypal
 use PayPal\Api\Amount;
@@ -63,7 +66,7 @@ class PaypalController extends Controller
 
         $baseUrl = url('/');
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl("$baseUrl/success=true")->setCancelUrl("$baseUrl/success=false");
+        $redirectUrls->setReturnUrl("$baseUrl?success=true")->setCancelUrl("$baseUrl?success=false");
 
         $payment = new Payment();
         $payment->setIntent("sale")->setPayer($payer)->setRedirectUrls($redirectUrls)->setTransactions(array($transaction));
@@ -74,25 +77,37 @@ class PaypalController extends Controller
         try {
             $payment->create($this->_apiContext);
 
-            $pay = new Paypal();
-            $pay->pay_id = $payment->id;
-            $pay->user_id = Auth::user()->id;
-            $pay->payment_method = $payment->payer->payment_method;
-            $pay->state = $payment->state;
-            $pay->price = $price;
-            if ($pay->save()) {
-                return [
-                    'status'  => 'done',
-                ];
-            } else {
-                abort(403);
-            }
+            // $pay = new Paypal();
+            // $pay->pay_id = $payment->id;
+            // $pay->user_id = Auth::user()->id;
+            // $pay->payment_method = $payment->payer->payment_method;
+            // $pay->state = $payment->state;
+            // $pay->price = $price;
+            // if ($pay->save()) {
+            //     return [
+            //         'status'  => 'done',
+            //     ];
+            // } else {
+            //     abort(403);
+            // }
 
-        } catch (Exception $ex) {
-            abort(403);
+        } catch (PayPalConnectionException $ex) {
+            echo $ex->getCode();
+            echo $ex->getData();
         }
 
-        return $payment;
+        $redirect = null;
+        foreach ($payment->getLinks() as $link) {
+            if ($link->getRel() == 'approval_url'){
+                $redirect = $link->getHref();
+            }
+        }
+
+        if ($redirect != null){
+            return Redirect::away($redirect);
+        }else{
+            abort(403);
+        }
 
     }
 

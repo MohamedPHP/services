@@ -5,8 +5,8 @@ return [
 
 
     'Account' => [
-        'ClientId' => 'AelAZHgqyD82rWbtZcPMsSSggWj_fKWeMHtc1Z66RsbXuCzYntKUfKzvaFfa8DDDwYMiYSDskOGZ9tY5',
-        'ClientSecret' => 'ECtUoTWj0nsgAXCqce4BKhu5n9B1sO-HPjkchZINCy76ZGg79bHO3f9sJb12b4P6YoyU-z7wxuRrqdMq',
+        'ClientId' => 'AS6_Xp-2NuEN71S11C-w-ZyEkBzH32peDszR0ziUJDrC8hLfd4HbzxflJYW9JhJy7nJc7sM-zTC4EwyZ',
+        'ClientSecret' => 'EIvxlk7NaT2K9q67NApDAAMQsEF8RZs_3HFwSq0vLkvLUoJrAJo6iNMpqc4mneJ-UGmkEbTpvSfkyrZC',
     ],
 
     'Setting' => [

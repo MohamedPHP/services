@@ -8,29 +8,123 @@ for the schadualing i used [fightbulc]https://packagist.org/packages/fightbulc/m
 
 # Laravel PHP Framework
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+For The Paypal Payment
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+1- Create Developer Accout In Paypal.
+2- Create App In Paypal.
+3- Make PHP File Into config folder in the laravel project and puth this code into it
+<?php
+    return [
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-## Official Documentation
+        'Account' => [
+            'ClientId' => 'AS6_Xp-2NuEN71S11C-w-ZyEkBzH32peDszR0ziUJDrC8hLfd4HbzxflJYW9JhJy7nJc7sM-zTC4EwyZ',
+            'ClientSecret' => 'EIvxlk7NaT2K9q67NApDAAMQsEF8RZs_3HFwSq0vLkvLUoJrAJo6iNMpqc4mneJ-UGmkEbTpvSfkyrZC',
+        ],
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+        'Setting' => [
+            'mode' => 'sandbox',
+            'http.ConnectionTimeOut' => '30',
+            'log.LogEnable' => true,
+            'logFileName' => public_path().'/logs/paypal.log',
+            'log.LogLevel' => 'FINE',
+        ],
 
-## Contributing
+    ];
+?>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+4- get the ClientId and ClientSecret From Paypal dashboard.
+5- In The ClientId Key In Accounts Array will have ClientId from dashboard
+6- In The ClientSecret Key In Accounts Array will have ClientSecret from dashboard
+7- create form with price field then create route and controller put these functions into it
 
-## Security Vulnerabilities
+private $_apiContext;
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+public function contextPaypal() {
+    // config == Config files
+    // Client Id
+    $ClientId = config('Paypal.Account.ClientId');
+    // Client Secret
+    $ClientSecret = config('Paypal.Account.ClientSecret');
+    // Came from Paypal SDK
+    $OAuth = new OAuthTokenCredential($ClientId, $ClientSecret);
+    // Came from Paypal SDK
+    $this->_apiContext = new ApiContext($OAuth);
+    // Account Connection && Log Setting
+    $SetConfig = config('Paypal.Setting');
+    // Set And Apply The Configration
+    $this->_apiContext->setConfig($SetConfig);
+}
 
-## License
+public function AddCreditNow(Request $request) {
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
-# services
+    $this->validate($request, [
+        'price' => 'required|numeric|max:999',
+    ]);
+
+    $this->contextPaypal();
+
+    $price = $request->price;
+
+
+    // set the payment method
+    $payer = new Payer();
+    $payer->setPaymentMethod("paypal");
+
+    // set the currency and the price
+    $amount = new Amount();
+    $amount->setCurrency("USD")->setTotal($price);
+
+    // make the trancaction [العملية التجارية]
+    $transaction = new Transaction();
+    $transaction->setAmount($amount);
+
+    $baseUrl = url('/');
+    $redirectUrls = new RedirectUrls();
+    $redirectUrls->setReturnUrl("$baseUrl?success=true")->setCancelUrl("$baseUrl?success=false");
+
+    $payment = new Payment();
+    $payment->setIntent("sale")->setPayer($payer)->setRedirectUrls($redirectUrls)->setTransactions(array($transaction));
+
+    $request = clone $payment;
+    $curl_info = curl_version();
+
+    try {
+        $payment->create($this->_apiContext);
+
+        // note this is the table i use to store payments you can do it as you like
+        // $pay = new Paypal();
+        // $pay->pay_id = $payment->id;
+        // $pay->user_id = Auth::user()->id;
+        // $pay->payment_method = $payment->payer->payment_method;
+        // $pay->state = $payment->state;
+        // $pay->price = $price;
+        // if ($pay->save()) {
+        //     return [
+        //         'status'  => 'done',
+        //     ];
+        // } else {
+        //     abort(403);
+        // }
+
+    } catch (PayPalConnectionException $ex) {
+        echo $ex->getCode();
+        echo $ex->getData();
+    }
+
+    $redirect = null;
+    foreach ($payment->getLinks() as $link) {
+        if ($link->getRel() == 'approval_url'){
+            $redirect = $link->getHref();
+        }
+    }
+
+    if ($redirect != null){
+        return Redirect::away($redirect);
+    }else{
+        abort(403);
+    }
+
+}
+
+8 - i think i am done for now :)
