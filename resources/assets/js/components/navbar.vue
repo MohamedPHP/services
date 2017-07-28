@@ -92,7 +92,7 @@
                             <div class="notify-drop-title">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-xs-6">Count (<b>{{ notiCount }}</b>)</div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="Mark All As Read"><i class="fa fa-dot-circle-o"></i></a></div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="/MarkAllAsSeen" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="Mark All As Read"><i class="fa fa-dot-circle-o"></i></a></div>
                                 </div>
                             </div>
                             <!-- end notify title -->

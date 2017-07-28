@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
     // notifications
     Route::get('/getUserNotifications/{length?}', 'UserController@getUserNotifications');
     Route::get('/getNotificationList', 'UserController@getNotificationList');
+    Route::get('/MarkAllAsSeen', 'UserController@MarkAllAsSeen');
 });
 // services
 Route::get('/getAllServices/{length?}', 'ServicesController@getAllServices');
@@ -87,7 +88,6 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admincp'], function () {
     // orders start
     Route::get('/orders/{sort?}', 'AdminOrdersController@index')->name('order.index');
     Route::get('/orders-view/{id}', 'AdminOrdersController@view')->name('order.view');
-    Route::post('/order-changestatus', 'AdminOrdersController@changeStatus')->name('changestatus.admin');
     Route::get('/order/getServiceOrders/{service_id}/{sort?}', 'AdminOrdersController@getServiceOrders')->name('getServiceOrders');
     // orders end
 

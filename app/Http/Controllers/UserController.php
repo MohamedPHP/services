@@ -121,7 +121,7 @@ class UserController extends Controller
         return getNotificationObjects();
     }
 
-    public function getProfits(Request $request){
+    public function getProfits(Request $request) {
         $this->validate($request, [
             'profits' => 'numeric|required|min:5'
         ]);
@@ -149,5 +149,21 @@ class UserController extends Controller
         }
         return "Error You Can't Get Balance More Than You Have";
     }
+
+
+    public function MarkAllAsSeen() {
+        if (Auth::check()) {
+            if (Notification::where('user_id', Auth::user()->id)->where('seen', 0)->count() > 0) {
+                foreach (Notification::where('user_id', Auth::user()->id)->where('seen', 0)->get() as $notification) {
+                    $notification->seen = 1;
+                    $notification->save();
+                }
+                return redirect('/#!/AllNotifications');
+            }
+            return redirect('/#!/AllNotifications');
+        }
+        return redirect('/');
+    }
+
 
 }

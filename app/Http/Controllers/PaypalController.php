@@ -24,6 +24,7 @@ use PayPal\Api\PaymentExecution;
 use App\Paypal;
 use App\Profit;
 use App\User;
+use App\SiteProfit;
 use Session;
 
 use Auth;
@@ -145,6 +146,7 @@ class PaypalController extends Controller
 
     public function profitsApprove($id) {
         $profit = Profit::find($id);
+
         if ($profit) {
             if ($profit->status != 0) {
                 return redirect()->back()->with(['error' => 'there is some error']);
@@ -154,7 +156,10 @@ class PaypalController extends Controller
                 return redirect()->back()->with(['error' => 'there is some error']);
             }
 
+            $siteprofitPrice = $profit->price - ($profit->price * (2 / 100));
+
             $this->contextPaypal();
+
             $payouts = new \PayPal\Api\Payout();
             $senderBatchHeader = new \PayPal\Api\PayoutSenderBatchHeader();
             $senderBatchHeader->setSenderBatchId(uniqid())->setEmailSubject("You have a Payout! From Services Website");
@@ -163,13 +168,17 @@ class PaypalController extends Controller
             ->setNote('Thanks for your patronage!')
             ->setReceiver($user->email)
             ->setSenderItemId("2014031400023")
-            ->setAmount(new \PayPal\Api\Currency('{"value":'.$profit->price.', "currency":"USD"}'));
+            ->setAmount(new \PayPal\Api\Currency('{"value":"'.$siteprofitPrice.'", "currency":"USD"}'));
             $payouts->setSenderBatchHeader($senderBatchHeader)->addItem($senderItem);
             $request = clone $payouts;
             try {
                 $output = $payouts->createSynchronous($this->_apiContext);
                 $profit->status = 1;
                 $profit->save();
+                // site profits
+                $sitProfits         = new SiteProfit();
+                $sitProfits->profit = ($profit->price * (2 / 100));
+                $sitProfits->save();
                 return redirect()->back()->with(['message' => 'Profits Sent Successfully']);
             } catch (Exception $ex) {
                 return redirect()->back()->with(['error' => 'there is some error']);

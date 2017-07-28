@@ -101,53 +101,6 @@ class AdminOrdersController extends Controller
         return redirect()->back()->with(['error' => 'there is some error']);
     }
 
-    public function changeStatus(Request $request) {
-        $order = Order::find($request->order_id);
-        if ($order) {
-            if (in_array($request->status, [0, 1, 2, 3, 4])) {
-                if (in_array($request->status, [0, 1, 2])) {
-                    $payment = Payment::where('order_id', $order->id)->where('user_id', $request->user_id)->where('receiver_id', $request->receiver_id)->first();
-                    $payment->isfinished = 0;
-                    $payment->save();
-                }
-                if (in_array($request->status, [3])) {
-                    $payment = Payment::where('order_id', $order->id)->where('user_id', $request->user_id)->where('receiver_id', $request->receiver_id)->first();
-                    $payment->isfinished = 2;
-                    $payment->save();
-                }
-                if (in_array($request->status, [4])) {
-                    $payment = Payment::where('order_id', $order->id)->where('user_id', $request->user_id)->where('receiver_id', $request->receiver_id)->first();
-                    $payment->isfinished = 1;
-                    $payment->save();
-                }
-                $order->status = $request->status;
-                $order->save();
-                if ($order) {
-                    // For Service Requister
-                    $notificationForServiceRequister = new Notification();
-                    $notificationForServiceRequister->notify_id       = $order->id;
-                    $notificationForServiceRequister->type            = 'ChangeStatusFromAdmin';
-                    $notificationForServiceRequister->seen            = 0;
-                    $notificationForServiceRequister->url             = '';
-                    $notificationForServiceRequister->user_notify_you = Auth::user()->id;
-                    $notificationForServiceRequister->user_id         = $order->user_order;
-                    $notificationForServiceRequister->save();
-                    // For Service Owner
-                    $notificationForServiceOwner = new Notification();
-                    $notificationForServiceOwner->notify_id           = $order->id;
-                    $notificationForServiceOwner->type                = 'ChangeStatusFromAdmin';
-                    $notificationForServiceOwner->seen                = 0;
-                    $notificationForServiceOwner->url                 = '';
-                    $notificationForServiceOwner->user_notify_you     = Auth::user()->id;
-                    $notificationForServiceOwner->user_id             = $order->user_id;
-                    $notificationForServiceOwner->save();
-                }
-            }
-            return redirect()->back()->with(['error' => 'there is some error']);
-        }
-        return redirect()->back()->with(['error' => 'there is some error']);
-    }
-
     public function getServiceOrders($service_id, $sort = '') {
         $service = Service::find($service_id);
         if ($service) {

@@ -13,6 +13,7 @@ use App\Paypal;
 use App\Profit;
 use App\Payment;
 use App\Notification;
+use App\SiteProfit;
 use Auth;
 
 class OrdersController extends Controller
@@ -149,7 +150,7 @@ class OrdersController extends Controller
     }
 
     public function ChangeStatus($id, $status) {
-        $order = Order::find($id);
+        $order = Order::where('id', $id)->with('service')->first();
         $statusarray = [2, 3];
         if (!in_array($status, $statusarray)) {
             return abort(403);
@@ -160,6 +161,16 @@ class OrdersController extends Controller
                     $payment = Payment::where('order_id', $order->id)->first();
                     $payment->isfinished = 2;
                     $payment->save();
+                }
+                if ($status == 2) {
+                    // `user_id`, `order_id`, `price`, `isfinished`
+                    $payment = Payment::where('order_id', $order->id)->first();
+                    $payment->price = $order->service->price - ($order->service->price * (5 / 100));
+                    $payment->save();
+                    // site profits
+                    $sitProfits         = new SiteProfit();
+                    $sitProfits->profit = ($order->service->price * (5 / 100));
+                    $sitProfits->save();
                 }
                 $order->status = $status;
                 $order->save();

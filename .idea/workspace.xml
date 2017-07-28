@@ -2,17 +2,49 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be5a03ab-2561-41a2-896b-ccc85d02821e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminProfitController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminProfitController.php" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-13-28_cae856732bd4226855875d839121e46dd85999a9.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-14-07_12cd7509a8230ede994548fe35b9b7280eb6c431.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-14-19_c188bb029e420029282de7fae3ce42a698403211.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-14-30_67697d672b41ed889d943d14495a6bad0712dee9.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-14-41_6f7da2afba34c15528d2f249a3c138f98865a4ff.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-14-57_073efc852a65b7685aeef7707c1c1bd107b26868.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-15-12_c188bb029e420029282de7fae3ce42a698403211.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-15-20_2b0b8d0305c2fa01280113e52ed13533f4e763dc.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-16-10_9f394dffa8bb39d19eedfe82642600ad8bbb784d.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-16-23_9755615553f7899e16d0b11994a2c7ec7349cbba.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-17-26_dbd578c944e624395dfb179b1ee3203948ab08f6.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-17-45_f9f784a779dc449009eb4e6ff2f0cef2f1593872.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-17-54_8ec7057aaf54f84332189e937366ae37848ee577.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-18-02_0e9e01cff4f2e2eabc2ea3a0c52a5d7529d90da8.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-18-31_0e9e01cff4f2e2eabc2ea3a0c52a5d7529d90da8.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-18-39_1fc7181278a419a272b88d18a44337f9b309ff64.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-06-30-06-18-46_1fc7181278a419a272b88d18a44337f9b309ff64.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-06-03-58-09_cef74ccabda6c5aee9c546dd2935a24436991fc1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-07-01-01-22_865709b1cdc2f4f9894def64b16c3058ba344eba.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-07-01-05-09_381685f53b090f4a80b00f157052ce0560fbde50.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-07-12-57-09_df005efe084d0c5e127ba2411d7a89c381846621.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-17-01-54-10_d3f7ed72d619dc4eef308b6d31c50f46948f9088.jpeg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-18-03-00-09_d3f7ed72d619dc4eef308b6d31c50f46948f9088.jpeg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-19-02-05-47_67ba5fa4d1d765a49b7a4e01e51f9bc2c60524d9.jpeg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-19-05-22-58_d3f7ed72d619dc4eef308b6d31c50f46948f9088.jpeg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/services/2017-07-19-05-24-57_892adca84c2d5c4f4a23fd962439ba08107498a6.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/images/users/2017-07-20-05-38-57_15a8c1dd23dea16161c3f487765668d6ce991b18.jpg" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminOrdersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminOrdersController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdersController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PaypalController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PaypalController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/Paypal.php" afterPath="$PROJECT_DIR$/config/Paypal.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2017_07_11_022707_create_payments_table.php" afterPath="$PROJECT_DIR$/database/migrations/2017_07_11_022707_create_payments_table.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/frontend/js/app.js" afterPath="$PROJECT_DIR$/public/frontend/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/frontend/js/app.js.map" afterPath="$PROJECT_DIR$/public/frontend/js/app.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/components/credit/AddCredit.vue" afterPath="$PROJECT_DIR$/resources/assets/js/components/credit/AddCredit.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/profits/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/profits/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/components/credit/Balance.vue" afterPath="$PROJECT_DIR$/resources/assets/js/components/credit/Balance.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/components/navbar.vue" afterPath="$PROJECT_DIR$/resources/assets/js/components/navbar.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/components/notifications/AllNotifications.vue" afterPath="$PROJECT_DIR$/resources/assets/js/components/notifications/AllNotifications.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/components/pages/MainPage.vue" afterPath="$PROJECT_DIR$/resources/assets/js/components/pages/MainPage.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/components/services/AddService.vue" afterPath="$PROJECT_DIR$/resources/assets/js/components/services/AddService.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/orders/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/orders/edit.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -129,7 +161,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -137,11 +168,17 @@
               <item name="services" type="b2602c69:ProjectViewProjectNode" />
               <item name="services" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
+            <path>
+              <item name="services" type="b2602c69:ProjectViewProjectNode" />
+              <item name="services" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="node_modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -252,11 +289,12 @@
       <workItem from="1500630690135" duration="135000" />
       <workItem from="1500630842188" duration="662000" />
       <workItem from="1500644422293" duration="1416000" />
+      <workItem from="1501173523508" duration="594000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10280000" />
+    <option name="totallyTimeSpent" value="10874000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -276,8 +314,8 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18869366" sideWeight="0.40236688" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -428,7 +466,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -436,7 +473,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2333">
           <caret line="163" column="13" lean-forward="true" selection-start-line="163" selection-start-column="13" selection-end-line="163" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>

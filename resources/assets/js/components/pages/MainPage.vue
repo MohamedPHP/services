@@ -34,7 +34,7 @@
                 <div v-else>
                     <br>
                     <div class="col-md-12">
-                        <div class="alert alert-danger">There Is No Services In This category</div>
+                        <div class="alert alert-danger">There Is No Services In The Site</div>
                     </div>
                 </div>
             </div>

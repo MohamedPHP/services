@@ -86,6 +86,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="alert alert-warning"><strong>All The Mony You Can Get Will Be From The Profits Only</strong></div>
+                    <div class="alert alert-warning"><strong>عندما تطلب ارباح و يتم الموافقة عليها يتم خصم 2% من الارباح المطلوبة و يتم حسابها ارباح موقع</strong></div>
                     <input type="number" class="form-control" v-model="profitsField">
                     <br>
                     <button type="button" @click="getProfits" class="btn btn-default" :disabled="isdisabled">Get Profits</button>
@@ -239,7 +240,7 @@ export default {
         background-color: #138F77;
     }
     .circle-tile-heading.orange:hover {
-        background-color: #DA8C10;
+        background-color: #c0392b;
     }
     .circle-tile-heading.blue:hover {
         background-color: #2473A6;

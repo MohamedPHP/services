@@ -11,6 +11,7 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="nicedivvv" style="padding: 5px 15px;">
                     <div class="alert alert-success">Here Is All Notifications</div>
+                    <a style="color:#fff" href="/MarkAllAsSeen" class="btn btn-success">Mark All As Seen</a>
                 </div>
                 <div class="nicedivvv" style="padding: 10px 15px;">
                     <div class="row">

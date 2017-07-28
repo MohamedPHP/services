@@ -38,27 +38,6 @@
     <hr>
     <div class="row" style="border-left: 3px solid #3c763d; padding: 15px;">
         <div class="col-md-12">
-            <form class="form-inline" action="{{ route('changestatus.admin') }}" method="post">
-                {{ csrf_field() }}
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary confirmed">Change Status</button>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" name="status">
-                        <option value="0" {{ $order->status == 0 ? 'selected' : '' }}>Wating</option>
-                        <option value="1" {{ $order->status == 1 ? 'selected' : '' }}>Seen</option>
-                        <option value="2" {{ $order->status == 2 ? 'selected' : '' }}>Accepted</option>
-                        <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Rejected</option>
-                        <option value="4" {{ $order->status == 4 ? 'selected' : '' }}>Done</option>
-                    </select>
-                </div>
-                <input type="hidden" name="order_id" value="{{ $order->id }}">
-                <input type="hidden" name="user_id" value="{{ $order->userThatRequestTheService->id }}">
-                <input type="hidden" name="receiver_id" value="{{ $order->getServiceOwner->id }}">
-            </form>
-            <br>
-            <div class="alert alert-info"><strong>! Important !</strong> When You Change the status of the order the profits of sernder and the receiver will be effected also so <strong>Take care</strong></div>
-            <hr>
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-success">
@@ -181,8 +160,9 @@
                     <a href="{{ route('service.edit', ['id' => $service->id]) }}" class="btn btn-success">Edit Service</a>
                     <a href="{{ url('/') . '#!/ServiceDetails/'  . $service->id . '/' . $service->name}}" class="btn btn-info">View In Frontend</a>
                 </div>
-                <br>
-                <div class="col-md-12">
+                <div class="col-md-12" style="margin-top: 20px;">
+                    <h4 class="text-muted text-left">Service Comments</h4>
+                    <hr>
                     @foreach ($order->comments as $c)
                         <div class="panel panel-default">
                             <div class="panel-body">
