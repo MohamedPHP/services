@@ -5,8 +5,8 @@ return [
 
 
     'Account' => [
-        'ClientId' => 'AX8tKJIyiDbL7AET05iNTlERKFK1HL9Vv2U6vt3anQfVBSdE-53EzthrAjtuGAUZxLdQ5WkwHdgprNIj',
-        'ClientSecret' => 'EIoCrawExabFpjOuMA3ovrj49L7DmedGXNXtmxUCOsVoHgbqAX6HfVtdcAYx0zxCbLPUo9u9QjicYUG_',
+        'ClientId' => '',
+        'ClientSecret' => '',
     ],
 
     'Setting' => [
