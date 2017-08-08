@@ -45,6 +45,7 @@ class OrdersController extends Controller
                     */
                     $paymentsOfTheUser = Payment::where('user_id', Auth::user()->id)->where('isfinished', '!=', 2)->sum('price'); // الفلوس الي المستخدم دفعها في الموقع
                     $userChargedMoney = Paypal::where('user_id', Auth::user()->id)->sum('price');
+
                     $userRealMony = ($userChargedMoney - $paymentsOfTheUser) + ($profits - $gotProfits);
                     if ($userRealMony >= $service->price) {
                         $order = new Order();
@@ -162,16 +163,7 @@ class OrdersController extends Controller
                     $payment->isfinished = 2;
                     $payment->save();
                 }
-                if ($status == 2) {
-                    // `user_id`, `order_id`, `price`, `isfinished`
-                    $payment = Payment::where('order_id', $order->id)->first();
-                    $payment->price = $order->service->price - ($order->service->price * (5 / 100));
-                    $payment->save();
-                    // site profits
-                    $sitProfits         = new SiteProfit();
-                    $sitProfits->profit = ($order->service->price * (5 / 100));
-                    $sitProfits->save();
-                }
+
                 $order->status = $status;
                 $order->save();
                 if ($order) {

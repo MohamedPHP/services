@@ -15,6 +15,7 @@ use App\Paypal;
 use App\Payment;
 
 use App\Notification;
+use App\SiteProfit;
 
 use App\Profit;
 

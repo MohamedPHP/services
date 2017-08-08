@@ -19,18 +19,23 @@
 
 
 
-
-
-
     @yield('content')
 
 
 
 
 
-    <script>
+    @if (Auth::check())
+        <script>
         var userIsLoggedIn = '{{ Auth::check() }}';
-    </script>
+        var userName = '{{ Auth::user()->name }}';
+        </script>
+    @else
+        <script>
+            var userIsLoggedIn = '{{ Auth::check() }}';
+        </script>
+    @endif
+
     {{ Html::script('frontend/js/main.js') }}
     {{ Html::script('frontend/js/app.js') }}
 

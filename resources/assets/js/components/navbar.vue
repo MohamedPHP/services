@@ -162,7 +162,7 @@
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            Mohamed Zayed <span class="caret"></span>
+                            {{ userName }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
@@ -193,6 +193,7 @@ export default {
             notiCount:0,
             notificationList:[],
             userIsLoggedIn:'',
+            userName:'',
         }
     },
     components: {
@@ -202,6 +203,11 @@ export default {
         $('body').css('overflowY', 'visible');
         $('body').css('overflowX', 'hidden');
         this.userIsLoggedIn = userIsLoggedIn;
+        if (this.userIsLoggedIn) {
+            this.userName = userName;
+        }else {
+            this.userName = '';
+        }
         if (this.userIsLoggedIn == 1) {
             this.getAllInfo();
         }

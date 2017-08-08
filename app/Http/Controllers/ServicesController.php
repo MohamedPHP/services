@@ -328,6 +328,8 @@ class ServicesController extends Controller
             $service->price  = $request['price'];
             $service->cat_id = $request['cat_id'];
             $service->user_id = Auth::user()->id;
+            $service->year = date('Y');
+            $service->month = date('m');
             $service->save();
             if (!$service) {
                 return 'error saving the service';

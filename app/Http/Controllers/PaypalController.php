@@ -156,7 +156,7 @@ class PaypalController extends Controller
                 return redirect()->back()->with(['error' => 'there is some error']);
             }
 
-            $siteprofitPrice = $profit->price - ($profit->price * (2 / 100));
+            $siteprofitPrice = $profit->price - ($profit->price * (5 / 100));
 
             $this->contextPaypal();
 
@@ -177,7 +177,7 @@ class PaypalController extends Controller
                 $profit->save();
                 // site profits
                 $sitProfits         = new SiteProfit();
-                $sitProfits->profit = ($profit->price * (2 / 100));
+                $sitProfits->profit = ($profit->price * (5 / 100));
                 $sitProfits->save();
                 return redirect()->back()->with(['message' => 'Profits Sent Successfully']);
             } catch (Exception $ex) {
