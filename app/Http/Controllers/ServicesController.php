@@ -155,13 +155,16 @@ class ServicesController extends Controller
         $service = Service::where('id', $id)->with('category', 'user')->withCount('votes')->first();
         if ($service) {
 
-            /*
-            ** table fields [ `notify_id`, `type`, `seen`, `url`, `user_notify_you`, `user_id` ]
-            ** @params (notify_id, type, user_id)
-            ** MakeNotificationSeen(notify_id, type, user_id);
-            */
-            MakeNotificationSeen($service->id, 'AcceptService', Auth::user()->id);
-            MakeNotificationSeen($service->id, 'RejectedService', Auth::user()->id);
+            
+            if (Auth::check()) {
+                /*
+                ** table fields [ `notify_id`, `type`, `seen`, `url`, `user_notify_you`, `user_id` ]
+                ** @params (notify_id, type, user_id)
+                ** MakeNotificationSeen(notify_id, type, user_id);
+                */
+                MakeNotificationSeen($service->id, 'AcceptService', Auth::user()->id);
+                MakeNotificationSeen($service->id, 'RejectedService', Auth::user()->id);
+            }
 
             // sum votes
             $sum = Vote::where('service_id', $service->id)->sum('vote'); // count stars that the service took
